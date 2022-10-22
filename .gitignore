@@ -1,0 +1,24 @@
+#Development
+.vscode
+log.txt
+log.log
+key.pem
+cert.pem
+/testing
+yarn.lock
+*.pyc
+__pycache__
+node_modules
+.parcel-cache
+pnpm-lock.yaml
+
+# App state files
+logs
+uploads
+sessions
+
+# App secrets
+.streamlit/secrets.toml
+secrets.toml
+.devenv
+.env

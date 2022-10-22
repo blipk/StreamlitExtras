@@ -1,0 +1,32 @@
+{
+  "name": "streamlit_extras_cookie_manager",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cookie Manager Componenet for Streamlit",
+  "scripts": {
+    "build": "react-scripts build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "streamlit-component-lib": "^1.4.0",
+    "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "react-scripts": "3.4.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "homepage": "."
+}
