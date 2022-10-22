@@ -17,6 +17,7 @@ __pycache__/
 node_modules/
 .parcel-cache
 pnpm-lock.yaml
+/streamlitextras/*/frontend/build/
 
 # App state files
 logs/

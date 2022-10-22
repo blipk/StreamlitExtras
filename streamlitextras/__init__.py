@@ -4,4 +4,4 @@ from .authenticator import Authenticator
 from .authenticator.user import User
 from .authenticator.exceptions import AuthException, LoginError, RegisterError, ResetError, UpdateError
 
-__version__ = "0.1.2"
+__version__ = "0.1.4"

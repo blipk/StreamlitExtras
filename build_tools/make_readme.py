@@ -23,7 +23,7 @@ def process_readme(readme):
     return sections_processed
 
 def make_readme():
-    with open("README.template.md", "r") as f:
+    with open("build_tools/README.template.md", "r") as f:
         main_readme = f.read()
 
     main_folder = "streamlitextras"
@@ -47,3 +47,5 @@ def make_readme():
 
     with open("README.md", "w") as f:
         f.write(main_readme)
+
+    return main_readme

@@ -1,5 +1,4 @@
 import re
-import time
 
 try:
     from setuptools import setup, find_packages
@@ -10,18 +9,15 @@ with open("streamlitextras/__init__.py", "r") as file:
     regex_version = r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]'
     version = re.search(regex_version, file.read(), re.MULTILINE).group(1)
 
-from make_readme import make_readme
-make_readme()
-time.sleep(1)
-with open("README.md", "r") as f:
-    readme = f.read()
+from build_tools.make_readme import make_readme
+readme = make_readme()
 
 setup(
     name="stextras",
     version=version,
-    author="BLIPK",
-    author_email="BLIPK@BLIPK.com",
-    description="Python logging made (stupidly) simple",
+    author="blipk",
+    author_email="blipk+@github.com",
+    description="Make building with streamlit easier.",
     long_description=readme,
     long_description_content_type="text/markdown",
     url="https://github.com/blipk/streamlitextras",
