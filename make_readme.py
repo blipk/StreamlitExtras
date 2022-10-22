@@ -1,11 +1,5 @@
 import os
 
-with open("README.template.md", "r") as f:
-    main_readme = f.read()
-
-main_folder = "streamlitextras"
-module_folders = [f for f in os.listdir(main_folder) if os.path.isdir(os.path.join(main_folder, f))]
-
 def process_readme(readme):
     """
     """
@@ -28,23 +22,28 @@ def process_readme(readme):
 
     return sections_processed
 
-for module_folder in module_folders:
-    module_readme_file = os.path.join(str(main_folder), module_folder, "README.md")
-    print(module_readme_file)
-    if not os.path.exists(module_readme_file):
-        continue
-    with open(module_readme_file, "r") as f:
-        readme = f.read()
-    sections = process_readme(readme)
-    inserted_title = sections[0][0].replace("# Streamlit Extras ", "")
-    inserted_description = sections[0][0]
-    inserted_usage = sections[1][1]
-    inserted_usage = sections[1][2]
+def make_readme():
+    with open("README.template.md", "r") as f:
+        main_readme = f.read()
 
-    title_match = f"@@{inserted_title.upper()}".replace(" ", "").strip()
-    footer = f"\n\nSee the [package readme]({module_readme_file}) or API docs for more details.\n"
-    print(module_readme_file, title_match, inserted_usage[:20])
-    main_readme = main_readme.replace(title_match, inserted_usage+footer)
+    main_folder = "streamlitextras"
+    module_folders = [f for f in os.listdir(main_folder) if os.path.isdir(os.path.join(main_folder, f))]
+    for module_folder in module_folders:
+        module_path = os.path.join(str(main_folder), module_folder)
+        module_readme_file = os.path.join(module_path, "README.md")
+        if not os.path.exists(module_readme_file):
+            continue
+        with open(module_readme_file, "r") as f:
+            readme = f.read()
+        sections = process_readme(readme)
+        inserted_title = sections[0][0].replace("# Streamlit Extras ", "")
+        inserted_description = sections[0][0]
+        inserted_usage = sections[1][1]
+        inserted_usage = sections[1][2]
 
-with open("README.md", "w") as f:
-    f.write(main_readme)
+        title_match = f"@@{inserted_title.upper()}".replace(" ", "").strip()
+        footer = f"\n\nSee the [package readme]({module_path}) or API docs for more details.\n"
+        main_readme = main_readme.replace(title_match, inserted_usage+footer)
+
+    with open("README.md", "w") as f:
+        f.write(main_readme)

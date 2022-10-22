@@ -31,7 +31,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/cookiemanager/README.md) or API docs for more details.
+See the [package readme](streamlitextras/cookiemanager) or API docs for more details.
 
 
 ### Router
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/router/README.md) or API docs for more details.
+See the [package readme](streamlitextras/router) or API docs for more details.
 
 
 ### Authenticator
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
 ```
 
-See the [package readme](streamlitextras/authenticator/README.md) or API docs for more details.
+See the [package readme](streamlitextras/authenticator) or API docs for more details.
 
 
 ### Threader
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/threader/README.md) or API docs for more details.
+See the [package readme](streamlitextras/threader) or API docs for more details.
 
 
 ### Logger
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/logger/README.md) or API docs for more details.
+See the [package readme](streamlitextras/logger) or API docs for more details.
 
 
 ### Misc
