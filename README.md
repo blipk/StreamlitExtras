@@ -3,7 +3,7 @@
 These are some components and modules designed to make working with streamlit easier.
 
 I had a project that required some of these parts, I tried some other community projects that were similar,
-but none of them had the features I requried, so I ended up rewriting my own implementations of them.
+but none of them had the features I required, so I ended up rewriting my own implementations of them.
 
 I started working on this weeks ago, but looks like in the last few days someone else had released a package
 with a similar name as I am releasing this.
@@ -23,7 +23,6 @@ Some helper functions require `streamlit-javascript` too.
 ## The modules
 
 #### Cookie Manager
-
 Component function to manage in-browser cookies from streamlit.
 
 ```Python
@@ -55,7 +54,6 @@ See the [package readme](streamlitextras/cookiemanager) or API docs for more det
 
 
 #### Router
-
 Page router with various features.
 
 ```Python
@@ -98,7 +96,6 @@ See the [package readme](streamlitextras/router) or API docs for more details.
 
 
 #### Authenticator
-
 Authentication module that creates streamlit register/login forms, and uses firebase auth to register and manage users.
 Can also be inherited to use a custom authentication provider.
 
@@ -140,8 +137,7 @@ See the [package readme](streamlitextras/authenticator) or API docs for more det
 
 
 #### Threader
-
-Makes spawning and working with threading.Threads with streamlit easy.
+Makes spawning and working with `threading.Threads` with streamlit easy.
 
 ```Python
 import time
@@ -178,7 +174,6 @@ See the [package readme](streamlitextras/threader) or API docs for more details.
 
 
 #### Logger
-
 Implementation of Loguru set up to work well with this package.
 
 ```Python
@@ -197,23 +192,18 @@ See the [package readme](streamlitextras/logger) or API docs for more details.
 
 
 #### Misc
-
 See the API docs for a full list of functions and their usage in these files.
 
 ##### webutils.py
-
 Some utility functions to run javascript, wrappers around various javascript routines,
 and some other browser related formatting utilities.
 
 ##### helpers.py
-
 Class implementation that streamlines creating basic HTML elements with st.markdown,
 and some other useful functions.
 
 ##### storageservice.py
-
 Helper to interact with Google Cloud Storage with a service worker account.
 
 ##### utils.py
-
 Some utility functions for Python development.
