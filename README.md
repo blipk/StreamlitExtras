@@ -5,11 +5,6 @@ These are some components and modules designed to make working with streamlit ea
 I had a project that required some of these parts, I tried some other community projects that were similar,
 but none of them had the features I required, so I ended up rewriting my own implementations of them.
 
-I started working on this weeks ago, but looks like in the last few days someone else had released a package
-with a similar name as I am releasing this.
-
-Well, I'm not changing all the imports and they are still distinguishable.
-
 ## Installation and Requirements
 
 Install from PyPI with pip:
