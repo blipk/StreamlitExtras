@@ -8,5 +8,5 @@ Table of contents
    :maxdepth: 2
 
    overview.rst
-   api.rst
+   api/streamlitextras.rst
    project.rst

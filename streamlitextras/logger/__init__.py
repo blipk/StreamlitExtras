@@ -64,7 +64,12 @@ handlers = [
             "colorize": True},
 ]
 
-def process_log_line(log_line):
+def process_log_line(log_line: str):
+    """
+    Process a log line formatted from this module into a dictionary of its sections.
+
+    :param str log_line: The log line to process
+    """
     if not log_line:
         return None
     time, level, namespace, message, extra, exception, exec = log_line.split(" | ")
@@ -95,6 +100,9 @@ def process_log_line(log_line):
     return log_obj
 
 def session_state_str_dict():
+    """
+    Generate a dict from st.session_state to be stored with every log line
+    """
     interface = {"user": None, "session_state": None}
     extra = {"user": repr(st.session_state["user"])  if "user" in st.session_state else None,
             "session_state": {k: f"{v}" for k, v in st.session_state.to_dict().items()}}
@@ -102,6 +110,9 @@ def session_state_str_dict():
     return merged
 
 def bind_log(extras = {}) -> Logger:
+    """
+    Bind the logger to the session state dictionary
+    """
     merged = session_state_str_dict() | extras
     log = _LOGGER.bind(**merged)
     return log

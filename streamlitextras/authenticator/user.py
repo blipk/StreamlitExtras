@@ -58,7 +58,7 @@ class User:
     @property
     def is_admin(self):
         """
-        Returns true if users firebase id is in a list
+        Returns true if users firebase id is in self.authenticator.admin_ids
         """
         admin_ids = self.authenticator.admin_ids
         return self.localId in admin_ids
@@ -66,7 +66,7 @@ class User:
     @property
     def is_developer(self):
         """
-        Returns true if users firebase id is in a list
+        Returns true if users firebase id is in self.authenticator.developer_ids
         """
         developer_ids = self.authenticator.developer_ids
         return self.localId in developer_ids

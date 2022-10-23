@@ -13,12 +13,9 @@ class CookieManager:
     """
     This is a streamlit component class to manage cookies.
 
-    It uses a thing component instance wrapper around the universal-cookie library.
+    It uses a thin component instance wrapper around the universal-cookie library.
     """
     def __init__(self):
-        """
-        Initialize the cookie manager component
-        """
         if "cookie_manager" in st.session_state and st.session_state["cookie_manager"]:
             self.cookies = st.session_state["cookie_manager"].cookies.copy()
         else:

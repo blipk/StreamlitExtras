@@ -35,7 +35,6 @@ def setup(app):
     module_name = "autodoc_stub_file.streamlitextras"
     dirname = os.path.dirname(os.path.abspath(__file__))
     stub_path = os.path.join(dirname, "..", "..", "streamlitextras", "__init__.py")
-    print("AA", stub_path)
     docstring = get_module_docstring(stub_path)
     module = types.ModuleType(module_name, docstring)
     sys.modules[module_name] = module

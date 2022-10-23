@@ -39,7 +39,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html#streamlit-extras">Streamlit Extras</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/streamlitextras.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../project.html">Project Information</a></li>
 </ul>
 
@@ -78,22 +78,19 @@
 
 <div class="viewcode-block" id="Router"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.Router">[docs]</a><span class="k">class</span> <span class="nc">Router</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Page router for streamlit</span>
+<span class="sd">    Page router for streamlit.</span>
+
+<span class="sd">    :param dict[str, Callable] routes:</span>
+<span class="sd">        Dictionary mapping of routes to their page functions, in the format {page_name: page_function}</span>
+<span class="sd">    :param Optional[Callable] preroute:</span>
+<span class="sd">        Optional callable page function that will be executed before each active page function</span>
+<span class="sd">    :param Optional[list] dependencies:</span>
+<span class="sd">        Optional dict to pass as kwargs to every page_function call</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
                 <span class="n">preroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes a page router</span>
-
-<span class="sd">        :param dict[str, Callable] routes:</span>
-<span class="sd">            Dictionary mapping of routes to their page functions, in the format {page_name: page_function}</span>
-<span class="sd">        :param Optional[Callable] preroute:</span>
-<span class="sd">            Optional callable page function that will be executed before each active page function</span>
-<span class="sd">        :param Optional[list] dependencies:</span>
-<span class="sd">            Optional dict to pass as kwargs to every page_function call</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">routes</span> <span class="o">=</span> <span class="n">routes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preroute</span> <span class="o">=</span> <span class="n">preroute</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="n">dependencies</span>

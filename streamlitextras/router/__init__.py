@@ -8,22 +8,19 @@ from streamlitextras.utils import repr_
 
 class Router:
     """
-    Page router for streamlit
+    Page router for streamlit.
+
+    :param dict[str, Callable] routes:
+        Dictionary mapping of routes to their page functions, in the format {page_name: page_function}
+    :param Optional[Callable] preroute:
+        Optional callable page function that will be executed before each active page function
+    :param Optional[list] dependencies:
+        Optional dict to pass as kwargs to every page_function call
     """
     def __init__(self,
                 routes: dict[str, Callable],
                 preroute: Optional[Callable] = None,
                 dependencies: Optional[dict] = None):
-        """
-        Initializes a page router
-
-        :param dict[str, Callable] routes:
-            Dictionary mapping of routes to their page functions, in the format {page_name: page_function}
-        :param Optional[Callable] preroute:
-            Optional callable page function that will be executed before each active page function
-        :param Optional[list] dependencies:
-            Optional dict to pass as kwargs to every page_function call
-        """
         self.routes = routes
         self.preroute = preroute
         self.dependencies = dependencies

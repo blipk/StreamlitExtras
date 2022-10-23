@@ -31,6 +31,7 @@ storage = firebase.storage()
 # PyPI doesn't contain the latest git commits for pyrebase4
 def update_profile(id_token, display_name = None, photo_url=None, delete_attribute = None, *args):
     """
+    Pyrebase on PyPI seems to be missing latest commits - adding this in here.
     https://firebase.google.com/docs/reference/rest/auth#section-update-profile
     """
     request_ref = "https://identitytoolkit.googleapis.com/v1/accounts:update?key={0}".format(auth.api_key)
@@ -44,9 +45,21 @@ auth.update_profile = update_profile
 UserInherited = TypeVar('UserInherited', bound='User', covariant=True)
 class Authenticator:
     """
-    This class is used to handle firebase authentication,
+    Authenticator is used to handle firebase authentication,
     as well as create streamlit widgest for login, registration,
-    and other account operations
+    and other account operations.
+
+    :param str authenticator_name: named key for this Authenticator class, used to store it in session state. Used for tracking without classvar reference.
+    :param str cookie_name: the name of the auth cookie to be saved in the browser
+    :param str cookie_key: the key used to encrypt the JWT stored in the auth cookie
+    :param str session_name: the name of the key to store in st.session_state and the JWT token (with exp_date), containing the decoded auth cookie to
+    :param UserInherited user_class: Optional inherited User class to store the User state in
+    :param list admins_ids:
+        List of firebase user ids (localId) used for checking User.is_admin
+        Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file
+    :param list developer_ids:
+        List of firebase user ids (localId) used for checking User.is_developer
+        Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file
     """
     def __init__(self,
                 cookie_name: str,
@@ -57,21 +70,7 @@ class Authenticator:
                 user_class: Optional[Type[UserInherited]] = None,
                 admin_ids: Optional[Union[list, str]] = None,
                 developer_ids: Optional[Union[list, str]] = None):
-        """
-        Create a new instance of Authenticator
 
-        :param str authenticator_name: named key for this Authenticator class, used to store it in session state. Used for tracking without classvar reference.
-        :param str cookie_name: the name of the auth cookie to be saved in the browser
-        :param str cookie_key: the key used to encrypt the JWT stored in the auth cookie
-        :param str session_name: the name of the key to store in st.session_state and the JWT token (with exp_date), containing the decoded auth cookie to
-        :param UserInherited user_class: Optional inherited User class to store the User state in
-        :param list admins_ids:
-            List of firebase user ids (localId) used for checking User.is_admin
-            Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file
-        :param list developer_ids:
-            List of firebase user ids (localId) used for checking User.is_developer
-            Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file
-        """
         if authenticator_name == session_name:
             raise ValueError("authenticator_name can't be the same as session_name (st.session_state conflict)")
 

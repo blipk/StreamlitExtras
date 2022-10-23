@@ -1,5 +1,10 @@
-streamlitextras package
+API Reference
 =======================
+
+.. automodule:: streamlitextras
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Subpackages
 -----------
@@ -44,14 +49,6 @@ streamlitextras.webutils module
 -------------------------------
 
 .. automodule:: streamlitextras.webutils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: streamlitextras
    :members:
    :undoc-members:
    :show-inheritance:

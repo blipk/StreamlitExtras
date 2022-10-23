@@ -3,6 +3,9 @@ import requests
 
 # Proxy for handling pyrebase/firebase errors
 def handle_firebase_action(action_function, exception_type, error_dict, *fn_args, **fn_kwargs):
+    """
+    Handler for pyrebase/firebase actions.
+    """
     error = None
     result = None
     try:

@@ -1,6 +1,11 @@
 streamlitextras.authenticator package
 =====================================
 
+.. automodule:: streamlitextras.authenticator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -24,14 +29,6 @@ streamlitextras.authenticator.utils module
 ------------------------------------------
 
 .. automodule:: streamlitextras.authenticator.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: streamlitextras.authenticator
    :members:
    :undoc-members:
    :show-inheritance:

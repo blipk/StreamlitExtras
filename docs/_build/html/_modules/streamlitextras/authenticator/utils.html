@@ -39,7 +39,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html#streamlit-extras">Streamlit Extras</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/streamlitextras.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../project.html">Project Information</a></li>
 </ul>
 
@@ -58,6 +58,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../authenticator.html">streamlitextras.authenticator</a> &raquo;</li>
       <li>streamlitextras.authenticator.utils</li>
 
   </ul>
@@ -73,6 +74,9 @@
 
 <span class="c1"># Proxy for handling pyrebase/firebase errors</span>
 <div class="viewcode-block" id="handle_firebase_action"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.utils.handle_firebase_action">[docs]</a><span class="k">def</span> <span class="nf">handle_firebase_action</span><span class="p">(</span><span class="n">action_function</span><span class="p">,</span> <span class="n">exception_type</span><span class="p">,</span> <span class="n">error_dict</span><span class="p">,</span> <span class="o">*</span><span class="n">fn_args</span><span class="p">,</span> <span class="o">**</span><span class="n">fn_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handler for pyrebase/firebase actions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>

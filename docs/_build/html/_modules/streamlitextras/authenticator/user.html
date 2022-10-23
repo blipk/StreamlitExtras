@@ -39,7 +39,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html#streamlit-extras">Streamlit Extras</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/streamlitextras.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../project.html">Project Information</a></li>
 </ul>
 
@@ -58,6 +58,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../authenticator.html">streamlitextras.authenticator</a> &raquo;</li>
       <li>streamlitextras.authenticator.user</li>
 
   </ul>
@@ -128,7 +129,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns true if users firebase id is in a list</span>
+<span class="sd">        Returns true if users firebase id is in self.authenticator.admin_ids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">admin_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">admin_ids</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localId</span> <span class="ow">in</span> <span class="n">admin_ids</span>
@@ -136,7 +137,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_developer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns true if users firebase id is in a list</span>
+<span class="sd">        Returns true if users firebase id is in self.authenticator.developer_ids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">developer_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">developer_ids</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localId</span> <span class="ow">in</span> <span class="n">developer_ids</span>

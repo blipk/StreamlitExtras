@@ -24,7 +24,6 @@ uploads/
 sessions/
 
 # App secrets
-.streamlit/secrets.toml
-secrets.toml
+/.streamlit/secrets.toml
 .devenv
 .env

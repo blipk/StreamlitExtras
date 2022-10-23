@@ -39,7 +39,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html#streamlit-extras">Streamlit Extras</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/streamlitextras.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../project.html">Project Information</a></li>
 </ul>
 
@@ -134,7 +134,12 @@
             <span class="s2">&quot;colorize&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
 <span class="p">]</span>
 
-<div class="viewcode-block" id="process_log_line"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.process_log_line">[docs]</a><span class="k">def</span> <span class="nf">process_log_line</span><span class="p">(</span><span class="n">log_line</span><span class="p">):</span>
+<div class="viewcode-block" id="process_log_line"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.process_log_line">[docs]</a><span class="k">def</span> <span class="nf">process_log_line</span><span class="p">(</span><span class="n">log_line</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process a log line formatted from this module into a dictionary of its sections.</span>
+
+<span class="sd">    :param str log_line: The log line to process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">log_line</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">time</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">extra</span><span class="p">,</span> <span class="n">exception</span><span class="p">,</span> <span class="n">exec</span> <span class="o">=</span> <span class="n">log_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="p">)</span>
@@ -165,6 +170,9 @@
     <span class="k">return</span> <span class="n">log_obj</span></div>
 
 <div class="viewcode-block" id="session_state_str_dict"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.session_state_str_dict">[docs]</a><span class="k">def</span> <span class="nf">session_state_str_dict</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a dict from st.session_state to be stored with every log line</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">interface</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;session_state&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
     <span class="n">extra</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">])</span>  <span class="k">if</span> <span class="s2">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s2">&quot;session_state&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}}</span>
@@ -172,6 +180,9 @@
     <span class="k">return</span> <span class="n">merged</span></div>
 
 <div class="viewcode-block" id="bind_log"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.bind_log">[docs]</a><span class="k">def</span> <span class="nf">bind_log</span><span class="p">(</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">Logger</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bind the logger to the session state dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">merged</span> <span class="o">=</span> <span class="n">session_state_str_dict</span><span class="p">()</span> <span class="o">|</span> <span class="n">extras</span>
     <span class="n">log</span> <span class="o">=</span> <span class="n">_LOGGER</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">**</span><span class="n">merged</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">log</span></div>

@@ -39,7 +39,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html#streamlit-extras">Streamlit Extras</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/streamlitextras.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project.html">Project Information</a></li>
 </ul>
 
@@ -95,9 +95,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.adjust_st_style">adjust_st_style (CustomHTML property)</a>
 </li>
+      <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.anchor_el">anchor_el() (CustomHTML static method)</a>
+</li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.auth_cookie">auth_cookie (Authenticator property)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.anchor_el">anchor_el() (CustomHTML static method)</a>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.auth_status">auth_status (Authenticator property)</a>
+</li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator">Authenticator (class in streamlitextras.authenticator)</a>
 </li>
       <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.AuthException">AuthException</a>
 </li>
@@ -137,6 +143,8 @@
 </li>
       <li><a href="api/streamlitextras.router.html#streamlitextras.router.Router.current_state">current_state (Router property)</a>
 </li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.current_user">current_user (Authenticator property)</a>
+</li>
       <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.custom_el">custom_el() (CustomHTML static method)</a>
 </li>
       <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML">CustomHTML (class in streamlitextras.helpers)</a>
@@ -149,9 +157,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/streamlitextras.router.html#streamlitextras.router.Router.default_page">default_page (Router property)</a>
 </li>
-      <li><a href="api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.delayed_init">delayed_init() (CookieManager method)</a>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.delayed_init">delayed_init() (Authenticator method)</a>
 
       <ul>
+        <li><a href="api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.delayed_init">(CookieManager method)</a>
+</li>
         <li><a href="api/streamlitextras.router.html#streamlitextras.router.Router.delayed_init">(Router method)</a>
 </li>
       </ul></li>
@@ -195,11 +205,15 @@
 </li>
       <li><a href="api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.get_all">get_all() (CookieManager method)</a>
 </li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.get_auth">get_auth() (in module streamlitextras.authenticator)</a>
+</li>
       <li><a href="api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.get_cookie_manager">get_cookie_manager() (in module streamlitextras.cookiemanager)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/streamlitextras.router.html#streamlitextras.router.get_router">get_router() (in module streamlitextras.router)</a>
+</li>
+      <li><a href="api/streamlitextras.threader.html#streamlitextras.threader.get_thread">get_thread() (in module streamlitextras.threader)</a>
 </li>
       <li><a href="api/streamlitextras.html#streamlitextras.webutils.get_user_timezone">get_user_timezone() (in module streamlitextras.webutils)</a>
 </li>
@@ -233,13 +247,19 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/streamlitextras.threader.html#streamlitextras.threader.last_trigger_time">last_trigger_time() (in module streamlitextras.threader)</a>
+</li>
       <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.load_lottieurl">load_lottieurl() (CustomHTML static method)</a>
 </li>
       <li><a href="api/streamlitextras.logger.html#streamlitextras.logger.log">log (in module streamlitextras.logger)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.login">login() (Authenticator method)</a>
+</li>
       <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.LoginError">LoginError</a>
+</li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.logout">logout() (Authenticator method)</a>
 </li>
       <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.lottie_url">lottie_url (CustomHTML property)</a>
 </li>
@@ -253,6 +273,10 @@
     module
 
       <ul>
+        <li><a href="api/streamlitextras.html#module-streamlitextras">streamlitextras</a>
+</li>
+        <li><a href="api/streamlitextras.authenticator.html#module-streamlitextras.authenticator">streamlitextras.authenticator</a>
+</li>
         <li><a href="api/streamlitextras.authenticator.html#module-streamlitextras.authenticator.exceptions">streamlitextras.authenticator.exceptions</a>
 </li>
         <li><a href="api/streamlitextras.authenticator.html#module-streamlitextras.authenticator.user">streamlitextras.authenticator.user</a>
@@ -268,6 +292,10 @@
         <li><a href="api/streamlitextras.logger.html#module-streamlitextras.logger.firebasesink">streamlitextras.logger.firebasesink</a>
 </li>
         <li><a href="api/streamlitextras.router.html#module-streamlitextras.router">streamlitextras.router</a>
+</li>
+        <li><a href="api/streamlitextras.threader.html#module-streamlitextras.threader">streamlitextras.threader</a>
+</li>
+        <li><a href="api/streamlitextras.threader.html#module-streamlitextras.threader.reruntrigger">streamlitextras.threader.reruntrigger</a>
 </li>
         <li><a href="api/streamlitextras.html#module-streamlitextras.utils">streamlitextras.utils</a>
 </li>
@@ -302,11 +330,15 @@
 </li>
       <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.user.User.refresh_token">refresh_token() (User method)</a>
 </li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.register_user">register_user() (Authenticator method)</a>
+</li>
       <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.RegisterError">RegisterError</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/streamlitextras.html#streamlitextras.utils.repr_">repr_() (in module streamlitextras.utils)</a>
+</li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.reset_password">reset_password() (Authenticator method)</a>
 </li>
       <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.ResetError">ResetError</a>
 </li>
@@ -324,14 +356,34 @@
 </li>
       <li><a href="api/streamlitextras.html#streamlitextras.webutils.scroll_page">scroll_page() (in module streamlitextras.webutils)</a>
 </li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.service_auth">service_auth (Authenticator property)</a>
+</li>
       <li><a href="api/streamlitextras.logger.html#streamlitextras.logger.session_state_str_dict">session_state_str_dict() (in module streamlitextras.logger)</a>
 </li>
       <li><a href="api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.set">set() (CookieManager method)</a>
+</li>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.set_form">set_form() (Authenticator method)</a>
 </li>
       <li><a href="api/streamlitextras.router.html#streamlitextras.router.Router.show_route_view">show_route_view() (Router method)</a>
 </li>
       <li><a href="api/streamlitextras.html#streamlitextras.helpers.CustomHTML.st_info_classes">st_info_classes (CustomHTML property)</a>
 </li>
+      <li><a href="api/streamlitextras.threader.html#streamlitextras.threader.streamlit_thread">streamlit_thread() (in module streamlitextras.threader)</a>
+</li>
+      <li>
+    streamlitextras
+
+      <ul>
+        <li><a href="api/streamlitextras.html#module-streamlitextras">module</a>
+</li>
+      </ul></li>
+      <li>
+    streamlitextras.authenticator
+
+      <ul>
+        <li><a href="api/streamlitextras.authenticator.html#module-streamlitextras.authenticator">module</a>
+</li>
+      </ul></li>
       <li>
     streamlitextras.authenticator.exceptions
 
@@ -353,6 +405,8 @@
         <li><a href="api/streamlitextras.authenticator.html#module-streamlitextras.authenticator.utils">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     streamlitextras.cookiemanager
 
@@ -360,8 +414,6 @@
         <li><a href="api/streamlitextras.cookiemanager.html#module-streamlitextras.cookiemanager">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     streamlitextras.helpers
 
@@ -391,6 +443,20 @@
 </li>
       </ul></li>
       <li>
+    streamlitextras.threader
+
+      <ul>
+        <li><a href="api/streamlitextras.threader.html#module-streamlitextras.threader">module</a>
+</li>
+      </ul></li>
+      <li>
+    streamlitextras.threader.reruntrigger
+
+      <ul>
+        <li><a href="api/streamlitextras.threader.html#module-streamlitextras.threader.reruntrigger">module</a>
+</li>
+      </ul></li>
+      <li>
     streamlitextras.utils
 
       <ul>
@@ -412,7 +478,13 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/streamlitextras.threader.html#streamlitextras.threader.thread_wrapper">thread_wrapper() (in module streamlitextras.threader)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/streamlitextras.html#streamlitextras.webutils.trigger_download">trigger_download() (in module streamlitextras.webutils)</a>
+</li>
+      <li><a href="api/streamlitextras.threader.html#streamlitextras.threader.trigger_rerun">trigger_rerun() (in module streamlitextras.threader)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -420,10 +492,12 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.UpdateError">UpdateError</a>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.update_profile">update_profile() (in module streamlitextras.authenticator)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.UpdateError">UpdateError</a>
+</li>
       <li><a href="api/streamlitextras.authenticator.html#streamlitextras.authenticator.user.User">User (class in streamlitextras.authenticator.user)</a>
 </li>
   </ul></td>
