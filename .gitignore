@@ -10,7 +10,6 @@ log.log
 key.pem
 cert.pem
 /testing/
-deploy.sh
 yarn.lock
 *.pyc
 __pycache__/

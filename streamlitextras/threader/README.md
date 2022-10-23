@@ -41,4 +41,4 @@ if __name__ == "__main__":
 
 Mostly you may want to use `streamlit_thread(my_threaded_function, rerun_st=False)` if you don't want streamlit to rerun after the thread.
 
-See the API docs or the source file for function argument reference.
+See the [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) or the source file for function argument reference.

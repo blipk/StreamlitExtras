@@ -49,7 +49,7 @@ Implementation of Loguru set up to work well with this package.
 @@LOGGER
 
 #### Misc
-See the API docs for a full list of functions and their usage in these files.
+See the [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for a full list of functions and their usage in these files.
 
 ##### webutils.py
 Some utility functions to run javascript, wrappers around various javascript routines,

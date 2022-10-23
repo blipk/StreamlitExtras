@@ -42,7 +42,7 @@ def make_readme():
         inserted_usage = sections[1][2]
 
         title_match = f"@@{inserted_title.upper()}".replace(" ", "").strip()
-        footer = f"\n\nSee the [package readme]({module_path}) or API docs for more details.\n"
+        footer = f"\n\nSee the [package readme]({module_path}) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more details.\n"
         main_readme = main_readme.replace(title_match, inserted_usage+footer)
 
     with open("README.md", "w") as f:

@@ -59,8 +59,9 @@ Component function to manage in-browser cookies from streamlit.
    if __name__ == "__main__":
        main()
 
-See the `package readme <streamlitextras/cookiemanager>`__ or API docs
-for more details.
+See the `package readme <streamlitextras/cookiemanager>`__ or `API
+docs <https://streamlitextras.readthedocs.io/en/latest/api.html>`__ for
+more details.
 
 Router
 ~~~~~~
@@ -103,8 +104,9 @@ Page router with various features.
    if __name__ == "__main__":
        main()
 
-See the `package readme <streamlitextras/router>`__ or API docs for more
-details.
+See the `package readme <streamlitextras/router>`__ or `API
+docs <https://streamlitextras.readthedocs.io/en/latest/api.html>`__ for
+more details.
 
 Authenticator
 ~~~~~~~~~~~~~
@@ -146,8 +148,9 @@ to use a custom authentication provider.
    if __name__ == "__main__":
        main()
 
-See the `package readme <streamlitextras/authenticator>`__ or API docs
-for more details.
+See the `package readme <streamlitextras/authenticator>`__ or `API
+docs <https://streamlitextras.readthedocs.io/en/latest/api.html>`__ for
+more details.
 
 Threader
 ~~~~~~~~
@@ -186,7 +189,8 @@ easy.
    if __name__ == "__main__":
        main()
 
-See the `package readme <streamlitextras/threader>`__ or API docs for
+See the `package readme <streamlitextras/threader>`__ or `API
+docs <https://streamlitextras.readthedocs.io/en/latest/api.html>`__ for
 more details.
 
 Logger
@@ -206,14 +210,16 @@ Implementation of Loguru set up to work well with this package.
    if __name__ == "__main__":
        main()
 
-See the `package readme <streamlitextras/logger>`__ or API docs for more
-details.
+See the `package readme <streamlitextras/logger>`__ or `API
+docs <https://streamlitextras.readthedocs.io/en/latest/api.html>`__ for
+more details.
 
 Misc
 ~~~~
 
-See the API docs for a full list of functions and their usage in these
-files.
+See the `API
+docs <https://streamlitextras.readthedocs.io/en/latest/api.html>`__ for
+a full list of functions and their usage in these files.
 
 webutils.py
 ^^^^^^^^^^^

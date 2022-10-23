@@ -58,7 +58,7 @@ else:
     router.show_route_view("other", computed_chance)
 ```
 
-See the API docs for more usage options, such as setting a callable pre-route function, or passing extra page_state/dependencies to every page_function.
+See the [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more usage options, such as setting a callable pre-route function, or passing extra page_state/dependencies to every page_function.
 
 #### Advanced usage
 
@@ -141,4 +141,4 @@ if __name__ == "__main__":
 
 ```
 
-For full reference see the API docs.
+For full reference see the [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html).
