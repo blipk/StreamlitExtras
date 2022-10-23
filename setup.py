@@ -52,6 +52,17 @@ setup(
         "streamlit >= 1.13.0",
         "streamlit-javascript == 0.1.5",
         "loguru == 0.6.0",
+        "gcloud",
+        "pyjwt",
+        "firebase",
+        "pyrebase4",
+        "sseclient",
+        "python_jwt",
+        "PyCryptodome",
+        "requests_toolbelt",
+        "firebase-admin",
+        "google-cloud-storage",
+        "streamlit_javascript"
     ],
     extras_require={
         "dev": [
