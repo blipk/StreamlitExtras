@@ -51,6 +51,7 @@ setup(
     install_requires=[
         "streamlit >= 1.13.0",
         "streamlit-javascript == 0.1.5",
+        "loguru == 0.6.0",
     ],
     extras_require={
         "dev": [
