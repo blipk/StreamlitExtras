@@ -46,8 +46,13 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
+    "sphinxcontrib.apidoc",
     "autodoc_stub_file",
 ]
+
+apidoc_module_dir = '../streamlitextras'
+apidoc_output_dir = './api'
+apidoc_module_first = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

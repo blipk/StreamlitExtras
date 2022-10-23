@@ -12,3 +12,4 @@ requests_toolbelt
 firebase-admin
 google-cloud-storage
 streamlit_javascript
+requests
