@@ -56,7 +56,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/router) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more details.
+See the [package readme](streamlitextras/router) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) for more details.
 
 
 #### Cookie Manager
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/cookiemanager) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more details.
+See the [package readme](streamlitextras/cookiemanager) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) for more details.
 
 
 #### Authenticator
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
 ```
 
-See the [package readme](streamlitextras/authenticator) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more details.
+See the [package readme](streamlitextras/authenticator) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) for more details.
 
 
 #### Threader
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/threader) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more details.
+See the [package readme](streamlitextras/threader) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) for more details.
 
 
 #### Logger
@@ -183,11 +183,11 @@ if __name__ == "__main__":
     main()
 ```
 
-See the [package readme](streamlitextras/logger) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for more details.
+See the [package readme](streamlitextras/logger) or [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) for more details.
 
 
 #### Other helpers
-See the [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html) for a full list of functions and their usage in these files.
+See the [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) for a full list of functions and their usage in these files.
 
 ###### streamlitextras.webutils
 Some utility functions to run javascript, wrappers around various javascript routines,

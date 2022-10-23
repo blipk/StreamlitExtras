@@ -51,7 +51,7 @@ cookie_manager = get_cookie_manager()
 cookie_manager.set("my_cookie_name", "I expire in one hour", expires_at=cookie_expiry_time)
 ```
 
-For a full list see the [API docs](https://streamlitextras.readthedocs.io/en/latest/api.html).
+For a full list see the [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html).
 
 ###### Note
 
