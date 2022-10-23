@@ -2,7 +2,27 @@
 
 These are some components and modules designed to make working with streamlit easier.
 
-### Cookie Manager
+I had a project that required some of these parts, I tried some other community projects that were similar,
+but none of them had the features I requried, so I ended up rewriting my own implementations of them.
+
+I started working on this weeks ago, but looks like in the last few days someone else had released a package
+with a similar name as I am releasing this.
+
+Well, I'm not changing all the imports and they are still distinguishable.
+
+## Installation and Requirements
+
+Install from PyPI with pip:
+`python3 -m pip install streamlit-base-extras`
+
+Requires Streamlit 1.13.0+ and Python 3.9+,
+will consider releasing versions compatible with older Python3 if people show interest.
+
+Some helper functions require `streamlit-javascript` too.
+
+## The modules
+
+#### Cookie Manager
 
 Component function to manage in-browser cookies from streamlit.
 
@@ -34,7 +54,7 @@ if __name__ == "__main__":
 See the [package readme](streamlitextras/cookiemanager) or API docs for more details.
 
 
-### Router
+#### Router
 
 Page router with various features.
 
@@ -77,7 +97,7 @@ if __name__ == "__main__":
 See the [package readme](streamlitextras/router) or API docs for more details.
 
 
-### Authenticator
+#### Authenticator
 
 Authentication module that creates streamlit register/login forms, and uses firebase auth to register and manage users.
 Can also be inherited to use a custom authentication provider.
@@ -119,7 +139,7 @@ if __name__ == "__main__":
 See the [package readme](streamlitextras/authenticator) or API docs for more details.
 
 
-### Threader
+#### Threader
 
 Makes spawning and working with threading.Threads with streamlit easy.
 
@@ -157,7 +177,7 @@ if __name__ == "__main__":
 See the [package readme](streamlitextras/threader) or API docs for more details.
 
 
-### Logger
+#### Logger
 
 Implementation of Loguru set up to work well with this package.
 
@@ -176,23 +196,24 @@ if __name__ == "__main__":
 See the [package readme](streamlitextras/logger) or API docs for more details.
 
 
-### Misc
+#### Misc
 
 See the API docs for a full list of functions and their usage in these files.
 
-#### webutils.py
+##### webutils.py
 
 Some utility functions to run javascript, wrappers around various javascript routines,
 and some other browser related formatting utilities.
 
-#### helpers.py
+##### helpers.py
 
-Class implementation that streamlines creating basic HTML elements with st.markdown
+Class implementation that streamlines creating basic HTML elements with st.markdown,
+and some other useful functions.
 
-#### storageservice.py
+##### storageservice.py
 
 Helper to interact with Google Cloud Storage with a service worker account.
 
-#### utils.py
+##### utils.py
 
 Some utility functions for Python development.

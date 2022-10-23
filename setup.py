@@ -9,11 +9,11 @@ with open("streamlitextras/__init__.py", "r") as file:
     regex_version = r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]'
     version = re.search(regex_version, file.read(), re.MULTILINE).group(1)
 
-from build_tools.make_readme import make_readme
-readme = make_readme()
+with open("README.md", "r") as f:
+    readme = f.read()
 
 setup(
-    name="stextras",
+    name="streamlit-base-extras",
     version=version,
     author="blipk",
     author_email="blipk+@github.com",

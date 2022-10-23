@@ -1,3 +1,2 @@
 include LICENSE
-recursive-include build_tools/ make_readme.py README.template.md
 recursive-include streamlitextras/*/frontend/build/ *

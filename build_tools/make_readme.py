@@ -49,3 +49,6 @@ def make_readme():
         f.write(main_readme)
 
     return main_readme
+
+if __name__ == "__main__":
+    make_readme()
