@@ -254,7 +254,8 @@ my_file_blob = blobs[0] # my.file
 assert my_file_blob.md5_hash == computed_md5_hash # True
 ```
 
-Set up a service worker on your google cloud project or firebase project and add the details from its .json key to `.streamlit/secrets.toml
+You will need to set up a service worker on your google cloud project or firebase project,
+and add the details from its .json key to `.streamlit/secrets.toml`
 
 ```TOML
 [gcp_service_account]

@@ -326,8 +326,9 @@ reference</a> for more.</p>
 <span class="k">assert</span> <span class="n">my_file_blob</span><span class="o">.</span><span class="n">md5_hash</span> <span class="o">==</span> <span class="n">computed_md5_hash</span> <span class="c1"># True</span>
 </pre></div>
 </div>
-<p>Set up a service worker on your google cloud project or firebase project
-and add the details from its .json key to `.streamlit/secrets.toml</p>
+<p>You will need to set up a service worker on your google cloud project or
+firebase project, and add the details from its .json key to
+<code class="docutils literal notranslate"><span class="pre">.streamlit/secrets.toml</span></code></p>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[gcp_service_account]</span><span class="w"></span>
 <span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
 <span class="n">project_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
