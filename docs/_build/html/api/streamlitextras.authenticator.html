@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>streamlitextras.authenticator package &mdash; StreamlitExtras  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/copybutton.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="streamlitextras.cookiemanager package" href="streamlitextras.cookiemanager.html" />
+    <link rel="prev" title="streamlitextras package" href="streamlitextras.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> StreamlitExtras
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html#streamlit-extras">Streamlit Extras</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="streamlitextras.html">streamlitextras package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="streamlitextras.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">streamlitextras.authenticator package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-streamlitextras.authenticator.exceptions">streamlitextras.authenticator.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-streamlitextras.authenticator.user">streamlitextras.authenticator.user module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-streamlitextras.authenticator.utils">streamlitextras.authenticator.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="streamlitextras.cookiemanager.html">streamlitextras.cookiemanager package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamlitextras.logger.html">streamlitextras.logger package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamlitextras.router.html">streamlitextras.router package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamlitextras.threader.html">streamlitextras.threader package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="streamlitextras.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlitextras.html#module-streamlitextras.helpers">streamlitextras.helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlitextras.html#streamlitextras-storageservice-module">streamlitextras.storageservice module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlitextras.html#module-streamlitextras.utils">streamlitextras.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlitextras.html#module-streamlitextras.webutils">streamlitextras.webutils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../project.html">Project Information</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">StreamlitExtras</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="streamlitextras.html">streamlitextras package</a> &raquo;</li>
+      <li>streamlitextras.authenticator package</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+             
+  <section id="module-streamlitextras.authenticator">
+<span id="streamlitextras-authenticator-package"></span><h1>streamlitextras.authenticator package<a class="headerlink" href="#module-streamlitextras.authenticator" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.update_profile">
+<span class="sig-name descname"><span class="pre">update_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">photo_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#update_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.update_profile" title="Permalink to this definition"></a></dt>
+<dd><p>Pyrebase on PyPI seems to be missing latest commits - adding this in here.
+<a class="reference external" href="https://firebase.google.com/docs/reference/rest/auth#section-update-profile">https://firebase.google.com/docs/reference/rest/auth#section-update-profile</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Authenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cookie_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cookie_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_expiry_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'user'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authenticator_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'authenticator'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.10)"><span class="pre">Type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UserInherited</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">developer_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Authenticator is used to handle firebase authentication,
+as well as create streamlit widgest for login, registration,
+and other account operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>authenticator_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- named key for this Authenticator class, used to store it in session state. Used for tracking without classvar reference.</p></li>
+<li><p><strong>cookie_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- the name of the auth cookie to be saved in the browser</p></li>
+<li><p><strong>cookie_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- the key used to encrypt the JWT stored in the auth cookie</p></li>
+<li><p><strong>session_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- the name of the key to store in st.session_state and the JWT token (with exp_date), containing the decoded auth cookie to</p></li>
+<li><p><strong>user_class</strong> (<em>UserInherited</em>) -- Optional inherited User class to store the User state in</p></li>
+<li><p><strong>admins_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) -- List of firebase user ids (localId) used for checking User.is_admin
+Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file</p></li>
+<li><p><strong>developer_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) -- List of firebase user ids (localId) used for checking User.is_developer
+Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.delayed_init">
+<span class="sig-name descname"><span class="pre">delayed_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator.delayed_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.delayed_init" title="Permalink to this definition"></a></dt>
+<dd><p>Used to delay initialization of streamlit objects so this class can be cached</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.auth_cookie">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">auth_cookie</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.auth_cookie" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the auth cookie</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns the auth cookie or None if it doesnt exist</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.auth_status">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">auth_status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.auth_status" title="Permalink to this definition"></a></dt>
+<dd><p>First checks for any valid authentication cookies,
+then returns the current authentication status,
+True if a user is Authenticated, or else False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns bool</dt>
+<dd class="field-odd"><p>The authentication status</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.current_user">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UserInherited</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.current_user" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a User interface class instance if there is an active login</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.service_auth">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">service_auth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">module</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.service_auth" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.set_form">
+<span class="sig-name descname"><span class="pre">set_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator.set_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.set_form" title="Permalink to this definition"></a></dt>
+<dd><p>Sets a variable to keep track of which form is currently displayed.</p>
+<p>&quot;login&quot; = Login form
+&quot;register&quot; = Registration form
+&quot;reset_password&quot; = Reset password form</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.logout">
+<span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">button_location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">DeltaGenerator</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">module</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DeltaGenerator(_root_container=1,</span> <span class="pre">_provided_cursor=None,</span> <span class="pre">_parent=DeltaGenerator(_root_container=0,</span> <span class="pre">_provided_cursor=None,</span> <span class="pre">_parent=None,</span> <span class="pre">_block_type=None,</span> <span class="pre">_form_data=None),</span> <span class="pre">_block_type=None,</span> <span class="pre">_form_data=None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator.logout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.logout" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a logout button.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>button_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- The rendered name of the logout button.</p></li>
+<li><p><strong>button_location</strong> (<em>Union</em><em>[</em><em>DeltaGenerator</em><em>, </em><em>ModuleType</em><em>]</em>) -- The streamlit container to place the button. Either global <cite>st</cite> or a st container object such as st.sidebar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns bool</dt>
+<dd class="field-even"><p>Returns True when clicked</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.login">
+<span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form_location:</span> <span class="pre">~typing.Union[~streamlit.delta_generator.DeltaGenerator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module]</span> <span class="pre">=</span> <span class="pre">&lt;module</span> <span class="pre">'streamlit'</span> <span class="pre">from</span> <span class="pre">'/home/kronosol/.local/lib/python3.10/site-packages/streamlit/__init__.py'&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UserInherited</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#streamlitextras.authenticator.exceptions.LoginError" title="streamlitextras.authenticator.exceptions.LoginError"><span class="pre">LoginError</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator.login"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.login" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a login widget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>form_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- The rendered name of the login form.</p></li>
+<li><p><strong>form_location</strong> (<em>Union</em><em>[</em><em>DeltaGenerator</em><em>, </em><em>ModuleType</em><em>]</em>) -- The streamlit container to place the form. Either global <cite>st</cite> or a st container object such as st.sidebar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2 element tuple containing the a User class if one was created, and/or any errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.register_user">
+<span class="sig-name descname"><span class="pre">register_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form_location:</span> <span class="pre">~typing.Union[~streamlit.delta_generator.DeltaGenerator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module]</span> <span class="pre">=</span> <span class="pre">&lt;module</span> <span class="pre">'streamlit'</span> <span class="pre">from</span> <span class="pre">'/home/kronosol/.local/lib/python3.10/site-packages/streamlit/__init__.py'&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#streamlitextras.authenticator.exceptions.RegisterError" title="streamlitextras.authenticator.exceptions.RegisterError"><span class="pre">RegisterError</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator.register_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.register_user" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a user registration widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>form_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- The rendered name of the password reset form.</p></li>
+<li><p><strong>form_location</strong> (<em>Union</em><em>[</em><em>DeltaGenerator</em><em>, </em><em>ModuleType</em><em>]</em>) -- The streamlit container to place the form. Either global <cite>st</cite> or a st container object such as st.sidebar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple containing the firebase response and any errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.Authenticator.reset_password">
+<span class="sig-name descname"><span class="pre">reset_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form_location:</span> <span class="pre">~typing.Union[~streamlit.delta_generator.DeltaGenerator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module]</span> <span class="pre">=</span> <span class="pre">&lt;module</span> <span class="pre">'streamlit'</span> <span class="pre">from</span> <span class="pre">'/home/kronosol/.local/lib/python3.10/site-packages/streamlit/__init__.py'&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#streamlitextras.authenticator.exceptions.ResetError" title="streamlitextras.authenticator.exceptions.ResetError"><span class="pre">ResetError</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#Authenticator.reset_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.Authenticator.reset_password" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a reset password via email widget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>form_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- The rendered name of the reset password form.</p></li>
+<li><p><strong>form_location</strong> (<em>Union</em><em>[</em><em>DeltaGenerator</em><em>, </em><em>ModuleType</em><em>]</em>) -- The streamlit container to place the form. Either global <cite>st</cite> or a st container object such as st.sidebar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple containing the firebase response and any errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.get_auth">
+<span class="sig-name descname"><span class="pre">get_auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cookie_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UserInherited</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authenticator_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'authenticator'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#streamlitextras.authenticator.Authenticator" title="streamlitextras.authenticator.Authenticator"><span class="pre">Authenticator</span></a></span></span><a class="reference internal" href="../_modules/streamlitextras/authenticator.html#get_auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.get_auth" title="Permalink to this definition"></a></dt>
+<dd><p>See Authenticator for params.</p>
+</dd></dl>
+
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-streamlitextras.authenticator.exceptions">
+<span id="streamlitextras-authenticator-exceptions-module"></span><h2>streamlitextras.authenticator.exceptions module<a class="headerlink" href="#module-streamlitextras.authenticator.exceptions" title="Permalink to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.exceptions.AuthException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AuthException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">firebase_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HTTPError</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/exceptions.html#AuthException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.exceptions.AuthException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Base exception for Authenticator class</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.exceptions.LoginError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LoginError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">firebase_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HTTPError</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/exceptions.html#LoginError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.exceptions.LoginError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#streamlitextras.authenticator.exceptions.AuthException" title="streamlitextras.authenticator.exceptions.AuthException"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthException</span></code></a></p>
+<p>Exceptions raised for the login user widget.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.exceptions.RegisterError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegisterError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">firebase_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HTTPError</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/exceptions.html#RegisterError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.exceptions.RegisterError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#streamlitextras.authenticator.exceptions.AuthException" title="streamlitextras.authenticator.exceptions.AuthException"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthException</span></code></a></p>
+<p>Exceptions raised for the register user widget.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.exceptions.ResetError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResetError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">firebase_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HTTPError</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/exceptions.html#ResetError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.exceptions.ResetError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#streamlitextras.authenticator.exceptions.AuthException" title="streamlitextras.authenticator.exceptions.AuthException"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthException</span></code></a></p>
+<p>Exceptions raised for the rest password widget.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.exceptions.UpdateError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UpdateError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">firebase_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HTTPError</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/exceptions.html#UpdateError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.exceptions.UpdateError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#streamlitextras.authenticator.exceptions.AuthException" title="streamlitextras.authenticator.exceptions.AuthException"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthException</span></code></a></p>
+<p>Exceptions raised for the update user details widget.</p>
+</dd></dl>
+
+</section>
+<section id="module-streamlitextras.authenticator.user">
+<span id="streamlitextras-authenticator-user-module"></span><h2>streamlitextras.authenticator.user module<a class="headerlink" href="#module-streamlitextras.authenticator.user" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.user.User">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authenticator</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/user.html#User"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.user.User" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class is used as an interface for Authenticators users</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.user.User.refresh_token">
+<span class="sig-name descname"><span class="pre">refresh_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/user.html#User.refresh_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.user.User.refresh_token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.user.User.is_admin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_admin</span></span><a class="headerlink" href="#streamlitextras.authenticator.user.User.is_admin" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if users firebase id is in self.authenticator.admin_ids</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.user.User.is_developer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_developer</span></span><a class="headerlink" href="#streamlitextras.authenticator.user.User.is_developer" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if users firebase id is in self.authenticator.developer_ids</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-streamlitextras.authenticator.utils">
+<span id="streamlitextras-authenticator-utils-module"></span><h2>streamlitextras.authenticator.utils module<a class="headerlink" href="#module-streamlitextras.authenticator.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="streamlitextras.authenticator.utils.handle_firebase_action">
+<span class="sig-name descname"><span class="pre">handle_firebase_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exception_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">fn_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fn_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/authenticator/utils.html#handle_firebase_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.authenticator.utils.handle_firebase_action" title="Permalink to this definition"></a></dt>
+<dd><p>Handler for pyrebase/firebase actions.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+
+<div class="github-corner">
+<svg width="120" height="120" viewBox="0 0 250 250">
+  <a fill="transparent" href="https://github.com/blipk/streamlitextras" style="pointer-events:auto">
+    <path d="M0,0 L250,250 L250,0 Z"></path>
+  </a>
+  <g class="octocat">
+    <path fill="#343131" d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" ></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+      fill="#ffffff" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="#ffffff" class="octo-body"></path>
+    <text x="240px" y="-10px" class="octo-click-text" stroke="#ffffff" fill="#ffffff">CLICK</text>
+    <g class="octo-glasses" visibility="hidden">
+      <svg fill="#343131" width="640" height="480">
+       <defs>
+        <symbol id="glasses" viewBox="0 0 512 512">
+         <path d="m465.4,247c-2.2,-22 -12.4,-43 -28.9,-58.4c-17.1,-15.9 -39.3,-24.7 -62.7,-24.7c-41.5,0 -77.3,27.4 -88.5,67c-7,-7 -18.5,-11.7 -29.3,-11.7c-10.8,0 -22.3,4.7 -29.3,11.7c-11.2,-39.6 -47,-67 -88.5,-67c-23.3,0 -45.6,8.7 -62.7,24.6c-16.5,15.5 -26.7,36.5 -28.9,58.5l-14.6,0l0,18l14.6,0c2.2,22 12.4,43 28.9,58.4c17.1,15.9 39.3,24.7 62.7,24.7c50.8,0 92.1,-41.2 92.1,-92c0,-0.1 0,-0.1 0,-0.1l0,0c0,-9.9 11.5,-21.6 25.7,-21.6s25.7,11.7 25.7,21.6l0,0c0,0 0,0 0,0.1c0,50.8 41.3,92 92.1,92c23.3,0 45.6,-8.7 62.7,-24.7c16.5,-15.4 26.7,-36.5 28.9,-58.5l14.6,0l0,-18l-14.6,0l0,0.1z" />
+        </symbol>
+       </defs>
+       <g>
+          <use x="530" y="-70" xlink:href="#glasses" transform="rotate(45 100,75) matrix(0.185,0,0,0.185,0,0) " />
+       </g>
+      </svg>
+    </g>
+  </g>
+</svg>
+</div>
+
+<style>
+.github-corner {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  mix-blend-mode: darken;
+}
+.github-corner:hover .octocat{
+  transform-origin: center;
+  animation: octocat-grow 5s ease-in-out forwards;
+}
+@keyframes octocat-grow{
+  16%, 66%{
+    transform: scale(1.2);
+  }
+  33%{
+    transform: scale(1.1);
+  }
+  50%, 100%{
+    transform: scale(1.3);
+  }
+  83%{
+    transform: scale(1.4);
+  }
+}
+.octo-click-text {
+  font-weight: normal;
+  text-anchor: middle;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  stroke-width: 2px;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+.github-corner:hover .octo-click-text {
+  animation: octocat-text 5s linear forwards
+}
+@keyframes octocat-text {
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.github-corner:hover .octo-arm{
+  animation: octocat-wave 400ms linear infinite;
+}
+@keyframes octocat-wave {
+  0%,50%,100% {
+    transform: rotate(0)
+  }
+  25% {
+    transform: rotate(-25deg)
+  }
+  75% {
+    transform: rotate(10deg)
+  }
+}
+.github-corner .octo-glasses{
+  visibility: visible;
+  opacity: 0;
+  transition: opacity 5s;
+}
+.github-corner:hover .octo-glasses{
+  opacity: 1;
+  animation: octocat-glass-wiggle 400ms linear forwards;
+  animation-delay: 4s;
+}
+@keyframes octocat-glass-wiggle {
+  0%, 50%, 100% {
+    transform: translateX(0px) translateY(0px);
+  }
+  25%, 75% {
+    transform: translateX(3px) translateY(-3px);
+  }
+}
+</style>
+
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="streamlitextras.html" class="btn btn-neutral float-left" title="streamlitextras package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="streamlitextras.cookiemanager.html" class="btn btn-neutral float-right" title="streamlitextras.cookiemanager package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -13,3 +13,4 @@ firebase-admin
 google-cloud-storage
 streamlit_javascript
 requests
+sphinxcontrib-apidoc

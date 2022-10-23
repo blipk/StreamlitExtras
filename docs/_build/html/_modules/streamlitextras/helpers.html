@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>streamlitextras.helpers &mdash; StreamlitExtras  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/js/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html#streamlit-extras">Streamlit Extras</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/streamlitextras.html">streamlitextras package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project.html">Project Information</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">StreamlitExtras</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>streamlitextras.helpers</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+             
+  <h1>Source code for streamlitextras.helpers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">from</span> <span class="nn">streamlit.runtime.uploaded_file_manager</span> <span class="kn">import</span> <span class="n">UploadedFile</span>
+
+<div class="viewcode-block" id="Icons"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.Icons">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Icons</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    UTF-8 Emojis to be used as icons within the application</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">eagle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🦅&quot;</span>
+    <span class="n">green_check</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;✅&quot;</span>
+    <span class="n">red_cross</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;❌&quot;</span>
+    <span class="n">red_flag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🚩&quot;</span>
+    <span class="n">cog</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;⚙️&quot;</span>
+    <span class="n">new</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🆕&quot;</span>
+    <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;⚠️&quot;</span></div>
+
+<div class="viewcode-block" id="CustomHTML"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML">[docs]</a><span class="k">class</span> <span class="nc">CustomHTML</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class containing custom HTML/CSS to be injected into the streamlit app</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">st_info_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Classes used by st.info(), used for creating a custom info box with self.custom_el()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;st-at&quot;</span><span class="p">,</span> <span class="s2">&quot;st-ax&quot;</span><span class="p">,</span> <span class="s2">&quot;st-aw&quot;</span><span class="p">,</span> <span class="s2">&quot;st-av&quot;</span><span class="p">,</span> <span class="s2">&quot;st-au&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">adjust_st_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hides the streamlit footer and menus and makes other adjustments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            &lt;style&gt;</span>
+<span class="s2">            #MainMenu {display: none !important;}</span>
+<span class="s2">            footer {display: none !important;}</span>
+<span class="s2">            header {display: none !important;}</span>
+<span class="s2">            div[class*=&quot;viewerBadge&quot;] {display: none !important;}</span>
+<span class="s2">            .block-container {padding-top: 0px;}</span>
+
+<span class="s2">            div.stButton &gt; button:first-child {</span>
+<span class="s2">                background-color: #0E4176;</span>
+<span class="s2">                color: #ffffff;</span>
+<span class="s2">            }</span>
+<span class="s2">            div.stButton &gt; button:hover {</span>
+<span class="s2">                background-color: #0E4176;</span>
+<span class="s2">                color: #ff0000;</span>
+<span class="s2">            }</span>
+<span class="s2">            p.a {</span>
+<span class="s2">                font: bold 12px Courier;</span>
+<span class="s2">            }</span>
+<span class="s2">            &lt;/style&gt;</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">code</span>
+
+<div class="viewcode-block" id="CustomHTML.centered_image"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.centered_image">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">centered_image</span><span class="p">(</span><span class="n">image_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates 3 streamlit columns with a centered image</span>
+
+<span class="sd">        :param str image_path: The URL or local path of an image</span>
+<span class="sd">        This is currently unused.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="n">col3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">col1</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">col2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">image_path</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">use_column_width</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="s2">&quot;https://static.streamlit.io/examples/dog.jpg&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">col3</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="n">st</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">use_column_width</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CustomHTML.anchor_el"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.anchor_el">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">anchor_el</span><span class="p">(</span><span class="n">anchor_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a div to be used as a # anchor</span>
+
+<span class="sd">        :param str anchor_id: the string to set the id property to on the div element</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">anchor_id</span><span class="si">}</span><span class="s2">&#39; style=&#39;padding: 0px; margin: 0px;&#39;&gt;&lt;/div&gt;&quot;</span></div>
+
+<div class="viewcode-block" id="CustomHTML.bytes_to_data_uri"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.bytes_to_data_uri">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a data URI from a bytesIO object</span>
+
+<span class="sd">        :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them</span>
+<span class="sd">        :param str mime_type: The mimetype to set on the data URI</span>
+<span class="sd">        :returns: The data URI as a string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">byteslike_object</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">byteslike_object</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mime_type</span><span class="p">:</span>
+            <span class="n">mime_type</span> <span class="o">=</span> <span class="s2">&quot;application/octet-stream&quot;</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;data:</span><span class="si">{</span><span class="n">mime_type</span><span class="si">}</span><span class="s2">;base64,</span><span class="si">{</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">uri</span></div>
+
+<div class="viewcode-block" id="CustomHTML.download_link"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.download_link">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">download_link</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a data URI from a bytesIO object</span>
+
+<span class="sd">        :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them</span>
+<span class="sd">        :param str filename: The filename presented for the download file</span>
+<span class="sd">        :param str link_text: The text to put inside the link element, defaults to empty string</span>
+<span class="sd">        :param Optional[str] mime_type: The mimetype to set on the data URI. Defaults to &quot;application/octet-stream&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">link_props</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;download&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">)}</span>
+        <span class="n">download_link</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">custom_el</span><span class="p">(</span><span class="n">link_text</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">custom_properties</span><span class="o">=</span><span class="n">link_props</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;auto-download&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">download_link</span></div>
+
+<div class="viewcode-block" id="CustomHTML.custom_el"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.custom_el">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">custom_el</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+                    <span class="n">align</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">anchor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+                    <span class="n">extra_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">custom_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates HTML string for a custom element based on the function parameters.</span>
+<span class="sd">        There is no validation so ensure calls to this function are correct.</span>
+
+<span class="sd">        :param str text: the innerText/innerHTML of the element</span>
+<span class="sd">        :param str tag: the HTML tag of the element</span>
+<span class="sd">        :param str align: the CSS text-align property to apply to the element style</span>
+<span class="sd">        :param str color: the css color property to apply to the element style</span>
+<span class="sd">        :param str anchor: if provided, will put an empty div element with this value as an id next to the main element. used for creating anchors.</span>
+<span class="sd">        :param list classes: list of css classes to apply to the class property of the element</span>
+<span class="sd">        :param str extra_style: string of properly formatted CSS rules to be applied to the element style tag</span>
+<span class="sd">        :param dict custom_properties: dictionary of properties and values to apply to the element in format {&quot;property&quot;: &quot;value&quot;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">classes_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+            <span class="n">classes_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> &quot;</span>
+
+        <span class="n">style_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">align</span> <span class="ow">and</span> <span class="n">align</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">style_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;text-align: </span><span class="si">{</span><span class="n">align</span><span class="si">}</span><span class="s2">;&quot;</span>
+        <span class="k">if</span> <span class="n">color</span> <span class="ow">and</span> <span class="n">color</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">style_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;color: </span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2">;&quot;</span>
+        <span class="n">style_string</span> <span class="o">+=</span> <span class="n">extra_style</span>
+
+        <span class="n">properties_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">custom_properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">properties_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+
+        <span class="n">code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> style=&quot;</span><span class="si">{</span><span class="n">style_string</span><span class="si">}</span><span class="s2">&quot; class=&quot;</span><span class="si">{</span><span class="n">classes_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">properties_string</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&gt;&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">anchor</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">&#39; style=&#39;padding: 0px; margin: 0px;&#39;&gt;&lt;/div&gt;&quot;</span> <span class="o">+</span> <span class="n">code</span>
+        <span class="k">return</span> <span class="n">code</span></div>
+
+<div class="viewcode-block" id="CustomHTML.display_speaker"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_speaker">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">display_speaker</span><span class="p">(</span><span class="n">speaker_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates HTML text for a simple paragraph element with the innerText as speaker_id</span>
+
+<span class="sd">        :param str speaker_id: The text to be inserted in the element innerText/innerHTML</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;p class=&quot;a&quot;&gt;</span><span class="si">{</span><span class="n">speaker_id</span><span class="si">}</span><span class="s2">&lt;/p&gt;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">code</span></div>
+
+<div class="viewcode-block" id="CustomHTML.display_text"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_text">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">display_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates HTML text for a styled paragraph element with the innerText as text</span>
+
+<span class="sd">        :param str text: The text to be inserted into the paragraph innerText/innerHTML</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;p style=&quot;font-size: medium; font-family: sans-serif&quot;&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/p&gt;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">code</span></div>
+
+<div class="viewcode-block" id="CustomHTML.display_table"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_table">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">display_table</span><span class="p">(</span><span class="n">table_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">],</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates HTML table based on table_data which is a 2D list</span>
+<span class="sd">        Each list item is a set of columns. The first item is the header.</span>
+
+<span class="sd">        :param list[list] table_data: The data to fill the table in</span>
+<span class="sd">        :param str style: The CSS style tag to apply to the table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;table style=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">style</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table_data</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&lt;th&gt;&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&lt;td&gt;&quot;</span>
+            <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">column</span><span class="si">}{</span><span class="n">tag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;/&quot;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+            <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/table&gt;&quot;</span>
+
+        <span class="k">return</span> <span class="n">table</span></div>
+
+<div class="viewcode-block" id="CustomHTML.display_audio"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_audio">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">display_audio</span><span class="p">(</span><span class="n">audio_file_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;audio&quot;</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a HTML audio element with a specified id and special class,</span>
+<span class="sd">        this enables more advanced handling of the elements than st.audio()</span>
+
+<span class="sd">        :param str audio_file_url: The url to the audio file for the element</span>
+<span class="sd">        :param str Union[str, int]: The timestamp in the format HH:MM:SS to apply to the URL fragment, alternatively can be the number of seconds</span>
+<span class="sd">        :param str id: The id property of the audio element</span>
+<span class="sd">        :param list classes: list of css classes to apply to the class property of the element</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">classes_string</span> <span class="o">=</span> <span class="s2">&quot;stAudio customAudio&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+            <span class="n">classes_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">audio</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &lt;audio id=&quot;</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot; controls preload</span>
+<span class="s2">            src=&quot;</span><span class="si">{</span><span class="n">audio_file_url</span><span class="si">}{</span><span class="s2">&quot;#t=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="k">if</span> <span class="n">timestamp</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">timestamp</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">            class=&quot;</span><span class="si">{</span><span class="n">classes_string</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">            style=&quot;width: 100%;&quot;</span>
+<span class="s2">            oncanplaythrough=&quot;&quot;&gt;</span>
+<span class="s2">        &lt;/audio&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">audio</span></div>
+
+<div class="viewcode-block" id="CustomHTML.load_lottieurl"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.load_lottieurl">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load_lottieurl</span><span class="p">(</span><span class="n">lottie_url</span> <span class="o">=</span> <span class="s2">&quot;https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads and returns JSON from the lottie library</span>
+<span class="sd">        This is used for animations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">lottie_url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lottie_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_lottieurl</span><span class="p">()</span></div>
+
+<span class="n">icons</span> <span class="o">=</span> <span class="n">Icons</span><span class="p">()</span>
+<span class="n">custom_html</span> <span class="o">=</span> <span class="n">CustomHTML</span><span class="p">()</span>
+<span class="n">audio_extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PCM&quot;</span><span class="p">,</span> <span class="s2">&quot;WMA&quot;</span><span class="p">,</span> <span class="s2">&quot;MP4&quot;</span><span class="p">,</span> <span class="s2">&quot;M4A&quot;</span><span class="p">,</span> <span class="s2">&quot;WAV&quot;</span><span class="p">,</span> <span class="s2">&quot;AIFF&quot;</span><span class="p">,</span> <span class="s2">&quot;MP3&quot;</span><span class="p">,</span> <span class="s2">&quot;AAC&quot;</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+
+<div class="github-corner">
+<svg width="120" height="120" viewBox="0 0 250 250">
+  <a fill="transparent" href="https://github.com/blipk/streamlitextras" style="pointer-events:auto">
+    <path d="M0,0 L250,250 L250,0 Z"></path>
+  </a>
+  <g class="octocat">
+    <path fill="#343131" d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" ></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+      fill="#ffffff" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="#ffffff" class="octo-body"></path>
+    <text x="240px" y="-10px" class="octo-click-text" stroke="#ffffff" fill="#ffffff">CLICK</text>
+    <g class="octo-glasses" visibility="hidden">
+      <svg fill="#343131" width="640" height="480">
+       <defs>
+        <symbol id="glasses" viewBox="0 0 512 512">
+         <path d="m465.4,247c-2.2,-22 -12.4,-43 -28.9,-58.4c-17.1,-15.9 -39.3,-24.7 -62.7,-24.7c-41.5,0 -77.3,27.4 -88.5,67c-7,-7 -18.5,-11.7 -29.3,-11.7c-10.8,0 -22.3,4.7 -29.3,11.7c-11.2,-39.6 -47,-67 -88.5,-67c-23.3,0 -45.6,8.7 -62.7,24.6c-16.5,15.5 -26.7,36.5 -28.9,58.5l-14.6,0l0,18l14.6,0c2.2,22 12.4,43 28.9,58.4c17.1,15.9 39.3,24.7 62.7,24.7c50.8,0 92.1,-41.2 92.1,-92c0,-0.1 0,-0.1 0,-0.1l0,0c0,-9.9 11.5,-21.6 25.7,-21.6s25.7,11.7 25.7,21.6l0,0c0,0 0,0 0,0.1c0,50.8 41.3,92 92.1,92c23.3,0 45.6,-8.7 62.7,-24.7c16.5,-15.4 26.7,-36.5 28.9,-58.5l14.6,0l0,-18l-14.6,0l0,0.1z" />
+        </symbol>
+       </defs>
+       <g>
+          <use x="530" y="-70" xlink:href="#glasses" transform="rotate(45 100,75) matrix(0.185,0,0,0.185,0,0) " />
+       </g>
+      </svg>
+    </g>
+  </g>
+</svg>
+</div>
+
+<style>
+.github-corner {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  mix-blend-mode: darken;
+}
+.github-corner:hover .octocat{
+  transform-origin: center;
+  animation: octocat-grow 5s ease-in-out forwards;
+}
+@keyframes octocat-grow{
+  16%, 66%{
+    transform: scale(1.2);
+  }
+  33%{
+    transform: scale(1.1);
+  }
+  50%, 100%{
+    transform: scale(1.3);
+  }
+  83%{
+    transform: scale(1.4);
+  }
+}
+.octo-click-text {
+  font-weight: normal;
+  text-anchor: middle;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  stroke-width: 2px;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+.github-corner:hover .octo-click-text {
+  animation: octocat-text 5s linear forwards
+}
+@keyframes octocat-text {
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.github-corner:hover .octo-arm{
+  animation: octocat-wave 400ms linear infinite;
+}
+@keyframes octocat-wave {
+  0%,50%,100% {
+    transform: rotate(0)
+  }
+  25% {
+    transform: rotate(-25deg)
+  }
+  75% {
+    transform: rotate(10deg)
+  }
+}
+.github-corner .octo-glasses{
+  visibility: visible;
+  opacity: 0;
+  transition: opacity 5s;
+}
+.github-corner:hover .octo-glasses{
+  opacity: 1;
+  animation: octocat-glass-wiggle 400ms linear forwards;
+  animation-delay: 4s;
+}
+@keyframes octocat-glass-wiggle {
+  0%, 50%, 100% {
+    transform: translateX(0px) translateY(0px);
+  }
+  25%, 75% {
+    transform: translateX(3px) translateY(-3px);
+  }
+}
+</style>
+
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
