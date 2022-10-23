@@ -50,7 +50,7 @@ setup(
     ],
     install_requires=[
         "streamlit >= 1.13.0",
-        "streamlit-javascript == 1.1.5",
+        "streamlit-javascript == 0.1.5",
     ],
     extras_require={
         "dev": [
