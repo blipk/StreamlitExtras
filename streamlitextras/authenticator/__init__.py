@@ -511,14 +511,14 @@ class Authenticator:
 
         return False
 
-    def login(self, form_name: str, form_location: Union[DeltaGenerator, ModuleType] = st) -> Tuple[Optional[UserInherited], Optional[LoginError]]:
+    def login(self, form_name: str, form_location: Union[DeltaGenerator, ModuleType] = st) -> Tuple[Optional[UserInherited], dict, Optional[LoginError]]:
         """
         Creates a login widget.
 
         :param str form_name: The rendered name of the login form.
         :param Union[DeltaGenerator, ModuleType] form_location: The streamlit container to place the form. Either global `st` or a st container object such as st.sidebar.
 
-        :returns: 2 element tuple containing the a User class if one was created, and/or any errors
+        :returns: 3 element tuple containing the a User class if one was created, response from the firebase calls, and/or any errors
         """
         if not isinstance(form_location, DeltaGenerator) and form_location != st:
             raise ValueError("Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.")
