@@ -6,4 +6,4 @@ cd docs
 sphinx-apidoc -o ./api ../streamlitextras
 make clean && make html
 cd ..
-python3 -m build && python3 -m twine upload --repository testpypi dist/*
+python3 -m build && python3 -m twine upload dist/*
