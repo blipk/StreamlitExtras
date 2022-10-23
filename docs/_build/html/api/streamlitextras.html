@@ -413,6 +413,23 @@ Defaults to scrolling to the top if no arguments are passed</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="streamlitextras.webutils.bytes_to_data_uri">
+<span class="sig-name descname"><span class="pre">bytes_to_data_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byteslike_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">BytesIO</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">UploadedFile</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><span class="pre">bytes</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mime_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/streamlitextras/webutils.html#bytes_to_data_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.webutils.bytes_to_data_uri" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a data URI from a bytesIO object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>byteslike_object</strong> (<em>Union</em><em>[</em><em>BytesIO</em><em>, </em><em>UploadedFile</em><em>]</em>) -- BytesIO or bytes or any class that inherits them</p></li>
+<li><p><strong>mime_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) -- The mimetype to set on the data URI</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The data URI as a string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="streamlitextras.webutils.trigger_download">
 <span class="sig-name descname"><span class="pre">trigger_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">download_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/webutils.html#trigger_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.webutils.trigger_download" title="Permalink to this definition"></a></dt>
 <dd><p>Uses javascript and a data URI on a link element to trigger a download for the user</p>

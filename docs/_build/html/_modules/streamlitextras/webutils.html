@@ -71,9 +71,12 @@
 <span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">html</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">streamlit_javascript</span> <span class="kn">import</span> <span class="n">st_javascript</span>
+<span class="kn">from</span> <span class="nn">streamlit.runtime.uploaded_file_manager</span> <span class="kn">import</span> <span class="n">UploadedFile</span>
 
 <div class="viewcode-block" id="stxs_javascript"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.stxs_javascript">[docs]</a><span class="k">def</span> <span class="nf">stxs_javascript</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -131,6 +134,24 @@
 <span class="sd">    :param int y: the y coordinate to scroll to</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;parent.document.querySelector(`section[class*=&quot;main&quot;`).scroll(</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;&quot;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="bytes_to_data_uri"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.bytes_to_data_uri">[docs]</a><span class="k">def</span> <span class="nf">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a data URI from a bytesIO object</span>
+
+<span class="sd">    :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them</span>
+<span class="sd">    :param str mime_type: The mimetype to set on the data URI</span>
+<span class="sd">    :returns: The data URI as a string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">byteslike_object</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">byteslike_object</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mime_type</span><span class="p">:</span>
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="s2">&quot;application/octet-stream&quot;</span>
+    <span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;data:</span><span class="si">{</span><span class="n">mime_type</span><span class="si">}</span><span class="s2">;base64,</span><span class="si">{</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">uri</span></div>
 
 <div class="viewcode-block" id="trigger_download"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.trigger_download">[docs]</a><span class="k">def</span> <span class="nf">trigger_download</span><span class="p">(</span><span class="n">download_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

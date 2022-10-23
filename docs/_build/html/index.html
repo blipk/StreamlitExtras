@@ -85,37 +85,6 @@ versions compatible with older Python3 if people show interest.</p>
 </section>
 <section id="the-modules">
 <h2>The modules<a class="headerlink" href="#the-modules" title="Permalink to this heading"></a></h2>
-<section id="cookie-manager">
-<h3>Cookie Manager<a class="headerlink" href="#cookie-manager" title="Permalink to this heading"></a></h3>
-<p>Component function to manage in-browser cookies from streamlit.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
-<span class="kn">from</span> <span class="nn">streamlitextras.cookiemanager</span> <span class="kn">import</span> <span class="n">get_cookie_manager</span>
-
-<span class="n">cookie_manager</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">cookie_manager</span>
-    <span class="n">cookie_manager</span> <span class="o">=</span> <span class="n">get_cookie_manager</span><span class="p">()</span>
-
-    <span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m a cookie!&quot;</span><span class="p">)</span>
-    <span class="n">my_cookie_value</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">my_cookie_value</span><span class="p">)</span> <span class="c1"># &quot;I&#39;m a cookie&quot;</span>
-
-    <span class="n">my_cookies</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">my_cookies</span><span class="p">)</span> <span class="c1"># {&quot;my_cookie_name&quot;: &quot;I&#39;m a cookie!&quot;}</span>
-
-    <span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
-    <span class="n">my_cookie_value</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">my_cookie_value</span><span class="p">)</span> <span class="c1"># None</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>See the <a class="reference external" href="streamlitextras/cookiemanager">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api.html">API
-docs</a> for
-more details.</p>
-</section>
 <section id="router">
 <h3>Router<a class="headerlink" href="#router" title="Permalink to this heading"></a></h3>
 <p>Page router with various features.</p>
@@ -155,6 +124,37 @@ more details.</p>
 </pre></div>
 </div>
 <p>See the <a class="reference external" href="streamlitextras/router">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api.html">API
+docs</a> for
+more details.</p>
+</section>
+<section id="cookie-manager">
+<h3>Cookie Manager<a class="headerlink" href="#cookie-manager" title="Permalink to this heading"></a></h3>
+<p>Component function to manage in-browser cookies from streamlit.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">from</span> <span class="nn">streamlitextras.cookiemanager</span> <span class="kn">import</span> <span class="n">get_cookie_manager</span>
+
+<span class="n">cookie_manager</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">cookie_manager</span>
+    <span class="n">cookie_manager</span> <span class="o">=</span> <span class="n">get_cookie_manager</span><span class="p">()</span>
+
+    <span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m a cookie!&quot;</span><span class="p">)</span>
+    <span class="n">my_cookie_value</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">my_cookie_value</span><span class="p">)</span> <span class="c1"># &quot;I&#39;m a cookie&quot;</span>
+
+    <span class="n">my_cookies</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">my_cookies</span><span class="p">)</span> <span class="c1"># {&quot;my_cookie_name&quot;: &quot;I&#39;m a cookie!&quot;}</span>
+
+    <span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
+    <span class="n">my_cookie_value</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">my_cookie_value</span><span class="p">)</span> <span class="c1"># None</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="streamlitextras/cookiemanager">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api.html">API
 docs</a> for
 more details.</p>
 </section>
@@ -255,30 +255,97 @@ more details.</p>
 docs</a> for
 more details.</p>
 </section>
-<section id="misc">
-<h3>Misc<a class="headerlink" href="#misc" title="Permalink to this heading"></a></h3>
+<section id="other-helpers">
+<h3>Other helpers<a class="headerlink" href="#other-helpers" title="Permalink to this heading"></a></h3>
 <p>See the <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api.html">API
 docs</a> for
 a full list of functions and their usage in these files.</p>
-<section id="webutils-py">
-<h4>webutils.py<a class="headerlink" href="#webutils-py" title="Permalink to this heading"></a></h4>
+<section id="streamlitextras-webutils">
+<h4>streamlitextras.webutils<a class="headerlink" href="#streamlitextras-webutils" title="Permalink to this heading"></a></h4>
 <p>Some utility functions to run javascript, wrappers around various
 javascript routines, and some other browser related formatting
 utilities.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">from</span> <span class="nn">streamlitextras.webutils</span> <span class="kn">import</span> <span class="n">stxs_javascript</span><span class="p">,</span> <span class="n">get_user_timezone</span><span class="p">,</span> \
+                                    <span class="n">bytes_to_data_uri</span><span class="p">,</span> <span class="n">trigger_download</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Returns tz database name can be used with pytz and datetime</span>
+    <span class="n">timezone</span> <span class="o">=</span> <span class="n">get_user_timezone</span><span class="p">()</span>
+    <span class="n">continent</span><span class="p">,</span> <span class="n">city</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;alert(&quot;Hello person from </span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">! Welcome to my streamlit app.&quot;);&quot;&quot;&quot;</span>
+
+    <span class="n">uploaded_file</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Upload a file&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">uploaded_file</span><span class="p">:</span>
+        <span class="n">data_uri</span> <span class="o">=</span> <span class="n">bytes_to_data_uri</span><span class="p">(</span><span class="n">uploaded_file</span><span class="p">)</span>
+        <span class="c1"># Browser will prompt to save the file</span>
+        <span class="n">trigger_download</span><span class="p">(</span><span class="n">data_uri</span><span class="p">,</span> <span class="s2">&quot;The file you just uploaded.renamed&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="streamlitextras/webutils.py">source code</a>.</p>
 </section>
-<section id="helpers-py">
-<h4>helpers.py<a class="headerlink" href="#helpers-py" title="Permalink to this heading"></a></h4>
+<section id="streamlitextras-helpers">
+<h4>streamlitextras.helpers<a class="headerlink" href="#streamlitextras-helpers" title="Permalink to this heading"></a></h4>
 <p>Class implementation that streamlines creating basic HTML elements with
 st.markdown, and some other useful functions.</p>
+<p>See the <a class="reference external" href="streamlitextras/helpers.py">source code</a>.</p>
 </section>
-<section id="storageservice-py">
-<h4>storageservice.py<a class="headerlink" href="#storageservice-py" title="Permalink to this heading"></a></h4>
+<section id="streamlitextras-storageservice">
+<h4>streamlitextras.storageservice<a class="headerlink" href="#streamlitextras-storageservice" title="Permalink to this heading"></a></h4>
 <p>Helper to interact with Google Cloud Storage with a service worker
 account.</p>
+<p>It has some basic wrapper functions to use the service account to manage
+buckets and blobs, as well as computing hashes from Python bytes objects
+that match gcloud blobs.</p>
+<p>See the <a class="reference external" href="streamlitextras/storageservice.py">source code</a> and the
+<a class="reference external" href="https://googleapis.dev/python/storage/latest/">google python api
+reference</a> for more.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlitextras.storageservice</span> <span class="k">as</span> <span class="nn">storageservice</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;my.file&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">computed_md5_hash</span> <span class="o">=</span> <span class="n">storageservice</span><span class="o">.</span><span class="n">compute_bytes_md5hash</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">buckets</span> <span class="o">=</span> <span class="n">storageservice</span><span class="o">.</span><span class="n">get_buckets</span><span class="p">()</span> <span class="c1"># Returns an iterable</span>
+<span class="n">list_buckets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="n">buckets</span><span class="p">:</span>
+    <span class="n">list_buckets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buckets</span><span class="p">)</span>
+<span class="n">buckets</span> <span class="o">=</span> <span class="n">list_buckets</span>
+
+<span class="n">blobs</span> <span class="o">=</span> <span class="n">get_blobs</span><span class="p">(</span><span class="n">buckets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1"># Returns an iterable</span>
+<span class="n">list_blobs</span> <span class="o">=</span> <span class="n">p</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+    <span class="n">list_blobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
+<span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span>
+
+<span class="n">my_file_blob</span> <span class="o">=</span> <span class="n">blobs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># my.file</span>
+
+<span class="k">assert</span> <span class="n">my_file_blob</span><span class="o">.</span><span class="n">md5_hash</span> <span class="o">==</span> <span class="n">computed_md5_hash</span> <span class="c1"># True</span>
+</pre></div>
+</div>
+<p>Set up a service worker on your google cloud project or firebase project
+and add the details from its .json key to `.streamlit/secrets.toml</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[gcp_service_account]</span><span class="w"></span>
+<span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">project_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">private_key_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">private_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">client_email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">client_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">auth_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">token_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">auth_provider_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="n">client_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+</pre></div>
+</div>
 </section>
-<section id="utils-py">
-<h4>utils.py<a class="headerlink" href="#utils-py" title="Permalink to this heading"></a></h4>
+<section id="streamlitextras-utils">
+<h4>streamlitextras.utils<a class="headerlink" href="#streamlitextras-utils" title="Permalink to this heading"></a></h4>
 <p>Some utility functions for Python development.</p>
+<p>See the <a class="reference external" href="streamlitextras/utils.py">source code</a>.</p>
 </section>
 </section>
 </section>

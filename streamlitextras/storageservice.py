@@ -35,34 +35,35 @@ def compute_bytes_md5hash(data: bytes):
     sig = encoded_bytes.rstrip(b'\n').decode("UTF-8")
     return sig
 
-def print_buckets(project: str = default_gproject,
+def get_buckets(project: str = default_gproject,
                     prefix: Optional[str] = None,
                     page_size: int = 500,
                     timeout: int = 8,
-                    retry: retry.Retry = retry_custom) -> Iterable[storage.Bucket]:
+                    retry: retry.Retry = retry_custom,
+                    print_names: bool = False) -> Iterable[storage.Bucket]:
     buckets = client.list_buckets(project=project, prefix=prefix, page_size=page_size, timeout=timeout, retry=retry)
-    for bucket in buckets:
-        print(bucket)
+    if print_names:
+        for bucket in buckets:
+            print(bucket)
     return buckets
 
 def get_blobs(bucket_or_name: Union[str, storage.Bucket] = default_bucket,
                 prefix: Optional[str] = None,
                 page_size: int = 500,
-                only_print: bool = False,
                 timeout: int = 8,
-                retry: retry.Retry = retry_custom) -> Optional[Iterable[storage.Blob]]:
+                retry: retry.Retry = retry_custom,
+                print_names: bool = False,) -> Optional[Iterable[storage.Blob]]:
     """
     Prints a list of all the blobs in the specified storage bucket,
     and returns them as an iterable
     """
     blobs = client.list_blobs(bucket_or_name, prefix=prefix, page_size=page_size, timeout=timeout, retry=retry)
     bucket_name = bucket_or_name if type(bucket_or_name) == str else bucket_or_name.name
-    if only_print:
+    if print_names:
         for blob in blobs:
             print(blob)
-        return None
-    else:
-        return blobs
+
+    return blobs
 
 def get_bucket(bucket_name: str, timeout: int = 8, retry: retry.Retry = retry_custom) -> Optional[storage.Bucket]:
     bucket = client.lookup_bucket(bucket_name, timeout=timeout, retry=retry)

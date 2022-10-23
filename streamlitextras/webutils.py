@@ -1,9 +1,12 @@
 import time
 import html
 import uuid
+import base64
 import streamlit as st
-from typing import Optional
+from io import BytesIO
+from typing import Union, Optional
 from streamlit_javascript import st_javascript
+from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 def stxs_javascript(source: str) -> None:
     """
@@ -61,6 +64,24 @@ def scroll_page(x: int = 0, y: int = 0):
     :param int y: the y coordinate to scroll to
     """
     stxs_javascript(f"""parent.document.querySelector(`section[class*="main"`).scroll({x}, {y})""")
+
+def bytes_to_data_uri(byteslike_object: Union[BytesIO, UploadedFile, bytes], mime_type: Optional[str] = None) -> str:
+    """
+    Creates a data URI from a bytesIO object
+
+    :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them
+    :param str mime_type: The mimetype to set on the data URI
+    :returns: The data URI as a string
+    """
+    data = None
+    try:
+        data = byteslike_object.getvalue()
+    except:
+        data = byteslike_object
+    if not mime_type:
+        mime_type = "application/octet-stream"
+    uri = f"data:{mime_type};base64,{base64.b64encode(data).decode()}"
+    return uri
 
 def trigger_download(download_uri: str, filename: str):
     """
