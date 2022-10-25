@@ -5,8 +5,12 @@ from . import reruntrigger
 from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx
 from typing import Callable
 
-script_dir = os.path.dirname(os.path.realpath(__file__))
+# script_dir = os.path.dirname(os.path.realpath(__file__))
+script_dir = os.getcwd()
 trigger_file_path = os.path.join(script_dir, "reruntrigger.py")
+if not os.path.exists(trigger_file_path):
+    with open(trigger_file_path, "w") as f:
+        f.write(f"timestamp = {time.time()}")
 
 lock = threading.Lock()
 
@@ -32,7 +36,7 @@ def trigger_rerun(last_write_margin: int = 1, delay: int = 0):
     with lock:
         modified_time_seconds = last_trigger_time()
         if last_write_margin == 0 or modified_time_seconds > last_write_margin:
-            print("Writing trigger", flush=True)
+            print("Writing trigger", trigger_file_path, flush=True)
             with open(trigger_file_path, "w") as f:
                 f.write(f"timestamp = {time.time()}")
     # https://github.com/streamlit/streamlit/issues/1792

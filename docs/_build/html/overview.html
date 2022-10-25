@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/js/copybutton.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -227,9 +228,11 @@ for more details.</p>
 easy.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
-<span class="kn">from</span> <span class="nn">streamlitextras.threader</span> <span class="kn">import</span> <span class="n">lock</span><span class="p">,</span> <span class="n">trigger_rerun</span><span class="p">,</span> <span class="n">streamlit_thread</span><span class="p">,</span> <span class="n">get_thread</span><span class="p">,</span> <span class="n">last_trigger_time</span>
+<span class="kn">import</span> <span class="nn">reruntrigger</span>
+<span class="kn">from</span> <span class="nn">streamlitextras.threader</span> <span class="kn">import</span> <span class="n">lock</span><span class="p">,</span> <span class="n">trigger_rerun</span><span class="p">,</span> \
+                                     <span class="n">streamlit_thread</span><span class="p">,</span> <span class="n">get_thread</span><span class="p">,</span> \
+                                     <span class="n">last_trigger_time</span>
 
-<span class="n">router</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">thread_name</span> <span class="o">=</span> <span class="n">streamlit_thread</span><span class="p">(</span><span class="n">my_threaded_function</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,))</span>
     <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;This should be here before my_threaded_function() is done!&quot;</span><span class="p">)</span>

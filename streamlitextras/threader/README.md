@@ -4,14 +4,17 @@ Utility functions to make running threading.Threads easy in streamlit.
 
 #### Basic usage
 
-This requires `runOnSave = true` in `./streamlit/config.toml`
+This requires `runOnSave = true` in `./streamlit/config.toml`,
+and you will need to create an empty file named `reruntrigger.py` in the root of your project.
 
 ```Python
 import time
 import streamlit as st
-from streamlitextras.threader import lock, trigger_rerun, streamlit_thread, get_thread, last_trigger_time
+import reruntrigger
+from streamlitextras.threader import lock, trigger_rerun, \
+                                     streamlit_thread, get_thread, \
+                                     last_trigger_time
 
-router = None
 def main():
     thread_name = streamlit_thread(my_threaded_function, (5,))
     st.write("This should be here before my_threaded_function() is done!")
