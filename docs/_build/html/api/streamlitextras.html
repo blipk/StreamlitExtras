@@ -217,6 +217,11 @@
 <li class="toctree-l2"><a class="reference internal" href="streamlitextras.threader.html#streamlitextras.threader.thread_wrapper"><code class="docutils literal notranslate"><span class="pre">thread_wrapper()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlitextras.threader.html#streamlitextras.threader.streamlit_thread"><code class="docutils literal notranslate"><span class="pre">streamlit_thread()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlitextras.threader.html#streamlitextras.threader.get_thread"><code class="docutils literal notranslate"><span class="pre">get_thread()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlitextras.threader.html#streamlitextras.threader.PropagatingThread"><code class="docutils literal notranslate"><span class="pre">PropagatingThread</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="streamlitextras.threader.html#streamlitextras.threader.PropagatingThread.run"><code class="docutils literal notranslate"><span class="pre">PropagatingThread.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamlitextras.threader.html#streamlitextras.threader.PropagatingThread.join"><code class="docutils literal notranslate"><span class="pre">PropagatingThread.join()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="streamlitextras.threader.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlitextras.threader.html#module-streamlitextras.threader.reruntrigger">streamlitextras.threader.reruntrigger module</a></li>
 </ul>
@@ -449,9 +454,6 @@ Makes nice printing for __repr__ implementations</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ignore_keys</strong> -- If provided, these keys will be not be included in the attribute string</p></li>
 <li><p><strong>only_keys</strong> -- If provided, these keys will be the only ones included in the attribute string</p></li>
-<li><p><strong>pass_keys</strong> -- If True ignore_keys and only_keys will be passed to <a href="#id1"><span class="problematic" id="id2">repr_</span></a> calls on the objects children too</p></li>
-<li><p><strong>pass_keys_depth</strong> -- how deep to pass ignore_keys and only_keys into sub-objects</p></li>
-<li><p><strong>_has_inspected</strong> -- used for avoiding recursion</p></li>
 </ul>
 </dd>
 </dl>

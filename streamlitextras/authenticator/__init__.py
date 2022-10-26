@@ -368,6 +368,7 @@ class Authenticator:
         if valid_since_seconds > self.session_expiry_seconds:
             error = AuthException(f"old validSince {valid_since_datetime.astimezone(pytz.timezone(self.user_tz))}")
             log.info(error)
+            # return (self._revoke_auth(error), error, token_decoded)
         if last_login_age_seconds > self.session_expiry_seconds:
             error = AuthException(f"lastLoginAt is too old ({last_login_age_seconds}) ({last_login_datetime})")
             log.info(error)

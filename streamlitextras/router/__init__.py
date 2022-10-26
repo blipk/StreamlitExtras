@@ -126,7 +126,7 @@ class Router:
             self.preroute()
 
         log.info(f"Routing to {page_name} {redirect}")
-        if redirect:
+        if redirect is True:
             st.experimental_set_query_params(**{page_name: "~"})
             st.experimental_rerun()
 
@@ -161,7 +161,7 @@ class Router:
 
         log.info(f"Setting query params {query_params}")
         st.experimental_set_query_params(**query_params)
-        if rerun_st == True:
+        if rerun_st is True:
             log.debug("rerun_st is True")
             time.sleep(0.1)
             st.experimental_rerun()

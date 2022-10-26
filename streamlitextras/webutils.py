@@ -24,9 +24,12 @@ def stxs_javascript(source: str) -> None:
             var script = document.createElement('script'); \
             script.type = 'text/javascript'; \
             script.text = {html.escape(repr(source))}; \
-            var div = window.parent.document.getElementById('{div_id}'); \
-            div.appendChild(script); \
-            div.parentElement.parentElement.parentElement.style.display = 'none'; \
+            var thisDiv = window.parent.document.getElementById('{div_id}'); \
+            console.log(thisDiv); \
+            var rootDiv = window.parent.parent.parent.parent.document.getElementById('root'); \
+            console.log(rootDiv); \
+            rootDiv.appendChild(script); \
+            thisDiv.parentElement.parentElement.parentElement.style.display = 'none'; \
         "/>
     </div>
     """, unsafe_allow_html=True)

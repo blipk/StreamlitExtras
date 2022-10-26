@@ -7,4 +7,4 @@ sed -i '1cAPI Reference' ./api/streamlitextras.rst
 make clean && make html
 cd ..
 python3 -m build
-# python3 -m twine upload dist/*
+python3 -m twine upload dist/*

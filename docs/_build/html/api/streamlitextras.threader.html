@@ -55,6 +55,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.threader.thread_wrapper"><code class="docutils literal notranslate"><span class="pre">thread_wrapper()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.threader.streamlit_thread"><code class="docutils literal notranslate"><span class="pre">streamlit_thread()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.threader.get_thread"><code class="docutils literal notranslate"><span class="pre">get_thread()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.threader.PropagatingThread"><code class="docutils literal notranslate"><span class="pre">PropagatingThread</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-streamlitextras.threader.reruntrigger">streamlitextras.threader.reruntrigger module</a></li>
 </ul>
@@ -153,6 +154,43 @@ For parameters see streamlit_thread() and trigger_rerun()</p>
 <dd class="field-odd"><p><strong>thread_name</strong> -- The name attribute of the thread to look for, or None if it's not found.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="streamlitextras.threader.PropagatingThread">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PropagatingThread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daemon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/threader.html#PropagatingThread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.threader.PropagatingThread" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Thread</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.threader.PropagatingThread.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/threader.html#PropagatingThread.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.threader.PropagatingThread.run" title="Permalink to this definition"></a></dt>
+<dd><p>Method representing the thread's activity.</p>
+<p>You may override this method in a subclass. The standard run() method
+invokes the callable object passed to the object's constructor as the
+target argument, if any, with sequential and keyword arguments taken
+from the args and kwargs arguments, respectively.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamlitextras.threader.PropagatingThread.join">
+<span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/threader.html#PropagatingThread.join"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.threader.PropagatingThread.join" title="Permalink to this definition"></a></dt>
+<dd><p>Wait until the thread terminates.</p>
+<p>This blocks the calling thread until the thread whose join() method is
+called terminates -- either normally or through an unhandled exception
+or until the optional timeout occurs.</p>
+<p>When the timeout argument is present and not None, it should be a
+floating point number specifying a timeout for the operation in seconds
+(or fractions thereof). As join() always returns None, you must call
+is_alive() after join() to decide whether a timeout happened -- if the
+thread is still alive, the join() call timed out.</p>
+<p>When the timeout argument is not present or None, the operation will
+block until the thread terminates.</p>
+<p>A thread can be join()ed many times.</p>
+<p>join() raises a RuntimeError if an attempt is made to join the current
+thread as that would cause a deadlock. It is also an error to join() a
+thread before it has been started and attempts to do so raises the same
+exception.</p>
+</dd></dl>
+
 </dd></dl>
 
 <section id="submodules">

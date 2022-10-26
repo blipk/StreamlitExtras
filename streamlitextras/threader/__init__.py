@@ -2,7 +2,7 @@ import os
 import time
 import threading
 from . import reruntrigger
-from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx
+from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx, RerunException
 from typing import Callable
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -76,7 +76,7 @@ def streamlit_thread(thread_func: Callable,
     """
     # print("Thread entry hashseed:", os.environ.get("PYTHONHASHSEED", False))
     args = (thread_func, rerun_st, last_write_margin, delay, *args)
-    thread = threading.Thread(target=thread_wrapper, args=args, kwargs=kwargs)
+    thread = PropagatingThread(target=thread_wrapper, args=args, kwargs=kwargs)
     add_script_run_ctx(thread, get_script_run_ctx())
     time.sleep(0.1)
     thread.start()
@@ -96,3 +96,21 @@ def get_thread(thread_name):
             target_thread = thread
             break
     return target_thread
+
+class PropagatingThread(threading.Thread):
+    def run(self):
+        self.exc = None
+        try:
+            self.ret = self._target(*self._args, **self._kwargs)
+        except RerunException as e:
+            self.exc = e
+        except BaseException as e:
+            self.exc = e
+            raise
+
+    def join(self, timeout=None):
+        super(PropagatingThread, self).join(timeout)
+        if self.exc:
+            raise self.exc
+            # raise RuntimeError('Exception in thread') from self.exc
+        return self.ret

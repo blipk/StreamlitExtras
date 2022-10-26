@@ -11,9 +11,6 @@ def repr_(cls, ignore_keys: Optional[list[str]] = None, only_keys: Optional[list
 
     :param ignore_keys: If provided, these keys will be not be included in the attribute string
     :param only_keys: If provided, these keys will be the only ones included in the attribute string
-    :param pass_keys: If True ignore_keys and only_keys will be passed to repr_ calls on the objects children too
-    :param pass_keys_depth: how deep to pass ignore_keys and only_keys into sub-objects
-    :param _has_inspected: used for avoiding recursion
     """
     if not hasattr(cls, "__dict__"):
         return repr(cls)
