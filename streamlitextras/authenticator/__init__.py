@@ -199,12 +199,12 @@ class Authenticator:
         current_user = None
         if self.last_user:
             current_user = self.last_user
-        elif st.session_state[self.session_name]:
+        elif self.session_name in st.session_state and st.session_state[self.session_name]:
             current_user = st.session_state[self.session_name]
-        else:
-            status, error, token_decoded = self._check_cookie()
-            if status == True:
-                return self.current_user
+        # else:
+        #     status, error, token_decoded = self._check_cookie()
+        #     if status == True:
+        #         return self.current_user
 
         self.last_user = current_user
         return current_user

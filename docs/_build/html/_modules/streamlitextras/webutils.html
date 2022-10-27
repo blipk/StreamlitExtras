@@ -96,9 +96,7 @@
 <span class="s2">            script.type = &#39;text/javascript&#39;; </span><span class="se">\</span>
 <span class="s2">            script.text = </span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="si">}</span><span class="s2">; </span><span class="se">\</span>
 <span class="s2">            var thisDiv = window.parent.document.getElementById(&#39;</span><span class="si">{</span><span class="n">div_id</span><span class="si">}</span><span class="s2">&#39;); </span><span class="se">\</span>
-<span class="s2">            console.log(thisDiv); </span><span class="se">\</span>
 <span class="s2">            var rootDiv = window.parent.parent.parent.parent.document.getElementById(&#39;root&#39;); </span><span class="se">\</span>
-<span class="s2">            console.log(rootDiv); </span><span class="se">\</span>
 <span class="s2">            rootDiv.appendChild(script); </span><span class="se">\</span>
 <span class="s2">            thisDiv.parentElement.parentElement.parentElement.style.display = &#39;none&#39;; </span><span class="se">\</span>
 <span class="s2">        &quot;/&gt;</span>

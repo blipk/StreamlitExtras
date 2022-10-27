@@ -25,9 +25,7 @@ def stxs_javascript(source: str) -> None:
             script.type = 'text/javascript'; \
             script.text = {html.escape(repr(source))}; \
             var thisDiv = window.parent.document.getElementById('{div_id}'); \
-            console.log(thisDiv); \
             var rootDiv = window.parent.parent.parent.parent.document.getElementById('root'); \
-            console.log(rootDiv); \
             rootDiv.appendChild(script); \
             thisDiv.parentElement.parentElement.parentElement.style.display = 'none'; \
         "/>
