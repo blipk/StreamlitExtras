@@ -284,14 +284,19 @@ class Authenticator:
         else:
             return service_auth
 
-    def _revoke_auth(self, error: Optional[AuthException] = None) -> bool:
+    def _revoke_auth(self, error: Optional[AuthException] = None, disabled: bool = False) -> bool:
         """
         Deletes the auth cookie and revokes the firebase token it contains
 
         :param Optional[AuthException] error: Optional associated error message for the revoke
+        :param bool disabled: Optional flag to block execution of this routine. Default is False.
 
         :returns bool: Always returns False unless an unhandled error is raised
         """
+        if disabled:
+            log.warning("Authenticator._revoke_auth() disabled")
+            return
+
         msg = error.message if error else ""
         error_type = error.firebase_error if error else ""
         user = self.current_user
@@ -494,12 +499,13 @@ class Authenticator:
         """
         self.current_form = form_name
 
-    def logout(self, button_name: str, button_location: Union[DeltaGenerator, ModuleType] = st.sidebar) -> bool:
+    def logout(self, button_name: str, button_location: Union[DeltaGenerator, ModuleType] = st.sidebar, disabled: bool = False) -> bool:
         """
         Creates a logout button.
 
         :param str button_name: The rendered name of the logout button.
         :param Union[DeltaGenerator, ModuleType] button_location: The streamlit container to place the button. Either global `st` or a st container object such as st.sidebar.
+        :param bool disabled: Passed to the streamlit button disabled kwarg, to optional disable the button in some circumstances. Default is False.
 
         :returns bool: Returns True when clicked
         """
@@ -507,7 +513,7 @@ class Authenticator:
         if not isinstance(button_location, DeltaGenerator) and button_location != st:
             raise ValueError("Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.")
 
-        if button_location.button(button_name, on_click=self._revoke_auth, args=(AuthException("Logout requested"),)):
+        if button_location.button(button_name, disabled=disabled, on_click=self._revoke_auth, args=(AuthException("Logout requested"), disabled,)):
             return True
 
         return False

@@ -355,14 +355,19 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">service_auth</span>
 
-    <span class="k">def</span> <span class="nf">_revoke_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_revoke_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes the auth cookie and revokes the firebase token it contains</span>
 
 <span class="sd">        :param Optional[AuthException] error: Optional associated error message for the revoke</span>
+<span class="sd">        :param bool disabled: Optional flag to block execution of this routine. Default is False.</span>
 
 <span class="sd">        :returns bool: Always returns False unless an unhandled error is raised</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">disabled</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Authenticator._revoke_auth() disabled&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
         <span class="n">msg</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">message</span> <span class="k">if</span> <span class="n">error</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
         <span class="n">error_type</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">firebase_error</span> <span class="k">if</span> <span class="n">error</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
         <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
@@ -565,12 +570,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_form</span> <span class="o">=</span> <span class="n">form_name</span></div>
 
-<div class="viewcode-block" id="Authenticator.logout"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.logout">[docs]</a>    <span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">button_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Authenticator.logout"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.logout">[docs]</a>    <span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">button_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a logout button.</span>
 
 <span class="sd">        :param str button_name: The rendered name of the logout button.</span>
 <span class="sd">        :param Union[DeltaGenerator, ModuleType] button_location: The streamlit container to place the button. Either global `st` or a st container object such as st.sidebar.</span>
+<span class="sd">        :param bool disabled: Passed to the streamlit button disabled kwarg, to optional disable the button in some circumstances. Default is False.</span>
 
 <span class="sd">        :returns bool: Returns True when clicked</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -578,7 +584,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">button_location</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">button_location</span> <span class="o">!=</span> <span class="n">st</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">button_location</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">button_name</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Logout requested&quot;</span><span class="p">),)):</span>
+        <span class="k">if</span> <span class="n">button_location</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">button_name</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="n">disabled</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Logout requested&quot;</span><span class="p">),</span> <span class="n">disabled</span><span class="p">,)):</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="kc">False</span></div>

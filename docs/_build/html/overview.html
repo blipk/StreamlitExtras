@@ -160,6 +160,7 @@ for more details.</p>
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">cookie_manager</span>
     <span class="n">cookie_manager</span> <span class="o">=</span> <span class="n">get_cookie_manager</span><span class="p">()</span>
+    <span class="n">cookie_manager</span><span class="o">.</span><span class="n">delayed_init</span><span class="p">()</span> <span class="c1"># Makes sure CookieManager stays in st.session_state</span>
 
     <span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m a cookie!&quot;</span><span class="p">)</span>
     <span class="n">my_cookie_value</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
