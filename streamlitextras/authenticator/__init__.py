@@ -2,7 +2,7 @@ import jwt
 import pytz
 import dateutil.parser
 from types import ModuleType
-from typing import Union, Optional, Tuple, TypeVar, Type
+from typing import Union, Optional, Tuple, TypeVar, Type, Callable
 from datetime import datetime, timedelta
 
 import streamlit as st
@@ -23,10 +23,10 @@ from firebase_admin import auth as service_auth
 from streamlitextras.helpers import custom_html
 
 config = st.secrets["firebase"]
-firebase = pyrebase.initialize_app(config)
-auth = firebase.auth()
-db = firebase.database()
-storage = firebase.storage()
+pyrebase = pyrebase.initialize_app(config)
+auth = pyrebase.auth()
+db = pyrebase.database()
+storage = pyrebase.storage()
 
 # PyPI doesn't contain the latest git commits for pyrebase4
 def update_profile(id_token, display_name = None, photo_url=None, delete_attribute = None, *args):
@@ -227,6 +227,8 @@ class Authenticator:
         self.last_user = user
         token_expiry_time = expiry_date.astimezone(tz=pytz.UTC)
         cookie_expiry_time = expiry_date.astimezone(tz=pytz.timezone(self.user_tz))
+        # token_expiry_time_delta = cookie_expiry_time.timestamp() - datetime.now(pytz.UTC).timestamp()
+        # session_cookie = service_auth.create_session_cookie(user.idToken, expires_in=token_expiry_time_delta)
         token = self._token_encode(user, token_expiry_time)
         st.session_state["authentication_token"] = token
         st.session_state[self.session_name] = user
@@ -354,6 +356,36 @@ class Authenticator:
             error = AuthException("Account with unverified email shouldn't have cookie")
             return (self._revoke_auth(error), error, token_decoded)
 
+        # try:
+        #     decoded_claims = service_auth.verify_session_cookie(session_cookie, check_revoked=True)
+        # except service_auth.InvalidSessionCookieError as e:
+        #      error = e
+        #      return (self._revoke_auth(error), error, token_decoded)
+
+        # try:
+        #     decoded_claims = service_auth.verify_id_token(firebase_token["idToken"], check_revoke=True)
+        # except ValueError:
+        #     error = e # Invalid token format
+        #     return (self._revoke_auth(error), error, token_decoded)
+        # except service_auth.InvalidIdTokenError as e:
+        #     error = e
+        #     # Refresh here
+        # except service_auth.ExpiredIdTokenError as e:
+        #     error = e
+        #     return (self._revoke_auth(error), error, token_decoded)
+        # except service_auth.RevokedIdTokenError as e:
+        #     error = e
+        #     return (self._revoke_auth(error), error, token_decoded)
+        # except service_auth.CertificateFetchError as e:
+        #     error = e
+        #     return (self._revoke_auth(error), error, token_decoded)
+        # except service_auth.UserDisabledError as e:
+        #     error = e
+        #     return (self._revoke_auth(error), error, token_decoded)
+        # if datetime.now(pytz.UTC) - decoded_claims['auth_time'] < self.session_expiry_seconds:
+        #     error = AuthException(f"old session id token {decoded_claims}")
+        #     return (self._revoke_auth(error), error, token_decoded)
+
         cookie_account_info = firebase_token["account_info"]
         utcnow = datetime.now(pytz.UTC)
         valid_since_datetime = datetime.fromtimestamp(int(cookie_account_info["users"][0]["validSince"]), tz=pytz.UTC)
@@ -461,7 +493,12 @@ class Authenticator:
                 account_info["users"][0]["passwordHash"] = ""
                 res["account_info"] = account_info
                 user = self._create_session(res)
-                log.success(f"""{account_info["users"][0]["email"]} logged in with password""")
+                log.success(f"""{user.email} logged in with password""")
+                if user.is_admin:
+                    service_auth.set_custom_user_claims(user.localId, {'admin': True})
+                    log.success(f"""Welcome {user.displayName}""")
+                if user.is_developer:
+                    service_auth.set_custom_user_claims(user.localId, {'devops': True})
             else:
                 error = LoginError("Error retrieving account info")
 
@@ -518,12 +555,21 @@ class Authenticator:
 
         return False
 
-    def login(self, form_name: str, form_location: Union[DeltaGenerator, ModuleType] = st) -> Tuple[Optional[UserInherited], dict, Optional[LoginError]]:
+    def login(self, form_name: str,
+              form_location: Union[DeltaGenerator, ModuleType] = st,
+              success_callback: Optional[Callable] = None,
+              cb_args: Optional[tuple] = None,
+              cb_kwargs: Optional[dict] = None) -> Tuple[Optional[UserInherited], dict, Optional[LoginError]]:
         """
         Creates a login widget.
 
         :param str form_name: The rendered name of the login form.
         :param Union[DeltaGenerator, ModuleType] form_location: The streamlit container to place the form. Either global `st` or a st container object such as st.sidebar.
+        :param Callable success_callback:
+            Optional function to call if a user is created without error.
+            Will be passed a kwargs login_return which will be the same tuple returned from this login function.
+        :param cb_args: Extra args for success_callback
+        :param cb_kwargs: Extra keyword args for success_callback
 
         :returns: 3 element tuple containing the a User class if one was created, response from the firebase calls, and/or any errors
         """
@@ -556,6 +602,8 @@ class Authenticator:
                     error = LoginError("Please enter a password")
                 else:
                     user, res, error = self._check_credentials(email, password)
+                    if user and not error and success_callback and callable(success_callback):
+                        success_callback(*cb_args, login_return=(user, res, error,), **cb_kwargs)
 
             login_form.form_submit_button("Register", on_click=self.set_form, args=("register",))
             login_form.form_submit_button("Forgot password?", on_click=self.set_form, args=("reset_password",))

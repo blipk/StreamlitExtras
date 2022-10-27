@@ -17,25 +17,30 @@ class User:
         firebase_data = kwargs
         self.authenticator = authenticator
         self.firebase_data = firebase_data
+        # Sign in
         self.localId = firebase_data["localId"]
+        self.uid = firebase_data["localId"]
         self.email = firebase_data["email"]
-        self.displayName = firebase_data["displayName"]
         self.idToken = firebase_data["idToken"]
+        self.expiresIn = firebase_data["expiresIn"] # idToken
         self.registered = firebase_data["registered"]
         self.refreshToken = firebase_data["refreshToken"]
-        self.expiresIn = firebase_data["expiresIn"]
+        self.displayName = firebase_data["displayName"]
 
         self.account_info = firebase_data["account_info"]
         self.users = firebase_data["account_info"]["users"]
-        self.user = self.users[0]
+        self.user = self.users[0] # Only supporting single identify provider - password
         # Already provided: localId, email, displayName, passwordHash
         self.emailVerified = self.user["emailVerified"]
         self.passwordUpdatedAt = self.user["passwordUpdatedAt"]
         self.providerUserInfo = self.user["providerUserInfo"]  # Only used if using federated SSO etc
-        self.validSince = self.user["validSince"]
+        self.photoUrl = self.user["photoUrl"] if "photoUrl" in self.user else None
+        self.validSince = self.user["validSince"] # The timestamp, in seconds, which marks a boundary, before which Firebase ID token are considered revoked.
+        self.disabled = self.user["disabled"] if "disabled" in self.user else None
         self.lastLoginAt = self.user["lastLoginAt"]
         self.createdAt = self.user["createdAt"]
         self.lastRefreshAt = self.user["lastRefreshAt"]
+        self.customAuth = self.user["customAuth"] if "customAuth" in self.user else None
 
     def refresh_token(self):
         refreshed = None
@@ -54,6 +59,15 @@ class User:
             refreshed = False
 
         return refreshed
+
+    @property
+    def firebase_user(self):
+        """
+        Gets the UserRecord object from the official firebase python SDK
+
+        # https://firebase.google.com/docs/reference/admin/python/firebase_admin.auth#firebase_admin.auth.UserRecord
+        """
+        self.authenticator.service_auth.get_user(self.uid)
 
     @property
     def is_admin(self):

@@ -73,7 +73,7 @@
 <span class="kn">import</span> <span class="nn">pytz</span>
 <span class="kn">import</span> <span class="nn">dateutil.parser</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
@@ -94,10 +94,10 @@
 <span class="kn">from</span> <span class="nn">streamlitextras.helpers</span> <span class="kn">import</span> <span class="n">custom_html</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;firebase&quot;</span><span class="p">]</span>
-<span class="n">firebase</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-<span class="n">auth</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">auth</span><span class="p">()</span>
-<span class="n">db</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">database</span><span class="p">()</span>
-<span class="n">storage</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
+<span class="n">pyrebase</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">auth</span><span class="p">()</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">database</span><span class="p">()</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
 
 <span class="c1"># PyPI doesn&#39;t contain the latest git commits for pyrebase4</span>
 <div class="viewcode-block" id="update_profile"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.update_profile">[docs]</a><span class="k">def</span> <span class="nf">update_profile</span><span class="p">(</span><span class="n">id_token</span><span class="p">,</span> <span class="n">display_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">photo_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delete_attribute</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
@@ -298,6 +298,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">user</span>
         <span class="n">token_expiry_time</span> <span class="o">=</span> <span class="n">expiry_date</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
         <span class="n">cookie_expiry_time</span> <span class="o">=</span> <span class="n">expiry_date</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tz</span><span class="p">))</span>
+        <span class="c1"># token_expiry_time_delta = cookie_expiry_time.timestamp() - datetime.now(pytz.UTC).timestamp()</span>
+        <span class="c1"># session_cookie = service_auth.create_session_cookie(user.idToken, expires_in=token_expiry_time_delta)</span>
         <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_token_encode</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">token_expiry_time</span><span class="p">)</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
@@ -425,6 +427,36 @@
             <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Account with unverified email shouldn&#39;t have cookie&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
 
+        <span class="c1"># try:</span>
+        <span class="c1">#     decoded_claims = service_auth.verify_session_cookie(session_cookie, check_revoked=True)</span>
+        <span class="c1"># except service_auth.InvalidSessionCookieError as e:</span>
+        <span class="c1">#      error = e</span>
+        <span class="c1">#      return (self._revoke_auth(error), error, token_decoded)</span>
+
+        <span class="c1"># try:</span>
+        <span class="c1">#     decoded_claims = service_auth.verify_id_token(firebase_token[&quot;idToken&quot;], check_revoke=True)</span>
+        <span class="c1"># except ValueError:</span>
+        <span class="c1">#     error = e # Invalid token format</span>
+        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
+        <span class="c1"># except service_auth.InvalidIdTokenError as e:</span>
+        <span class="c1">#     error = e</span>
+        <span class="c1">#     # Refresh here</span>
+        <span class="c1"># except service_auth.ExpiredIdTokenError as e:</span>
+        <span class="c1">#     error = e</span>
+        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
+        <span class="c1"># except service_auth.RevokedIdTokenError as e:</span>
+        <span class="c1">#     error = e</span>
+        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
+        <span class="c1"># except service_auth.CertificateFetchError as e:</span>
+        <span class="c1">#     error = e</span>
+        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
+        <span class="c1"># except service_auth.UserDisabledError as e:</span>
+        <span class="c1">#     error = e</span>
+        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
+        <span class="c1"># if datetime.now(pytz.UTC) - decoded_claims[&#39;auth_time&#39;] &lt; self.session_expiry_seconds:</span>
+        <span class="c1">#     error = AuthException(f&quot;old session id token {decoded_claims}&quot;)</span>
+        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
+
         <span class="n">cookie_account_info</span> <span class="o">=</span> <span class="n">firebase_token</span><span class="p">[</span><span class="s2">&quot;account_info&quot;</span><span class="p">]</span>
         <span class="n">utcnow</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
         <span class="n">valid_since_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cookie_account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;validSince&quot;</span><span class="p">]),</span> <span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
@@ -532,7 +564,12 @@
                 <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;passwordHash&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
                 <span class="n">res</span><span class="p">[</span><span class="s2">&quot;account_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account_info</span>
                 <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_session</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;email&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2"> logged in with password&quot;&quot;&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2"> logged in with password&quot;&quot;&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
+                    <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Welcome </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">displayName</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_developer</span><span class="p">:</span>
+                    <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;devops&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Error retrieving account info&quot;</span><span class="p">)</span>
 
@@ -589,12 +626,21 @@
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="Authenticator.login"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Authenticator.login"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+              <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
+              <span class="n">success_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">cb_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">cb_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a login widget.</span>
 
 <span class="sd">        :param str form_name: The rendered name of the login form.</span>
 <span class="sd">        :param Union[DeltaGenerator, ModuleType] form_location: The streamlit container to place the form. Either global `st` or a st container object such as st.sidebar.</span>
+<span class="sd">        :param Callable success_callback:</span>
+<span class="sd">            Optional function to call if a user is created without error.</span>
+<span class="sd">            Will be passed a kwargs login_return which will be the same tuple returned from this login function.</span>
+<span class="sd">        :param cb_args: Extra args for success_callback</span>
+<span class="sd">        :param cb_kwargs: Extra keyword args for success_callback</span>
 
 <span class="sd">        :returns: 3 element tuple containing the a User class if one was created, response from the firebase calls, and/or any errors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -627,6 +673,8 @@
                     <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please enter a password&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_credentials</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">error</span> <span class="ow">and</span> <span class="n">success_callback</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="n">success_callback</span><span class="p">):</span>
+                        <span class="n">success_callback</span><span class="p">(</span><span class="o">*</span><span class="n">cb_args</span><span class="p">,</span> <span class="n">login_return</span><span class="o">=</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,),</span> <span class="o">**</span><span class="n">cb_kwargs</span><span class="p">)</span>
 
             <span class="n">login_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Register&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;register&quot;</span><span class="p">,))</span>
             <span class="n">login_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Forgot password?&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;reset_password&quot;</span><span class="p">,))</span>

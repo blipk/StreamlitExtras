@@ -3,7 +3,7 @@ import time
 import threading
 from . import reruntrigger
 from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx, RerunException
-from typing import Callable
+from typing import Callable, Optional
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
 script_dir = os.getcwd()
@@ -22,7 +22,7 @@ def last_trigger_time() -> int:
     modified_time_seconds = time.time() - modified_time
     return modified_time_seconds
 
-def trigger_rerun(last_write_margin: int = 1, delay: int = 0):
+def trigger_rerun(last_write_margin: int = 1, delay: int = 0) -> None:
     """
     Triggers treamlit to rerun the current page state.
     runOnSave must be set to true in config.toml
@@ -48,7 +48,7 @@ def thread_wrapper(thread_func,
                 rerun_st = True,
                 last_write_margin: int = 1,
                 delay: int = 0,
-                *args, **kwargs):
+                *args, **kwargs) -> None:
     """
     Wrapper for running thread functions
     For parameters see streamlit_thread() and trigger_rerun()
@@ -63,7 +63,7 @@ def streamlit_thread(thread_func: Callable,
                     kwargs: dict = {},
                     rerun_st: bool = True,
                     last_write_margin: int = 1,
-                    delay: int = 0):
+                    delay: int = 0) -> str:
     """
     Spawns and starts a threading.Thread that runs thread_func with the passed args and kwargs
 
@@ -82,12 +82,13 @@ def streamlit_thread(thread_func: Callable,
     thread.start()
     return thread.name
 
-def get_thread(thread_name):
+def get_thread(thread_name) -> Optional[threading.Thread]:
     """
     Gets the threading.Thread instance thats name attribute matches thread_name
 
-    :param thread_name:
-        The name attribute of the thread to look for, or None if it's not found.
+    :param thread_name: The name attribute of the thread to look for.
+
+    :returns: The threading.Thread or None if theres no thread with the supplied thread_name
     """
     threads = threading.enumerate()
     target_thread = None
