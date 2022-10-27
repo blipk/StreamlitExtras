@@ -81,6 +81,7 @@ Component function to manage in-browser cookies from streamlit.
    def main():
        global cookie_manager
        cookie_manager = get_cookie_manager()
+       cookie_manager.delayed_init() # Makes sure CookieManager stays in st.session_state
 
        cookie_manager.set("my_cookie_name", "I'm a cookie!")
        my_cookie_value = cookie_manager.get("my_cookie_name")
