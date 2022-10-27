@@ -651,6 +651,11 @@
         <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="k">if</span> <span class="n">cb_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cb_args</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="n">cb_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cb_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="n">auth_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_status</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_status</span><span class="p">:</span>
             <span class="n">login_form</span> <span class="o">=</span> <span class="n">form_location</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="s2">&quot;Login&quot;</span><span class="p">)</span>

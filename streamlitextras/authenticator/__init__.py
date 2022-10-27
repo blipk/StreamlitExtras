@@ -580,6 +580,11 @@ class Authenticator:
         user = None
         error = None
 
+        if cb_args is None:
+            cb_args = ()
+        if cb_kwargs is None:
+            cb_kwargs = {}
+
         auth_status = self.auth_status
         if not auth_status:
             login_form = form_location.form("Login")
