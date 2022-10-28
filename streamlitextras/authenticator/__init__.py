@@ -403,7 +403,7 @@ class Authenticator:
         # print("lastRefreshAt    ", last_refresh_age_seconds, last_refresh_age_seconds/3600, "\n")
 
         if valid_since_seconds > self.session_expiry_seconds:
-            error = AuthException(f"old validSince {valid_since_datetime.astimezone(pytz.timezone(self.user_tz))}")
+            error = AuthException(f"old validSince {valid_since_datetime.astimezone(pytz.timezone(self.user_tz))} {valid_since_seconds}")
             log.info(error)
             # return (self._revoke_auth(error), error, token_decoded)
         if last_login_age_seconds > self.session_expiry_seconds:
@@ -440,7 +440,7 @@ class Authenticator:
                     return self._check_cookie(attempt + 1)
             elif error_type == "TOKEN_EXPIRED":
                 error = AuthException("Auth token is expired", error_type, error)
-                return (self._revoke_auth(error), error)
+                return (self._revoke_auth(error), error, token_decoded)
             else:
                 error = AuthException("Error getting account info", error_type, error)
                 return (self._revoke_auth(error), error, token_decoded)

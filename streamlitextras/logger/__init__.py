@@ -26,7 +26,7 @@ colour_detailed_format = "<red>{time:YYYY-MM-DD HH:mm:ss.SSS}</red> | " \
                 "<cyan>{name}</cyan>:<cyan>{module}</cyan>:<cyan>{function}</cyan>:<cyan>{file.path}</cyan>:<cyan>{line}</cyan> | " \
                 "\n<level>{message} | {extra[user]}</level> | " \
                 "<level>{exception}</level> | " \
-                "<level>{process.name}:{process} {thread.name}:{thread}</level>"
+                "<level>{process.name}:{process} @ {thread.name}:{thread}</level>"
 if dev_emulation:
     colour_format = colour_format.replace("file", "file.path")
 
@@ -75,7 +75,12 @@ def process_log_line(log_line: str):
     time, level, namespace, message, extra, exception, exec = log_line.split(" | ")
     level = level.strip()
     name, module, function_name, file_path, line = namespace.split(":")
-    process, thread = exec.split(" ")
+
+    try:
+        process, thread = exec.split(" @ ")
+    except:
+        process = exec.split(" ")[0]
+        thread = " ".join(exec.split(" ")[1:])
     process_name, process_id = process.split(":")
     thread_name, thread_id = thread.split(":")
 
