@@ -94,10 +94,10 @@
 <span class="kn">from</span> <span class="nn">streamlitextras.helpers</span> <span class="kn">import</span> <span class="n">custom_html</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;firebase&quot;</span><span class="p">]</span>
-<span class="n">pyrebase</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-<span class="n">auth</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">auth</span><span class="p">()</span>
-<span class="n">db</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">database</span><span class="p">()</span>
-<span class="n">storage</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
+<span class="n">pyrebase_service</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">pyrebase_service</span><span class="o">.</span><span class="n">auth</span><span class="p">()</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">pyrebase_service</span><span class="o">.</span><span class="n">database</span><span class="p">()</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">pyrebase_service</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
 
 <span class="c1"># PyPI doesn&#39;t contain the latest git commits for pyrebase4</span>
 <div class="viewcode-block" id="update_profile"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.update_profile">[docs]</a><span class="k">def</span> <span class="nf">update_profile</span><span class="p">(</span><span class="n">id_token</span><span class="p">,</span> <span class="n">display_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">photo_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delete_attribute</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>

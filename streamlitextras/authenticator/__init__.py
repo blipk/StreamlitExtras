@@ -23,10 +23,10 @@ from firebase_admin import auth as service_auth
 from streamlitextras.helpers import custom_html
 
 config = st.secrets["firebase"]
-pyrebase = pyrebase.initialize_app(config)
-auth = pyrebase.auth()
-db = pyrebase.database()
-storage = pyrebase.storage()
+pyrebase_service = pyrebase.initialize_app(config)
+auth = pyrebase_service.auth()
+db = pyrebase_service.database()
+storage = pyrebase_service.storage()
 
 # PyPI doesn't contain the latest git commits for pyrebase4
 def update_profile(id_token, display_name = None, photo_url=None, delete_attribute = None, *args):
