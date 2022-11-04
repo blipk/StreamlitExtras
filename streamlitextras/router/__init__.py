@@ -116,7 +116,7 @@ class Router:
             kwargs = {}
 
         if self.dependencies and type(self.dependencies) is dict:
-            kwargs = self.dependencies | kwargs
+            kwargs = {**self.dependencies, **kwargs}
 
         if args is None or args in [("",), ("~",), ("None",), "", "~", "None"]:
             args = ()

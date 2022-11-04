@@ -47,7 +47,7 @@ class User:
         refresh_errors = {"TOKEN_EXPIRED": "Too many recent sessions. Please try again later."}
         user_refresh, refresh_error = handle_firebase_action(self.authenticator.auth.refresh, LoginError, refresh_errors, self.refreshToken)
         if not refresh_error:
-            self.firebase_data = self.firebase_data | user_refresh
+            self.firebase_data = {**self.firebase_data, **user_refresh}
             for key in self.__dict__.keys():
                 if key in user_refresh and hasattr(self, key):
                     setattr(self, key, user_refresh[key])

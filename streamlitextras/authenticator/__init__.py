@@ -22,7 +22,7 @@ import firebase_admin
 from firebase_admin import auth as service_auth
 from streamlitextras.helpers import custom_html
 
-config = st.secrets["firebase"]
+config = dict(st.secrets["firebase"])
 pyrebase_service = pyrebase.initialize_app(config)
 auth = pyrebase_service.auth()
 db = pyrebase_service.database()
@@ -106,7 +106,7 @@ class Authenticator:
         if self.authenticator_name in st.session_state and st.session_state[self.authenticator_name] and st.session_state[self.authenticator_name].current_form:
             self.current_form = st.session_state[self.authenticator_name].current_form
 
-        self.service_credentials = firebase_admin.credentials.Certificate(st.secrets["gcp_service_account"])
+        self.service_credentials = firebase_admin.credentials.Certificate(dict(st.secrets["gcp_service_account"]))
         try:
             self.firebase_service = firebase_admin.get_app()
         except ValueError as e:
@@ -435,7 +435,7 @@ class Authenticator:
                         return (self._revoke_auth(error), error, token_decoded)
                 else:
                     log.info("Updating refresh token")
-                    firebase_token = firebase_token | user_refresh
+                    firebase_token = {**firebase_token, **user_refresh}
                     self._create_session(firebase_token, token_decoded["exp_date"])
                     return self._check_cookie(attempt + 1)
             elif error_type == "TOKEN_EXPIRED":
@@ -478,7 +478,7 @@ class Authenticator:
             refresh_errors = {"TOKEN_EXPIRED": "Too many recent sessions. Please try again later."}
             user_refresh, error = handle_firebase_action(auth.refresh, LoginError, refresh_errors, res['refreshToken'])
             if not error:
-                res = res | user_refresh
+                res = {**res, **user_refresh}
 
         if not error:
             account_info, error = handle_firebase_action(auth.get_account_info, LoginError, False, res['idToken'])

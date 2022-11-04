@@ -75,5 +75,5 @@ setup(
             "sphinxcontrib-apidoc ; python_version>='3.6'",
         ]
     },
-    python_requires=">=3.9",
+    python_requires=">=3.5",
 )
