@@ -19,7 +19,7 @@ def main():
     my_cookie_value = cookie_manager.get("my_cookie_name")
     print(my_cookie_value) # "I'm a cookie"
 
-    my_cookies = cookie_manager.get_all("my_cookie_name")
+    my_cookies = cookie_manager.get_all()
     print(my_cookies) # {"my_cookie_name": "I'm a cookie!"}
 
     cookie_manager.delete("my_cookie_name")

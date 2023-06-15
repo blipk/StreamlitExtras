@@ -1,5 +1,6 @@
 import jwt
 import pytz
+import time
 import dateutil.parser
 from types import ModuleType
 from typing import Union, Optional, Tuple, TypeVar, Type, Callable
@@ -77,6 +78,7 @@ class Authenticator:
         if not user_class:
             user_class = User
 
+        self.last_auth_check = None
         self.cookie_name = cookie_name
         self.session_name = session_name
         self.session_expiry_seconds = session_expiry_seconds
@@ -153,6 +155,15 @@ class Authenticator:
 
         :returns: Returns the auth cookie or None if it doesnt exist
         """
+        # Limit refresh loops from streamlit instantiating the cookie_manager component
+        # print ((time.time() - (self.last_auth_check or 0)))
+        if (
+            self.last_auth_check is not None
+            and (time.time() - self.last_auth_check) < 0.4
+        ):
+            return None
+
+        self.last_auth_check = time.time()
         cookie = self.cookie_manager.get(self.cookie_name)
         return cookie
 
@@ -172,6 +183,7 @@ class Authenticator:
             return True
 
         status, error, token_decoded = self._check_cookie()
+
         # log.info(f"Checked cookie for auth_status: {status} {error}")
         if error:
             if error.firebase_error:
@@ -615,7 +627,12 @@ class Authenticator:
 
         return (user, res, error)
 
-    def register_user(self, form_name: str, form_location: Union[DeltaGenerator, ModuleType] = st) -> Tuple[Optional[dict], Optional[RegisterError]]:
+    def register_user(
+            self,
+            form_name: str,
+            form_location: Union[DeltaGenerator, ModuleType] = st,
+            terms_link: Optional[str] = None
+        ) -> Tuple[Optional[dict], Optional[RegisterError]]:
         """
         Creates a user registration widget
 
@@ -634,10 +651,19 @@ class Authenticator:
         new_password = register_user_form.text_input("Password", type="password")
         new_password_repeat = register_user_form.text_input("Repeat password", type="password")
 
+        if terms_link is not None:
+            terms_agreed = register_user_form.checkbox(
+                f"By registering I agree to the terms and conditions [here]({terms_link}).",
+            )
+        else:
+            terms_agreed = True
+
         user = None
         error = None
         if register_user_form.form_submit_button("Register"):
-            if len(new_email) > 0 and len(new_name) > 0 and len(new_password) > 0:
+            if not terms_agreed:
+                error = RegisterError("Please read and agree to the usage terms and conditions.")
+            elif len(new_email) > 0 and len(new_name) > 0 and len(new_password) > 0:
                 if new_password == new_password_repeat:
                     register_errors = {
                         "INVALID_EMAIL": "Invalid email format",
@@ -660,7 +686,7 @@ class Authenticator:
 
         if user:
             verify_msg = """<p style="padding: 14px;">Registration successful. Please verify your email address, then you can <a href="/" target="_self">log in.</a></p>"""
-            st.markdown(custom_html.custom_el(verify_msg, classes=custom_html.st_info_classes), unsafe_allow_html=True)
+            register_user_form.markdown(custom_html.custom_el(verify_msg, classes=custom_html.st_info_classes), unsafe_allow_html=True)
 
         return (user, error)
 
