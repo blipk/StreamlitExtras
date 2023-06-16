@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.helpers</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.helpers</li>
 
   </ul>
   <hr/>
@@ -80,7 +83,7 @@
 
 <div class="viewcode-block" id="Icons"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.Icons">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Icons</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    UTF-8 Emojis to be used as icons within the application</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eagle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🦅&quot;</span>
@@ -92,19 +95,19 @@
     <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;⚠️&quot;</span></div>
 
 <div class="viewcode-block" id="CustomHTML"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML">[docs]</a><span class="k">class</span> <span class="nc">CustomHTML</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class containing custom HTML/CSS to be injected into the streamlit app</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">st_info_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Classes used by st.info(), used for creating a custom info box with self.custom_el()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;st-at&quot;</span><span class="p">,</span> <span class="s2">&quot;st-ax&quot;</span><span class="p">,</span> <span class="s2">&quot;st-aw&quot;</span><span class="p">,</span> <span class="s2">&quot;st-av&quot;</span><span class="p">,</span> <span class="s2">&quot;st-au&quot;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">adjust_st_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Hides the streamlit footer and menus and makes other adjustments</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -132,7 +135,7 @@
 
 <div class="viewcode-block" id="CustomHTML.centered_image"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.centered_image">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">centered_image</span><span class="p">(</span><span class="n">image_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates 3 streamlit columns with a centered image</span>
 
 <span class="sd">        :param str image_path: The URL or local path of an image</span>
@@ -157,7 +160,7 @@
 
 <div class="viewcode-block" id="CustomHTML.anchor_el"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.anchor_el">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">anchor_el</span><span class="p">(</span><span class="n">anchor_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a div to be used as a # anchor</span>
 
 <span class="sd">        :param str anchor_id: the string to set the id property to on the div element</span>
@@ -166,7 +169,7 @@
 
 <div class="viewcode-block" id="CustomHTML.bytes_to_data_uri"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.bytes_to_data_uri">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a data URI from a bytesIO object</span>
 
 <span class="sd">        :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them</span>
@@ -185,7 +188,7 @@
 
 <div class="viewcode-block" id="CustomHTML.download_link"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.download_link">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">download_link</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a data URI from a bytesIO object</span>
 
 <span class="sd">        :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them</span>
@@ -206,7 +209,7 @@
                     <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
                     <span class="n">extra_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                     <span class="n">custom_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates HTML string for a custom element based on the function parameters.</span>
 <span class="sd">        There is no validation so ensure calls to this function are correct.</span>
 
@@ -242,7 +245,7 @@
 
 <div class="viewcode-block" id="CustomHTML.display_speaker"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_speaker">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">display_speaker</span><span class="p">(</span><span class="n">speaker_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates HTML text for a simple paragraph element with the innerText as speaker_id</span>
 
 <span class="sd">        :param str speaker_id: The text to be inserted in the element innerText/innerHTML</span>
@@ -253,7 +256,7 @@
 
 <div class="viewcode-block" id="CustomHTML.display_text"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_text">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">display_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates HTML text for a styled paragraph element with the innerText as text</span>
 
 <span class="sd">        :param str text: The text to be inserted into the paragraph innerText/innerHTML</span>
@@ -263,7 +266,7 @@
 
 <div class="viewcode-block" id="CustomHTML.display_table"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_table">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">display_table</span><span class="p">(</span><span class="n">table_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">],</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates HTML table based on table_data which is a 2D list</span>
 <span class="sd">        Each list item is a set of columns. The first item is the header.</span>
 
@@ -275,7 +278,7 @@
             <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&lt;th&gt;&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&lt;td&gt;&quot;</span>
             <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
-                <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">column</span><span class="si">}{</span><span class="n">tag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;/&quot;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+                <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">column</span><span class="si">}{</span><span class="n">tag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&lt;/&quot;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
             <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/table&gt;&quot;</span>
 
@@ -283,7 +286,7 @@
 
 <div class="viewcode-block" id="CustomHTML.display_audio"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_audio">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">display_audio</span><span class="p">(</span><span class="n">audio_file_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;audio&quot;</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a HTML audio element with a specified id and special class,</span>
 <span class="sd">        this enables more advanced handling of the elements than st.audio()</span>
 
@@ -298,7 +301,7 @@
 
         <span class="n">audio</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        &lt;audio id=&quot;</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot; controls preload</span>
-<span class="s2">            src=&quot;</span><span class="si">{</span><span class="n">audio_file_url</span><span class="si">}{</span><span class="s2">&quot;#t=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="k">if</span> <span class="n">timestamp</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">timestamp</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">            src=&quot;</span><span class="si">{</span><span class="n">audio_file_url</span><span class="si">}{</span><span class="s2">&quot;#t=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="s2">            class=&quot;</span><span class="si">{</span><span class="n">classes_string</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="s2">            style=&quot;width: 100%;&quot;</span>
 <span class="s2">            oncanplaythrough=&quot;&quot;&gt;</span>
@@ -309,7 +312,7 @@
 
 <div class="viewcode-block" id="CustomHTML.load_lottieurl"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.load_lottieurl">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">load_lottieurl</span><span class="p">(</span><span class="n">lottie_url</span> <span class="o">=</span> <span class="s2">&quot;https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads and returns JSON from the lottie library</span>
 <span class="sd">        This is used for animations</span>
 <span class="sd">        &quot;&quot;&quot;</span>

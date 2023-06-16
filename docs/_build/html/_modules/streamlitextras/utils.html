@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.utils</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.utils</li>
 
   </ul>
   <hr/>
@@ -76,7 +79,7 @@
 
 
 <div class="viewcode-block" id="repr_"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.utils.repr_">[docs]</a><span class="k">def</span> <span class="nf">repr_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ignore_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">only_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a string detailing a class attributes from cls.__dict__</span>
 <span class="sd">    Makes nice printing for __repr__ implementations</span>
 
@@ -95,7 +98,7 @@
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">classname</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
 <div class="viewcode-block" id="save_file"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.utils.save_file">[docs]</a><span class="k">def</span> <span class="nf">save_file</span><span class="p">(</span><span class="n">st_file_object</span><span class="p">:</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="n">to_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Saves a streamlit UploadedFile BytesIO object to the given relative path</span>
 
 <span class="sd">    :param UploadedFile st_file_object: The UploadedFile bytes object to save to disk - contains filename and metadata</span>

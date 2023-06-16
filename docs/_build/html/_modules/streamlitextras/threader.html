@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.threader</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.threader</li>
 
   </ul>
   <hr/>
@@ -86,7 +89,7 @@
 <span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
 <div class="viewcode-block" id="last_trigger_time"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.last_trigger_time">[docs]</a><span class="k">def</span> <span class="nf">last_trigger_time</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the seconds since last writing the trigger file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">modified_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">)</span>
@@ -94,7 +97,7 @@
     <span class="k">return</span> <span class="n">modified_time_seconds</span></div>
 
 <div class="viewcode-block" id="trigger_rerun"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.trigger_rerun">[docs]</a><span class="k">def</span> <span class="nf">trigger_rerun</span><span class="p">(</span><span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Triggers treamlit to rerun the current page state.</span>
 <span class="sd">    runOnSave must be set to true in config.toml</span>
 
@@ -120,7 +123,7 @@
                 <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                 <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                 <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper for running thread functions</span>
 <span class="sd">    For parameters see streamlit_thread() and trigger_rerun()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -135,7 +138,7 @@
                     <span class="n">rerun_st</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Spawns and starts a threading.Thread that runs thread_func with the passed args and kwargs</span>
 
 <span class="sd">    :param Callable thread_func: The function to run in the thread</span>
@@ -154,7 +157,7 @@
     <span class="k">return</span> <span class="n">thread</span><span class="o">.</span><span class="n">name</span></div>
 
 <div class="viewcode-block" id="get_thread"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.get_thread">[docs]</a><span class="k">def</span> <span class="nf">get_thread</span><span class="p">(</span><span class="n">thread_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets the threading.Thread instance thats name attribute matches thread_name</span>
 
 <span class="sd">    :param thread_name: The name attribute of the thread to look for.</span>

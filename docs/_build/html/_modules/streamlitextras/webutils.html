@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.webutils</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.webutils</li>
 
   </ul>
   <hr/>
@@ -80,7 +83,7 @@
 <span class="kn">from</span> <span class="nn">streamlit.runtime.uploaded_file_manager</span> <span class="kn">import</span> <span class="n">UploadedFile</span>
 
 <div class="viewcode-block" id="stxs_javascript"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.stxs_javascript">[docs]</a><span class="k">def</span> <span class="nf">stxs_javascript</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs javascript on the top level context of the page.</span>
 
 <span class="sd">    Does this by embedding an iframe that attaches a script tag to its parent.</span>
@@ -106,7 +109,7 @@
     <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="get_user_timezone"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.get_user_timezone">[docs]</a><span class="k">def</span> <span class="nf">get_user_timezone</span><span class="p">(</span><span class="n">default_tz</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uses javascript to get the tz database name for the browser/users timezone</span>
 
 <span class="sd">    :param Optional[str] default_tz: value to return if the operation fails. Defaults to UTC</span>
@@ -128,7 +131,7 @@
     <span class="k">return</span> <span class="n">timezone</span></div>
 
 <div class="viewcode-block" id="scroll_page"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.scroll_page">[docs]</a><span class="k">def</span> <span class="nf">scroll_page</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs javascript to scroll the streamlit main section</span>
 <span class="sd">    Defaults to scrolling to the top if no arguments are passed</span>
 
@@ -138,7 +141,7 @@
     <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;parent.document.querySelector(`section[class*=&quot;main&quot;`).scroll(</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;&quot;&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="bytes_to_data_uri"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.bytes_to_data_uri">[docs]</a><span class="k">def</span> <span class="nf">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a data URI from a bytesIO object</span>
 
 <span class="sd">    :param Union[BytesIO, UploadedFile] byteslike_object: BytesIO or bytes or any class that inherits them</span>
@@ -156,13 +159,13 @@
     <span class="k">return</span> <span class="n">uri</span></div>
 
 <div class="viewcode-block" id="trigger_download"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.trigger_download">[docs]</a><span class="k">def</span> <span class="nf">trigger_download</span><span class="p">(</span><span class="n">download_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uses javascript and a data URI on a link element to trigger a download for the user</span>
 
 <span class="sd">    :param str download_uri: properly formatted data uri to place on link elements href</span>
 <span class="sd">    :param str filename: filename to be placed on the link elements download attribute</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">auto_downloaded</span> <span class="o">=</span> <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;(async () =&gt; </span><span class="se">{{</span><span class="s2"></span>
+    <span class="n">auto_downloaded</span> <span class="o">=</span> <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;(async () =&gt; </span><span class="se">{{</span>
 <span class="s2">            console.log(&quot;Creating download link..&quot;)</span>
 <span class="s2">            var link = document.createElement(&#39;a&#39;);</span>
 <span class="s2">            link.innerText = &quot;&quot;</span>
@@ -177,7 +180,7 @@
     <span class="k">return</span> <span class="n">auto_downloaded</span></div>
 
 <div class="viewcode-block" id="convert_millis"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.webutils.convert_millis">[docs]</a><span class="k">def</span> <span class="nf">convert_millis</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">always_include_hours</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert milliseconds to a string timestamp in the format HH:MM:SS or MM:SS</span>
 
 <span class="sd">    :param int milliseconds: The amount of milliseconds to convert to a timestamp</span>

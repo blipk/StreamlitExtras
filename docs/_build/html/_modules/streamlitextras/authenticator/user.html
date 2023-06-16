@@ -10,10 +10,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,10 +60,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-          <li><a href="../authenticator.html">streamlitextras.authenticator</a> &raquo;</li>
-      <li>streamlitextras.authenticator.user</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../authenticator.html">streamlitextras.authenticator</a></li>
+      <li class="breadcrumb-item active">streamlitextras.authenticator.user</li>
 
   </ul>
   <hr/>
@@ -76,11 +79,11 @@
 <span class="kn">from</span> <span class="nn">streamlitextras.authenticator.exceptions</span> <span class="kn">import</span> <span class="n">AuthException</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="n">ResetError</span><span class="p">,</span> <span class="n">UpdateError</span>
 
 <div class="viewcode-block" id="User"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.user.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is used as an interface for Authenticators users</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authenticator</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes a user account with associated firebase tokens and account information</span>
 
 <span class="sd">        :param Authenticator authenticator: The associated Authenticator class that spawned this user</span>
@@ -134,7 +137,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">firebase_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the UserRecord object from the official firebase python SDK</span>
 
 <span class="sd">        # https://firebase.google.com/docs/reference/admin/python/firebase_admin.auth#firebase_admin.auth.UserRecord</span>
@@ -143,7 +146,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns true if users firebase id is in self.authenticator.admin_ids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">admin_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">admin_ids</span>
@@ -151,7 +154,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_developer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns true if users firebase id is in self.authenticator.developer_ids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">developer_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">developer_ids</span>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="English" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Streamlit Extras &mdash; StreamlitExtras  documentation</title>
@@ -11,10 +11,9 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/js/copybutton.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="#" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -59,8 +62,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>Streamlit Extras</li>
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Streamlit Extras</li>
 
   </ul>
   <hr/>
@@ -144,7 +147,7 @@ for more details.</p>
     <span class="n">my_cookie_value</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">my_cookie_value</span><span class="p">)</span> <span class="c1"># &quot;I&#39;m a cookie&quot;</span>
 
-    <span class="n">my_cookies</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
+    <span class="n">my_cookies</span> <span class="o">=</span> <span class="n">cookie_manager</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">my_cookies</span><span class="p">)</span> <span class="c1"># {&quot;my_cookie_name&quot;: &quot;I&#39;m a cookie!&quot;}</span>
 
     <span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;my_cookie_name&quot;</span><span class="p">)</span>
@@ -333,17 +336,17 @@ reference</a> for more.</p>
 <p>You will need to set up a service worker on your google cloud project or
 firebase project, and add the details from its .json key to
 <code class="docutils literal notranslate"><span class="pre">.streamlit/secrets.toml</span></code></p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[gcp_service_account]</span><span class="w"></span>
-<span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">project_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">private_key_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">private_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">client_email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">client_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">auth_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">token_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">auth_provider_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
-<span class="n">client_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[gcp_service_account]</span>
+<span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">project_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">private_key_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">private_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">client_email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">client_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">auth_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">token_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">auth_provider_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">client_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
 </pre></div>
 </div>
 </section>

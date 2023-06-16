@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.cookiemanager</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.cookiemanager</li>
 
   </ul>
   <hr/>
@@ -81,7 +84,7 @@
 <span class="n">_component_func</span> <span class="o">=</span> <span class="n">components</span><span class="o">.</span><span class="n">declare_component</span><span class="p">(</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">build_path</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CookieManager"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager">[docs]</a><span class="k">class</span> <span class="nc">CookieManager</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a streamlit component class to manage cookies.</span>
 
 <span class="sd">    It uses a thin component instance wrapper around the universal-cookie library.</span>
@@ -95,7 +98,7 @@
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialized Cookie Manager </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CookieManager.delayed_init"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.delayed_init">[docs]</a>    <span class="k">def</span> <span class="nf">delayed_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Used to delay initialization of streamlit objects so this class can be cached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;cookie_manager&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]:</span>
@@ -113,7 +116,7 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="CookieManager.set"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">same_site</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set a cookie with name, value and options.</span>
 <span class="sd">        Defaults are set in the JS component and listed below</span>
 
@@ -147,7 +150,7 @@
         <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="CookieManager.get"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets a value of a cookie.</span>
 <span class="sd">        NOTE: The value isn&#39;t got directly from the component instance</span>
 <span class="sd">        This class fills all cookies in self.cookies everytime streamlit instances it on the page</span>
@@ -168,7 +171,7 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="CookieManager.get_all"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;get_all&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a dict of all the cookies in the browser, and update self.cookies</span>
 
 <span class="sd">        :param key: streamlit key used for the component instance</span>
@@ -179,7 +182,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span></div>
 
 <div class="viewcode-block" id="CookieManager.delete"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a cookie from the browser</span>
 
 <span class="sd">        :param name: the name of the cookie to delete</span>

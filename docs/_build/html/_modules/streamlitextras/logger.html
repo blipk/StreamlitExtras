@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.logger</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.logger</li>
 
   </ul>
   <hr/>
@@ -136,7 +139,7 @@
 <span class="p">]</span>
 
 <div class="viewcode-block" id="process_log_line"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.process_log_line">[docs]</a><span class="k">def</span> <span class="nf">process_log_line</span><span class="p">(</span><span class="n">log_line</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Process a log line formatted from this module into a dictionary of its sections.</span>
 
 <span class="sd">    :param str log_line: The log line to process</span>
@@ -176,7 +179,7 @@
     <span class="k">return</span> <span class="n">log_obj</span></div>
 
 <div class="viewcode-block" id="session_state_str_dict"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.session_state_str_dict">[docs]</a><span class="k">def</span> <span class="nf">session_state_str_dict</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a dict from st.session_state to be stored with every log line</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">interface</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;session_state&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
@@ -186,7 +189,7 @@
     <span class="k">return</span> <span class="n">merged</span></div>
 
 <div class="viewcode-block" id="bind_log"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.bind_log">[docs]</a><span class="k">def</span> <span class="nf">bind_log</span><span class="p">(</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">Logger</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Bind the logger to the session state dictionary</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">merged</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">session_state_str_dict</span><span class="p">(),</span> <span class="o">**</span><span class="n">extras</span><span class="p">}</span>

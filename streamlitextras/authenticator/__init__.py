@@ -159,7 +159,7 @@ class Authenticator:
         # print ((time.time() - (self.last_auth_check or 0)))
         if (
             self.last_auth_check is not None
-            and (time.time() - self.last_auth_check) < 0.4
+            and (time.time() - self.last_auth_check) < 0.2
         ):
             return None
 

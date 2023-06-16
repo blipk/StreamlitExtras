@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -27,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,9 +60,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>streamlitextras.router</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">streamlitextras.router</li>
 
   </ul>
   <hr/>
@@ -78,7 +81,7 @@
 <span class="kn">from</span> <span class="nn">streamlitextras.utils</span> <span class="kn">import</span> <span class="n">repr_</span>
 
 <div class="viewcode-block" id="Router"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.Router">[docs]</a><span class="k">class</span> <span class="nc">Router</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Page router for streamlit.</span>
 
 <span class="sd">    :param dict[str, Callable] routes:</span>
@@ -99,7 +102,7 @@
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialized router </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Router.delayed_init"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.Router.delayed_init">[docs]</a>    <span class="k">def</span> <span class="nf">delayed_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Used to delay initialization of streamlit objects so this class can be cached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;router&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;router&quot;</span><span class="p">]:</span>
@@ -108,7 +111,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the default page. Currently the first in self.pages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -124,7 +127,7 @@
         <span class="k">return</span> <span class="n">page_state</span>
 
 <div class="viewcode-block" id="Router.current_page_data"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.Router.current_page_data">[docs]</a>    <span class="k">def</span> <span class="nf">current_page_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the current page name and page from the query string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_params</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">experimental_get_query_params</span><span class="p">()</span>
@@ -152,7 +155,7 @@
                         <span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">redirect_page_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks the query params and routes to the requested page,</span>
 <span class="sd">        or routes to force_page_name directly, not setting any query params</span>
 
@@ -192,7 +195,7 @@
         <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">args</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;&quot;</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">,),</span> <span class="p">(</span><span class="s2">&quot;None&quot;</span><span class="p">,),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="s2">&quot;None&quot;</span><span class="p">]:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">preroute</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preroute</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">preroute</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preroute</span><span class="p">):</span>
             <span class="c1"># log.debug(f&quot;Running preroute {self.preroute}&quot;)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">preroute</span><span class="p">()</span>
 
@@ -201,7 +204,7 @@
             <span class="n">st</span><span class="o">.</span><span class="n">experimental_set_query_params</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">page_name</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">})</span>
             <span class="n">st</span><span class="o">.</span><span class="n">experimental_rerun</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">page_func</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">page_func</span><span class="p">):</span>
             <span class="c1"># log.debug(f&quot;Calling page_func {page_func}&quot;)</span>
             <span class="n">page_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -209,7 +212,7 @@
             <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;window.history.pushState(</span><span class="se">{{}}</span><span class="s2">, &quot;&quot;, &quot;/?</span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s2">=~&quot;);&quot;&quot;&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Router.route"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.Router.route">[docs]</a>    <span class="k">def</span> <span class="nf">route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">page_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rerun_st</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Routes to a page.</span>
 <span class="sd">        First found query string matching a page key in self.routers is routed too.</span>
 <span class="sd">        Query string value can be set to page data</span>
@@ -250,7 +253,7 @@
 
 <span class="c1"># @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs=router_hash_funcs)</span>
 <div class="viewcode-block" id="get_router"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.get_router">[docs]</a><span class="k">def</span> <span class="nf">get_router</span><span class="p">(</span><span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="n">preroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Router</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    See Router for params.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;router&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;router&quot;</span><span class="p">]:</span>
