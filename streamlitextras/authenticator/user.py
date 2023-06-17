@@ -19,7 +19,7 @@ class User:
         self.firebase_data = firebase_data
         # Sign in
         self.localId = firebase_data["localId"]
-        self.uid = firebase_data["localId"]
+        self.uid = firebase_data["userId"]
         self.email = firebase_data["email"]
         self.idToken = firebase_data["idToken"]
         self.expiresIn = firebase_data["expiresIn"] # idToken

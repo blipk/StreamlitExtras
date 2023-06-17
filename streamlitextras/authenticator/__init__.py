@@ -320,8 +320,11 @@ class Authenticator:
 
         # If the revokation wasn't from an already expired token, revoke current refresh tokens for user
         if self.last_user and (not error or (error and error.firebase_error != "TOKEN_EXPIRED")):
-            service_auth.revoke_refresh_tokens(self.last_user.localId)
-            log.info(f"Firebase tokens revoked for {self.last_user.localId}")
+            try:
+                service_auth.revoke_refresh_tokens(self.last_user.localId)
+                log.info(f"Firebase tokens revoked for {self.last_user.localId}")
+            except service_auth.UserNotFoundError:
+                log.warning("Couldn't invalidate session. UserNotFoundError")
 
         # Delete cookie and reset vars
         self.last_user = None
