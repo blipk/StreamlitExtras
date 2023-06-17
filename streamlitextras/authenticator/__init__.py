@@ -5,8 +5,10 @@ import dateutil.parser
 from types import ModuleType
 from typing import Union, Optional, Tuple, TypeVar, Type, Callable
 from datetime import datetime, timedelta
+from http.cookies import SimpleCookie
 
 import streamlit as st
+from streamlit.web.server.websocket_headers import _get_websocket_headers
 from streamlit.delta_generator import DeltaGenerator
 from streamlitextras.logger import log
 from streamlitextras.utils import repr_
@@ -28,6 +30,7 @@ pyrebase_service = pyrebase.initialize_app(config)
 auth = pyrebase_service.auth()
 db = pyrebase_service.database()
 storage = pyrebase_service.storage()
+
 
 # PyPI doesn't contain the latest git commits for pyrebase4
 def update_profile(id_token, display_name = None, photo_url=None, delete_attribute = None, *args):
@@ -78,7 +81,6 @@ class Authenticator:
         if not user_class:
             user_class = User
 
-        self.last_auth_check = None
         self.cookie_name = cookie_name
         self.session_name = session_name
         self.session_expiry_seconds = session_expiry_seconds
@@ -155,16 +157,14 @@ class Authenticator:
 
         :returns: Returns the auth cookie or None if it doesnt exist
         """
-        # Limit refresh loops from streamlit instantiating the cookie_manager component
-        # print ((time.time() - (self.last_auth_check or 0)))
-        if (
-            self.last_auth_check is not None
-            and (time.time() - self.last_auth_check) < 0.2
-        ):
-            return None
+        headers = _get_websocket_headers()
+        cookie_header = headers.get("Cookie", None) or headers.get("cookie", None)
+        cookie_reader = SimpleCookie(cookie_header)
 
-        self.last_auth_check = time.time()
-        cookie = self.cookie_manager.get(self.cookie_name)
+        cookie = cookie_reader.get(self.cookie_name, None)
+        if cookie is not None and cookie.value:
+            cookie = cookie.value
+
         return cookie
 
     @property

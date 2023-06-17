@@ -94,6 +94,7 @@ class CookieManager:
         if name is None or name == "":
             return None
         result = self.cookies.get(name)
+        time.sleep(1)
         return result
 
     def get_all(self, key="get_all"):

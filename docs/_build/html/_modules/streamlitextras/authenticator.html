@@ -79,8 +79,10 @@
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">http.cookies</span> <span class="kn">import</span> <span class="n">SimpleCookie</span>
 
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">from</span> <span class="nn">streamlit.web.server.websocket_headers</span> <span class="kn">import</span> <span class="n">_get_websocket_headers</span>
 <span class="kn">from</span> <span class="nn">streamlit.delta_generator</span> <span class="kn">import</span> <span class="n">DeltaGenerator</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.logger</span> <span class="kn">import</span> <span class="n">log</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.utils</span> <span class="kn">import</span> <span class="n">repr_</span>
@@ -102,6 +104,7 @@
 <span class="n">auth</span> <span class="o">=</span> <span class="n">pyrebase_service</span><span class="o">.</span><span class="n">auth</span><span class="p">()</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">pyrebase_service</span><span class="o">.</span><span class="n">database</span><span class="p">()</span>
 <span class="n">storage</span> <span class="o">=</span> <span class="n">pyrebase_service</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
+
 
 <span class="c1"># PyPI doesn&#39;t contain the latest git commits for pyrebase4</span>
 <div class="viewcode-block" id="update_profile"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.update_profile">[docs]</a><span class="k">def</span> <span class="nf">update_profile</span><span class="p">(</span><span class="n">id_token</span><span class="p">,</span> <span class="n">display_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">photo_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delete_attribute</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
@@ -152,7 +155,6 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user_class</span><span class="p">:</span>
             <span class="n">user_class</span> <span class="o">=</span> <span class="n">User</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_auth_check</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span> <span class="o">=</span> <span class="n">cookie_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="o">=</span> <span class="n">session_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span> <span class="o">=</span> <span class="n">session_expiry_seconds</span>
@@ -229,16 +231,14 @@
 
 <span class="sd">        :returns: Returns the auth cookie or None if it doesnt exist</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Limit refresh loops from streamlit instantiating the cookie_manager component</span>
-        <span class="c1"># print ((time.time() - (self.last_auth_check or 0)))</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">last_auth_check</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_auth_check</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.2</span>
-        <span class="p">):</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">_get_websocket_headers</span><span class="p">()</span>
+        <span class="n">cookie_header</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">cookie_reader</span> <span class="o">=</span> <span class="n">SimpleCookie</span><span class="p">(</span><span class="n">cookie_header</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_auth_check</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">cookie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
+        <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie_reader</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cookie</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span>
+
         <span class="k">return</span> <span class="n">cookie</span>
 
     <span class="nd">@property</span>
