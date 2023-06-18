@@ -93,6 +93,8 @@ class Authenticator:
         self.auth = auth
         self.db = db
 
+        self.logged_out = None
+
         if not admin_ids:
             admin_ids = []
         if type(admin_ids) not in [str, list]:
@@ -331,6 +333,7 @@ class Authenticator:
         st.session_state[self.session_name] = None
         st.session_state["authentication_token"] = None
         self.set_form("login")
+        self.logged_out = True
         self.cookie_manager.delete(self.cookie_name)
 
         return False
@@ -348,6 +351,10 @@ class Authenticator:
         """
         status = None
         error = None
+
+        if self.logged_out is True:
+            self.logged_out = None
+            return (None, None, None)
 
         token_decoded = self._token_decode()
         if not token_decoded:
