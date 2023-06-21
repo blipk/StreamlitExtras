@@ -38,7 +38,7 @@ class Router:
     @property
     def default_page(self):
         """
-        Returns the default page. Currently the first in self.pages
+        Returns the default page. Currently the first in self.routes
         """
         return self.page_names[0]
 
@@ -51,6 +51,25 @@ class Router:
     def current_state(self):
         page_name, page_state = self.current_page_data()
         return page_state
+
+    @property
+    def query_params(self):
+        """
+        Uses streamlit to fetch the current URL query parameters,
+        removing the current page param and state value.
+        """
+        params = st.experimental_get_query_params()
+        params = {k: v[0] for k, v in params.items() if k not in self.routes}
+        return params
+
+    @property
+    def query_params_all(self):
+        """
+        Uses streamlit to fetch the current URL query parameters,
+        including the current page param and state value.
+        """
+        params = st.experimental_get_query_params()
+        return params
 
     def current_page_data(self) -> Tuple:
         """
@@ -137,7 +156,12 @@ class Router:
         if len(args) == 0:
             stxs_javascript(f"""window.history.pushState({{}}, "", "/?{page_name}=~");""")
 
-    def route(self, page_name: str = None, page_state: Optional[str] = None, rerun_st: bool = False):
+    def route(self,
+              page_name: str = None,
+              page_state: Optional[str] = None,
+              additional_params: Optional[dict] = None,
+              rerun_st: bool = False,
+        ):
         """
         Routes to a page.
         First found query string matching a page key in self.routers is routed too.
@@ -148,9 +172,15 @@ class Router:
             If it is None first page in self.routes will be used, and no query params will be set (redirect to /)
         :param Optional[str] page_state:
             Optional string to include as page state, will be urlencoded/urldecoded
+        :param Optional[dict] additional_params:
+            Optional dict to be set as query parameters using st.experimental_set_query_params
+            If you use the page name as one of the keys, behaviour is overriding and may be experimental
         :param bool rerun_st:
             Whether to call st.experimental_rerun() - not needed if calling this from a st callback
         """
+        if additional_params is None:
+            additional_params = {}
+
         query_params = {}
         page_state = quote(page_state) if page_state else "~"
         if page_name:
@@ -160,7 +190,7 @@ class Router:
             query_params = {page_name: page_state}
 
         log.info(f"Setting query params {query_params}")
-        st.experimental_set_query_params(**query_params)
+        st.experimental_set_query_params(**{**query_params, **additional_params})
         if rerun_st is True:
             log.debug("rerun_st is True")
             time.sleep(0.1)
