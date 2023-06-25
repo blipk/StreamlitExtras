@@ -1,11 +1,16 @@
 import re
 
+package_name = "streamlit-base-extras"
+version_init_file = "streamlitextras/__init__.py"
+
 try:
     from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup, find_packages
 
-with open("streamlitextras/__init__.py", "r") as file:
+
+
+with open(version_init_file, "r") as file:
     regex_version = r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]'
     version = re.search(regex_version, file.read(), re.MULTILINE).group(1)
 
@@ -13,7 +18,7 @@ with open("README.md", "r") as f:
     readme = f.read()
 
 setup(
-    name="streamlit-base-extras",
+    name=package_name,
     version=version,
     author="blipk",
     author_email="blipk+@github.com",

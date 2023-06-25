@@ -406,9 +406,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logged_out</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="kc">False</span>
 

@@ -332,9 +332,9 @@ class Authenticator:
         self.last_user = None
         st.session_state[self.session_name] = None
         st.session_state["authentication_token"] = None
-        self.set_form("login")
         self.logged_out = True
         self.cookie_manager.delete(self.cookie_name)
+        self.set_form("login")
 
         return False
 
