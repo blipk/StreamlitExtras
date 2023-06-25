@@ -730,9 +730,6 @@ class Authenticator:
 
         reset_password_form.form_submit_button("Cancel", on_click=self.set_form, args=(None,))
 
-        if res:
-            st.info("Password reset email has been sent")
-
         return (res, error)
 
     def __repr__(self) -> str:

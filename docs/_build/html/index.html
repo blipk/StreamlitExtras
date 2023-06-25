@@ -193,6 +193,9 @@ to use a custom authentication provider.</p>
     <span class="k">elif</span> <span class="n">auth</span><span class="o">.</span><span class="n">current_form</span> <span class="o">==</span> <span class="s2">&quot;reset_password&quot;</span><span class="p">:</span>
         <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">reset_password</span><span class="p">(</span><span class="s2">&quot;Request password change email&quot;</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">res</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
 

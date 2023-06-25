@@ -142,7 +142,7 @@ class Router:
 
         if self.preroute and callable(self.preroute):
             # log.debug(f"Running preroute {self.preroute}")
-            self.preroute()
+            self.preroute(*args, **kwargs)
 
         log.info(f"Routing to {page_name} {redirect}")
         if redirect is True:

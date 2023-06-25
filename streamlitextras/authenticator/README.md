@@ -30,6 +30,9 @@ def auth_page():
     elif auth.current_form == "reset_password":
         res, error = auth.reset_password("Request password change email")
 
+    if res:
+        st.info("Success!")
+
     if error:
         st.error(error.message)
 
