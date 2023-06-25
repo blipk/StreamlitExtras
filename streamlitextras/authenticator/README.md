@@ -23,6 +23,8 @@ def main():
         auth_page()
 
 def auth_page():
+    info_box = st.container()
+
     if auth.current_form == "login" or not auth.current_form:
         user, res, error = auth.login("Login")
     if auth.current_form == "register":
@@ -31,10 +33,10 @@ def auth_page():
         res, error = auth.reset_password("Request password change email")
 
     if res:
-        st.info("Success!")
+        info_box.info("Success!")
 
     if error:
-        st.error(error.message)
+        info_box.error(error.message)
 
 if __name__ == "__main__":
     main()
