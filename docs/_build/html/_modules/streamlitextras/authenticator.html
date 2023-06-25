@@ -124,7 +124,7 @@
 <div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator">[docs]</a><span class="k">class</span> <span class="nc">Authenticator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Authenticator is used to handle firebase authentication,</span>
-<span class="sd">    as well as create streamlit widgest for login, registration,</span>
+<span class="sd">    as well as create streamlit widgets for login, registration,</span>
 <span class="sd">    and other account operations.</span>
 
 <span class="sd">    :param str authenticator_name: named key for this Authenticator class, used to store it in session state. Used for tracking without classvar reference.</span>
@@ -139,15 +139,17 @@
 <span class="sd">        List of firebase user ids (localId) used for checking User.is_developer</span>
 <span class="sd">        Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                <span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                <span class="n">cookie_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                <span class="n">session_expiry_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mi">14</span><span class="p">,</span>
-                <span class="n">session_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
-                <span class="n">authenticator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span>
-                <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">admin_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">cookie_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">session_expiry_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="n">session_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="n">authenticator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span>
+            <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">admin_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">):</span>
 
         <span class="k">if</span> <span class="n">authenticator_name</span> <span class="o">==</span> <span class="n">session_name</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;authenticator_name can&#39;t be the same as session_name (st.session_state conflict)&quot;</span><span class="p">)</span>
@@ -227,57 +229,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delayed_init</span><span class="p">()</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">auth_cookie</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the auth cookie</span>
-
-<span class="sd">        :returns: Returns the auth cookie or None if it doesnt exist</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="n">_get_websocket_headers</span><span class="p">()</span>
-        <span class="n">cookie_header</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">cookie_reader</span> <span class="o">=</span> <span class="n">SimpleCookie</span><span class="p">(</span><span class="n">cookie_header</span><span class="p">)</span>
-
-        <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie_reader</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">cookie</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
-            <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span>
-
-        <span class="k">return</span> <span class="n">cookie</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">auth_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        First checks for any valid authentication cookies,</span>
-<span class="sd">        then returns the current authentication status,</span>
-<span class="sd">        True if a user is Authenticated, or else False.</span>
-
-<span class="sd">        :returns bool: The authentication status</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="kc">True</span>
-
-        <span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cookie</span><span class="p">()</span>
-
-        <span class="c1"># log.info(f&quot;Checked cookie for auth_status: {status} {error}&quot;)</span>
-        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">firebase_error</span><span class="p">:</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">if</span> <span class="n">status</span><span class="p">:</span>
-            <span class="n">user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
-            <span class="n">expiry_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">token_decoded</span><span class="p">[</span><span class="s2">&quot;exp_date&quot;</span><span class="p">]),</span> <span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
-            <span class="n">expires_in_seconds</span> <span class="o">=</span> <span class="n">expiry_timestamp</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">expires_in_seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span><span class="si">}</span><span class="s2"> hours left in session cookie for </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">service_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModuleType</span><span class="p">]:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_form</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">status</span>
+            <span class="k">return</span> <span class="n">service_auth</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_user</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]:</span>
@@ -289,94 +246,35 @@
             <span class="n">current_user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]:</span>
             <span class="n">current_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
-        <span class="c1"># else:</span>
-        <span class="c1">#     status, error, token_decoded = self._check_cookie()</span>
-        <span class="c1">#     if status == True:</span>
-        <span class="c1">#         return self.current_user</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">current_user</span>
         <span class="k">return</span> <span class="n">current_user</span>
 
-    <span class="k">def</span> <span class="nf">_create_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">firebase_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expiry_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">datetime</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a User from firebase token data and instantiates a session for them.</span>
-
-<span class="sd">        :param dict firebase_data: The firebase data to construct the User for the session from</span>
-<span class="sd">        :param Optional[datetime, int, str, time] expiry_date:</span>
-<span class="sd">            an expiry datetime or timestamp (in UTC) for the session, defaults to now + self.session_expiry_seconds</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">expiry_date</span><span class="p">:</span>
-            <span class="n">expiry_date</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">expiry_date</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">datetime</span><span class="p">:</span>
-            <span class="n">expiry_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">expiry_date</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
-
-        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">firebase_data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">user</span>
-        <span class="n">token_expiry_time</span> <span class="o">=</span> <span class="n">expiry_date</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
-        <span class="n">cookie_expiry_time</span> <span class="o">=</span> <span class="n">expiry_date</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tz</span><span class="p">))</span>
-        <span class="c1"># token_expiry_time_delta = cookie_expiry_time.timestamp() - datetime.now(pytz.UTC).timestamp()</span>
-        <span class="c1"># session_cookie = service_auth.create_session_cookie(user.idToken, expires_in=token_expiry_time_delta)</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_token_encode</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">token_expiry_time</span><span class="p">)</span>
-        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
-        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="n">cookie_expiry_time</span><span class="p">)</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created session </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">user</span>
-
-    <span class="k">def</span> <span class="nf">_token_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserInherited</span><span class="p">,</span> <span class="n">expiry_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Encodes the contents of the reauthentication cookie from the auth session state</span>
-
-<span class="sd">        :param UserInherited user_class: inherited User class to create the token from</span>
-<span class="sd">        :param Optional[datetime] expiry_date: an expiry date (stored as UTC) metadata to be placed alongside the token contents, defaults to now + self.session_expiry_seconds</span>
-
-<span class="sd">        :returns str: The JWT cookie for passwordless reauthentication.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">expiry_date</span><span class="p">:</span>
-            <span class="n">expiry_date</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span><span class="p">))</span>
-        <span class="n">token_expiry_timestamp</span> <span class="o">=</span> <span class="n">expiry_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">firebase_data</span><span class="p">,</span> <span class="s2">&quot;exp_date&quot;</span><span class="p">:</span> <span class="n">token_expiry_timestamp</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_key</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;HS256&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Token incorrectly generated&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">token</span>
-
-    <span class="k">def</span> <span class="nf">_token_decode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decodes the contents of the reauthentication cookie.</span>
-
-<span class="sd">        :returns Optional[str]:</span>
-<span class="sd">            The decoded JWT cookie for passwordless reauthentication.</span>
-<span class="sd">            Returns None if there was an error decoding the cookie or it doesn&#39;t exist</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_key</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">])</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">pass</span>
-            <span class="c1"># log.warning(f&quot;&quot;&quot;Session token decode failure {st.session_state[&quot;authentication_token&quot;]}&quot;&quot;&quot;)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">auth_cookie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_cookie</span>
-            <span class="c1"># log.warning(f&quot;Got auth cookie: {str(auth_cookie)[:50]}&quot;)</span>
-            <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">auth_cookie</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_key</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">])</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">pass</span>
-            <span class="c1"># log.warning(f&quot;Cookie token decode failure {auth_cookie}&quot;)</span>
-
-        <span class="k">return</span> <span class="kc">None</span>
-
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">service_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModuleType</span><span class="p">]:</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">service_auth</span>
+    <span class="k">def</span> <span class="nf">auth_cookie</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the auth cookie</span>
+
+<span class="sd">        :returns: Returns the auth cookie or None if it doesnt exist</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;authentication_token&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]:</span>
+            <span class="n">auth_cookie</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">auth_cookie</span>
+
+        <span class="n">cookie</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">_get_websocket_headers</span><span class="p">()</span>
+        <span class="n">cookie_header</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">cookie_reader</span> <span class="o">=</span> <span class="n">SimpleCookie</span><span class="p">(</span><span class="n">cookie_header</span><span class="p">)</span>
+
+        <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie_reader</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cookie</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">cookie</span>
 
     <span class="k">def</span> <span class="nf">_revoke_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Deletes the auth cookie and revokes the firebase token it contains</span>
+<span class="sd">        Deletes the auth cookie and revokes any firebase tokens</span>
 
 <span class="sd">        :param Optional[AuthException] error: Optional associated error message for the revoke</span>
 <span class="sd">        :param bool disabled: Optional flag to block execution of this routine. Default is False.</span>
@@ -403,171 +301,216 @@
                 <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t invalidate session. UserNotFoundError&quot;</span><span class="p">)</span>
 
         <span class="c1"># Delete cookie and reset vars</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logged_out</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logged out </span><span class="si">{</span><span class="n">user_display</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
+        <span class="c1"># self.cookie_manager.set(self.cookie_name, &quot;&quot;, datetime.fromtimestamp(0))</span>
 
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">_check_cookie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attempt</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">AuthException</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">auth_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        First checks for any valid authentication cookies,</span>
+<span class="sd">        then returns the current authentication status,</span>
+<span class="sd">        True if a user is Authenticated, or else False.</span>
+
+<span class="sd">        :returns bool: The authentication status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cookie</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;Invalid Session Cookie&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">logged_out</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">status</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_user_session</span><span class="p">(</span><span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;loaded session cookie for </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+                    <span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_form</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logged_out</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">status</span>
+        <span class="k">return</span> <span class="n">status</span>
+
+    <span class="k">def</span> <span class="nf">_check_cookie</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">AuthException</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Looks for a cookie named self.cookie_name and checks its validity</span>
-<span class="sd">        If it is valid, loads it into the authentication session state</span>
-
-<span class="sd">        :param int attempt: used internally to count circular calls of this function</span>
+<span class="sd">        If it is valid, it returns the session cookie along with decoded claims</span>
 
 <span class="sd">        :returns tuple[bool, AuthException, dict]:</span>
-<span class="sd">            Returns a 3 element tuple with the authentication status, any exceptions, and the decoded JWT cookie/session token if there was one</span>
-<span class="sd">            Authentication status is True if a valid login cookie was found and login successful, else False (from _revoke_auth())</span>
+<span class="sd">            (status, error, session_cookie, decoded_claims)</span>
+<span class="sd">            status is True if the claims are validated</span>
+<span class="sd">            error will have any errors</span>
+<span class="sd">            session_cookie and it&#39;s decoded_claims will be set if status is True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">session_cookie</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">decoded_claims</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logged_out</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logged_out</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
-        <span class="n">token_decoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_token_decode</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">token_decoded</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Error decoding JWT in cookie&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">token_decoded</span><span class="p">[</span><span class="s2">&quot;exp_date&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">():</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;JWT in cookie is expired&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">token_decoded</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Session token not found in decoded JWT cookie&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
+        <span class="n">session_cookie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_cookie</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">session_cookie</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;No session cookie found&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
-        <span class="n">firebase_token</span> <span class="o">=</span> <span class="n">token_decoded</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;idToken&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">firebase_token</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;No idToken in decoded cookie token&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;account_info&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">firebase_token</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;No account_info in decoded cookie token&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">firebase_token</span><span class="p">[</span><span class="s2">&quot;registered&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Account with unverified email shouldn&#39;t have cookie&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-
-        <span class="c1"># try:</span>
-        <span class="c1">#     decoded_claims = service_auth.verify_session_cookie(session_cookie, check_revoked=True)</span>
-        <span class="c1"># except service_auth.InvalidSessionCookieError as e:</span>
-        <span class="c1">#      error = e</span>
-        <span class="c1">#      return (self._revoke_auth(error), error, token_decoded)</span>
-
-        <span class="c1"># try:</span>
-        <span class="c1">#     decoded_claims = service_auth.verify_id_token(firebase_token[&quot;idToken&quot;], check_revoke=True)</span>
-        <span class="c1"># except ValueError:</span>
-        <span class="c1">#     error = e # Invalid token format</span>
-        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
-        <span class="c1"># except service_auth.InvalidIdTokenError as e:</span>
-        <span class="c1">#     error = e</span>
-        <span class="c1">#     # Refresh here</span>
-        <span class="c1"># except service_auth.ExpiredIdTokenError as e:</span>
-        <span class="c1">#     error = e</span>
-        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
-        <span class="c1"># except service_auth.RevokedIdTokenError as e:</span>
-        <span class="c1">#     error = e</span>
-        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
-        <span class="c1"># except service_auth.CertificateFetchError as e:</span>
-        <span class="c1">#     error = e</span>
-        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
-        <span class="c1"># except service_auth.UserDisabledError as e:</span>
-        <span class="c1">#     error = e</span>
-        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
-        <span class="c1"># if datetime.now(pytz.UTC) - decoded_claims[&#39;auth_time&#39;] &lt; self.session_expiry_seconds:</span>
-        <span class="c1">#     error = AuthException(f&quot;old session id token {decoded_claims}&quot;)</span>
-        <span class="c1">#     return (self._revoke_auth(error), error, token_decoded)</span>
-
-        <span class="n">cookie_account_info</span> <span class="o">=</span> <span class="n">firebase_token</span><span class="p">[</span><span class="s2">&quot;account_info&quot;</span><span class="p">]</span>
-        <span class="n">utcnow</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
-        <span class="n">valid_since_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cookie_account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;validSince&quot;</span><span class="p">]),</span> <span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
-        <span class="n">valid_since_seconds</span> <span class="o">=</span> <span class="n">utcnow</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">valid_since_datetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
-        <span class="n">last_login_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">cookie_account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;lastLoginAt&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">cookie_account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;lastLoginAt&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span> <span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
-        <span class="n">last_login_age_seconds</span> <span class="o">=</span> <span class="n">utcnow</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_login_datetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
-        <span class="n">last_refresh_datetime</span> <span class="o">=</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">isoparse</span><span class="p">(</span><span class="n">cookie_account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;lastRefreshAt&quot;</span><span class="p">])</span>
-        <span class="n">last_refresh_age_seconds</span> <span class="o">=</span> <span class="n">utcnow</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_refresh_datetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
-        <span class="c1"># print(&quot;\nUTC now              &quot;, utcnow, utcnow.timestamp())</span>
-        <span class="c1"># print(&quot;Last log in:         &quot;, last_login_datetime, last_login_datetime.timestamp())</span>
-        <span class="c1"># print(&quot;Token valid since:   &quot;, valid_since_datetime, valid_since_datetime.timestamp())</span>
-        <span class="c1"># print(&quot;lastRefreshAt        &quot;, cookie_account_info[&quot;users&quot;][0][&quot;lastRefreshAt&quot;], last_refresh_datetime.timestamp(), last_refresh_datetime)</span>
-        <span class="c1"># print(&quot;Token age:       &quot;, valid_since_seconds, valid_since_seconds/3600)</span>
-        <span class="c1"># print(&quot;Last log in age: &quot;, last_login_age_seconds, last_login_age_seconds/3600)</span>
-        <span class="c1"># print(&quot;lastRefreshAt    &quot;, last_refresh_age_seconds, last_refresh_age_seconds/3600, &quot;\n&quot;)</span>
-
-        <span class="k">if</span> <span class="n">valid_since_seconds</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;old validSince </span><span class="si">{</span><span class="n">valid_since_datetime</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tz</span><span class="p">))</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">valid_since_seconds</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-            <span class="c1"># return (self._revoke_auth(error), error, token_decoded)</span>
-        <span class="k">if</span> <span class="n">last_login_age_seconds</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lastLoginAt is too old (</span><span class="si">{</span><span class="n">last_login_age_seconds</span><span class="si">}</span><span class="s2">) (</span><span class="si">{</span><span class="n">last_login_datetime</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">last_refresh_age_seconds</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lastRefreshAt is too old (</span><span class="si">{</span><span class="n">last_refresh_age_seconds</span><span class="si">}</span><span class="s2">) (</span><span class="si">{</span><span class="n">last_refresh_datetime</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-
-        <span class="c1"># Check account info and refresh the token if its expired (INVALID_ID_TOKEN)</span>
-        <span class="n">account_info</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">get_account_info</span><span class="p">,</span> <span class="n">AuthException</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">firebase_token</span><span class="p">[</span><span class="s1">&#39;idToken&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">error_type</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">firebase_error</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">error_type</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown reauth error </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error_type</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
-                <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;INVALID_ID_TOKEN&quot;</span> <span class="ow">in</span> <span class="n">error_type</span> <span class="ow">or</span> <span class="n">error_type</span> <span class="o">==</span> <span class="s2">&quot;INVALID_ID_TOKEN&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">attempt</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Too many authorisation attempts&quot;</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Session cookie token expired - refreshing </span><span class="si">{</span><span class="n">attempt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">refresh_errors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many recent sessions. Please try again later.&quot;</span><span class="p">}</span>
-                <span class="n">user_refresh</span><span class="p">,</span> <span class="n">refresh_error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">refresh</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">refresh_errors</span><span class="p">,</span> <span class="n">firebase_token</span><span class="p">[</span><span class="s1">&#39;refreshToken&#39;</span><span class="p">])</span>
-                <span class="k">if</span> <span class="n">refresh_error</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">refresh_error</span><span class="o">.</span><span class="n">firebase_error</span> <span class="ow">in</span> <span class="n">refresh_errors</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">refresh_error</span><span class="p">),</span> <span class="n">refresh_error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error refreshing token: </span><span class="si">{</span><span class="n">refresh_error</span><span class="o">.</span><span class="n">firebase_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refresh_error</span><span class="o">.</span><span class="n">firebase_error</span><span class="p">,</span> <span class="n">refresh_error</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Updating refresh token&quot;</span><span class="p">)</span>
-                    <span class="n">firebase_token</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">firebase_token</span><span class="p">,</span> <span class="o">**</span><span class="n">user_refresh</span><span class="p">}</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_create_session</span><span class="p">(</span><span class="n">firebase_token</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">[</span><span class="s2">&quot;exp_date&quot;</span><span class="p">])</span>
-                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cookie</span><span class="p">(</span><span class="n">attempt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">error_type</span> <span class="o">==</span> <span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Auth token is expired&quot;</span><span class="p">,</span> <span class="n">error_type</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
-                <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Error getting account info&quot;</span><span class="p">,</span> <span class="n">error_type</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
-                <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;passwordHash&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">firebase_token</span><span class="p">[</span><span class="s2">&quot;account_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account_info</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_create_session</span><span class="p">(</span><span class="n">firebase_token</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">[</span><span class="s2">&quot;exp_date&quot;</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">decoded_claims</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">verify_session_cookie</span><span class="p">(</span><span class="n">session_cookie</span><span class="p">,</span> <span class="n">check_revoked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">decoded_claims</span> <span class="ow">and</span> <span class="s2">&quot;user_id&quot;</span> <span class="ow">in</span> <span class="n">decoded_claims</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">InvalidSessionCookieError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+             <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Invalid Session Cookie&quot;</span><span class="p">)</span>
+             <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed _check_cookie()&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected failure in when checking cookie </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">token_decoded</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_check_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">_initialize_user_session</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">session_cookie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">decoded_claims</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+            <span class="n">login_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">set_cookie_expires_in</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Checks the validity of the entered credentials.</span>
+<span class="sd">        Initialize the users session state after login or reading cookie.</span>
+<span class="sd">        The cookie and data must be validated before this function.</span>
 
-<span class="sd">        :returns: tuple containing the User if one was created, firebase response and any errors</span>
+<span class="sd">        :param user: Instance of self.user_class</span>
+<span class="sd">        :param str session_cookie: the users session cookie</span>
+<span class="sd">        :param dict decoded_claims: the decoded claims from when verifying login idToken or session cookie</span>
+<span class="sd">        :param Optional[dict] login_data:</span>
+<span class="sd">            Account data with idtoken and refresh token returned from pyrebase login handler.</span>
+<span class="sd">        :param Optional[timedelta] set_cookie_expires_in:</span>
+<span class="sd">            If you want to write the session to the cookie as well, provide this (it&#39;s expiry from now in users tz)</span>
+
+<span class="sd">        :returns Optional[UserInherited]:</span>
+<span class="sd">            Returns the User created</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">&quot;user_id&quot;</span> <span class="ow">in</span> <span class="n">decoded_claims</span><span class="p">:</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">decoded_claims</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">login_data</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">]</span>
+
+        <span class="n">user_record</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="n">user_record_cleaned</span> <span class="o">=</span> <span class="n">user_record</span><span class="o">.</span><span class="n">_data</span>
+        <span class="n">user_record_cleaned</span><span class="p">[</span><span class="s2">&quot;passwordHash&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">auth_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;session_cookie&quot;</span><span class="p">:</span> <span class="n">session_cookie</span><span class="p">,</span>
+            <span class="s2">&quot;decoded_claims&quot;</span><span class="p">:</span> <span class="n">decoded_claims</span><span class="p">,</span>
+            <span class="s2">&quot;user_record&quot;</span><span class="p">:</span> <span class="n">user_record_cleaned</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">login_data</span><span class="p">:</span>
+            <span class="n">login_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">=</span><span class="n">auth_data</span><span class="p">,</span> <span class="n">login_data</span><span class="o">=</span><span class="n">login_data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_developer</span><span class="p">:</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;devops&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">user</span>
+
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">session_cookie</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
+
+        <span class="k">if</span> <span class="n">set_cookie_expires_in</span><span class="p">:</span>
+            <span class="n">cookie_expiry_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tz</span><span class="p">))</span> <span class="o">+</span> <span class="n">set_cookie_expires_in</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="n">cookie_expiry_time</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialized session</span><span class="si">{</span><span class="s1">&#39; and set cookie&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">set_cookie_expires_in</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+    <span class="k">def</span> <span class="nf">_create_session</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">login_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+            <span class="n">expires_in</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a User from firebase token data and instantiates a session for them.</span>
+<span class="sd">        This is used on login.</span>
+
+<span class="sd">        :param dict login_data:</span>
+<span class="sd">            The firebase data to construct the User for the session from - used on login</span>
+<span class="sd">        :param Optional[timedelta] expires_in:</span>
+<span class="sd">            a timedelta for how long until the session cookie expires,</span>
+<span class="sd">            defaults to current time (in user tz) plus self.session_expiry_seconds</span>
+
+<span class="sd">        :returns tuple: (user, error) - A user if one was created, and any errors in the operation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">expires_in</span><span class="p">:</span>
+            <span class="n">expires_in</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">session_expiry_seconds</span><span class="p">)</span>
+
+        <span class="n">id_token</span> <span class="o">=</span> <span class="n">login_data</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">decoded_claims</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">verify_id_token</span><span class="p">(</span><span class="n">id_token</span><span class="p">)</span>
+            <span class="c1"># Only process if the user signed in within the last 5 minutes.</span>
+            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">decoded_claims</span><span class="p">[</span><span class="s1">&#39;auth_time&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">session_cookie</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">create_session_cookie</span><span class="p">(</span><span class="n">id_token</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">expires_in</span><span class="p">)</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_user_session</span><span class="p">(</span><span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">set_cookie_expires_in</span><span class="o">=</span><span class="n">expires_in</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please try again.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Expired credentials&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">service_auth</span><span class="o">.</span><span class="n">InvalidIdTokenError</span><span class="p">,</span>
+                <span class="n">service_auth</span><span class="o">.</span><span class="n">ExpiredIdTokenError</span><span class="p">,</span>
+                <span class="n">service_auth</span><span class="o">.</span><span class="n">RevokedIdTokenError</span><span class="p">,</span>
+                <span class="n">service_auth</span><span class="o">.</span><span class="n">CertificateFetchError</span><span class="p">,</span>
+                <span class="n">service_auth</span><span class="o">.</span><span class="n">UserDisabledError</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Expired credentials&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">FirebaseError</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please try again.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="n">password</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks the validity of the entered credentials, and if the accounts email is verified.</span>
+
+<span class="sd">        :returns tuple: (res, error, login_data, validated)</span>
+<span class="sd">            res and error are responses and errors from firebase</span>
+<span class="sd">            login_data and boolean validated are set if the credentials pass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">login_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">validated</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">signin_errors</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;INVALID_EMAIL&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid email format&quot;</span><span class="p">,</span>
             <span class="s2">&quot;EMAIL_NOT_FOUND&quot;</span><span class="p">:</span> <span class="s2">&quot;Email address is not registered&quot;</span><span class="p">,</span>
             <span class="s2">&quot;INVALID_PASSWORD&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid password&quot;</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">sign_in_with_email_and_password</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">signin_errors</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-
         <span class="n">account_info</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">user_refresh</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
@@ -586,19 +529,14 @@
 
         <span class="k">if</span> <span class="n">res</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">account_info</span><span class="p">:</span>
+                <span class="n">login_data</span> <span class="o">=</span> <span class="n">res</span>
                 <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;passwordHash&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-                <span class="n">res</span><span class="p">[</span><span class="s2">&quot;account_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account_info</span>
-                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_session</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2"> logged in with password&quot;&quot;&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
-                    <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
-                    <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Welcome </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">displayName</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_developer</span><span class="p">:</span>
-                    <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;devops&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+                <span class="n">login_data</span><span class="p">[</span><span class="s2">&quot;account_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account_info</span>
+                <span class="n">validated</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Error retrieving account info&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">validated</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_resend_verification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -651,11 +589,14 @@
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="Authenticator.login"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-              <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
-              <span class="n">success_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-              <span class="n">cb_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-              <span class="n">cb_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Authenticator.login"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
+            <span class="n">success_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">cb_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">cb_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a login widget.</span>
 
@@ -702,7 +643,10 @@
                 <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please enter a password&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_credentials</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+                    <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">validated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_credentials</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">validated</span> <span class="ow">and</span> <span class="n">login_data</span><span class="p">:</span>
+                        <span class="n">user</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_session</span><span class="p">(</span><span class="n">login_data</span><span class="p">)</span>
+
                     <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">error</span> <span class="ow">and</span> <span class="n">success_callback</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">success_callback</span><span class="p">):</span>
                         <span class="n">success_callback</span><span class="p">(</span><span class="o">*</span><span class="n">cb_args</span><span class="p">,</span> <span class="n">login_return</span><span class="o">=</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,),</span> <span class="o">**</span><span class="n">cb_kwargs</span><span class="p">)</span>
 
@@ -755,6 +699,14 @@
                         <span class="s2">&quot;WEAK_PASSWORD&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                     <span class="p">}</span>
                     <span class="n">user</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">create_user_with_email_and_password</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="n">register_errors</span><span class="p">,</span> <span class="n">new_email</span><span class="p">,</span> <span class="n">new_password</span><span class="p">)</span>
+                    <span class="c1"># user = service_auth.create_user(</span>
+                    <span class="c1"># email=&#39;user@example.com&#39;,</span>
+                    <span class="c1"># email_verified=False,</span>
+                    <span class="c1"># phone_number=&#39;+15555550100&#39;,</span>
+                    <span class="c1"># password=&#39;secretPassword&#39;,</span>
+                    <span class="c1"># display_name=&#39;John Doe&#39;,</span>
+                    <span class="c1"># photo_url=&#39;http://www.example.com/12345678/photo.png&#39;,</span>
+                    <span class="c1"># disabled=False)</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
                         <span class="n">res1</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">update_profile</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],</span> <span class="n">display_name</span><span class="o">=</span><span class="n">new_name</span><span class="p">)</span>

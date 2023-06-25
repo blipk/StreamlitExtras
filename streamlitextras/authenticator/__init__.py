@@ -50,7 +50,7 @@ UserInherited = TypeVar('UserInherited', bound='User', covariant=True)
 class Authenticator:
     """
     Authenticator is used to handle firebase authentication,
-    as well as create streamlit widgest for login, registration,
+    as well as create streamlit widgets for login, registration,
     and other account operations.
 
     :param str authenticator_name: named key for this Authenticator class, used to store it in session state. Used for tracking without classvar reference.
@@ -65,15 +65,17 @@ class Authenticator:
         List of firebase user ids (localId) used for checking User.is_developer
         Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file
     """
-    def __init__(self,
-                cookie_name: str,
-                cookie_key: str,
-                session_expiry_seconds: int = 3600 * 14,
-                session_name: str = "user",
-                authenticator_name: str = "authenticator",
-                user_class: Optional[Type[UserInherited]] = None,
-                admin_ids: Optional[Union[list, str]] = None,
-                developer_ids: Optional[Union[list, str]] = None):
+    def __init__(
+            self,
+            cookie_name: str,
+            cookie_key: str,
+            session_expiry_seconds: int = 3600 * 24 * 12,
+            session_name: str = "user",
+            authenticator_name: str = "authenticator",
+            user_class: Optional[Type[UserInherited]] = None,
+            admin_ids: Optional[Union[list, str]] = None,
+            developer_ids: Optional[Union[list, str]] = None
+        ):
 
         if authenticator_name == session_name:
             raise ValueError("authenticator_name can't be the same as session_name (st.session_state conflict)")
@@ -153,70 +155,12 @@ class Authenticator:
         self.cookie_manager.delayed_init()
 
     @property
-    def auth_cookie(self) -> Optional[str]:
-        """
-        Gets the auth cookie
-
-        :returns: Returns the auth cookie or None if it doesnt exist
-        """
-        cookie = None
-        headers = _get_websocket_headers()
-        cookie_header = headers.get("Cookie", None) or headers.get("cookie", None)
-        cookie_reader = SimpleCookie(cookie_header)
-
-        cookie = cookie_reader.get(self.cookie_name, None)
-        if cookie is not None and cookie.value:
-            cookie = cookie.value
-
-        return cookie
-
-    @property
-    def auth_status(self) -> bool:
-        """
-        First checks for any valid authentication cookies,
-        then returns the current authentication status,
-        True if a user is Authenticated, or else False.
-
-        :returns bool: The authentication status
-        """
-        error = None
-        status = False
-
-        if self.current_user and st.session_state[self.session_name] and st.session_state["authentication_token"]:
-            return True
-
-        status, error, session_cookie, decoded_claims = self._check_cookie()
-
-        # log.info(f"Checked cookie for auth_status: {status} {error}")
-        if error:
-            if error.firebase_error:
-                log.error(error)
-                self._revoke_auth(error)
-            return False
-
-        user = None
-        if status:
-            if self.session_name in st.session_state and st.session_state[self.session_name]:
-                user = st.session_state[self.session_name]
-            if not user:
-                user, error = self._create_partial_session(session_cookie, decoded_claims)
-                if user:
-                    if user.is_admin:
-                        service_auth.set_custom_user_claims(user.localId, {'admin': True})
-                    if user.is_developer:
-                        service_auth.set_custom_user_claims(user.localId, {'devops': True})
-                    st.session_state[self.session_name] = user
-                    st.session_state["authentication_token"] = session_cookie
-                    log.success(f"""loaded session cookie for {user.email}""")
-                    self.set_form(None)
-                else:
-                    error = error
-                    status = None
+    def service_auth(self) -> Optional[ModuleType]:
+        user = self.current_user
+        if not user or not user.is_admin:
+            return None
         else:
-            if not self.current_form:
-                self.set_form("login")
-
-        return status
+            return service_auth
 
     @property
     def current_user(self) -> Optional[UserInherited]:
@@ -228,99 +172,35 @@ class Authenticator:
             current_user = self.last_user
         elif self.session_name in st.session_state and st.session_state[self.session_name]:
             current_user = st.session_state[self.session_name]
-        # else:
-        #     status, error, token_decoded = self._check_cookie()
-        #     if status == True:
-        #         return self.current_user
 
         self.last_user = current_user
         return current_user
 
-    def _create_partial_session(self, session_cookie: str, decoded_claims: str):
+    @property
+    def auth_cookie(self) -> Optional[str]:
         """
-        Creates a User and session with partial firebase_data (no idToken)
+        Gets the auth cookie
 
-        :param str session_cookie:
-            The session cookie value
-        :param str decoded_claims:
-            The decoded claims from verifying the session cookie
-        """
-        user = None
-        error = None
-
-        user_record = service_auth.get_user(decoded_claims["user_id"])
-        firebase_data = user_record._data
-        user = self.user_class(self, **firebase_data)
-        self.last_user = user
-        st.session_state["authentication_token"] = session_cookie
-        st.session_state[self.session_name] = user
-        return user, error
-
-    def _create_session(self,
-                        firebase_data: dict,
-                        expires_in: Optional[timedelta] = None):
-        """
-        Creates a User from firebase token data and instantiates a session for them.
-
-        :param dict firebase_data:
-            The firebase data to construct the User for the session from - used on login
-        :param Optional[timedelta] expires_in:
-            a timedelte for how long until the session cookie expires
-        """
-        user = None
-        error = None
-        if not expires_in:
-            expires_in = timedelta(seconds=self.session_expiry_seconds)
-
-        try:
-            decoded_claims = service_auth.verify_id_token(firebase_data["idToken"])
-            # Only process if the user signed in within the last 5 minutes.
-            if time.time() - decoded_claims['auth_time'] < 5 * 60:
-                user = self.user_class(self, **firebase_data)
-                self.last_user = user
-                cookie_expiry_time = datetime.now().astimezone(tz=pytz.timezone(self.user_tz)) + expires_in
-                session_cookie = service_auth.create_session_cookie(user.idToken, expires_in=expires_in)
-                #TODO Create a custom token with initial login idToken and refreshToken, as well as the session cookie
-                st.session_state["authentication_token"] = session_cookie
-                st.session_state[self.session_name] = user
-                self.cookie_manager.set(self.cookie_name, session_cookie, expires_at=cookie_expiry_time)
-                log.success(f"Created session {user}")
-            else:
-                error = LoginError("Expired credentials")
-        except (service_auth.InvalidIdTokenError,
-                service_auth.ExpiredIdTokenError,
-                service_auth.RevokedIdTokenError,
-                service_auth.CertificateFetchError,
-                service_auth.UserDisabledError):
-            error = LoginError("Expired credentials")
-        except firebase_admin.exceptions.FirebaseError:
-            error = LoginError("Please try again.")
-
-        return (user, error)
-
-    def _get_session_cookie(self) -> Optional[str]:
-        """
-        Gets the session cookie either from streamlit session state or the users local cookie
-
-        Retruns None if it's not found in either.
+        :returns: Returns the auth cookie or None if it doesnt exist
         """
         if "authentication_token" in st.session_state and st.session_state["authentication_token"]:
             auth_cookie = st.session_state["authentication_token"]
-        else:
-            auth_cookie = self.auth_cookie
-        return auth_cookie
+            return auth_cookie
 
-    @property
-    def service_auth(self) -> Optional[ModuleType]:
-        user = self.current_user
-        if not user or not user.is_admin:
-            return None
-        else:
-            return service_auth
+        cookie = None
+        headers = _get_websocket_headers()
+        cookie_header = headers.get("Cookie", None) or headers.get("cookie", None)
+        cookie_reader = SimpleCookie(cookie_header)
+
+        cookie = cookie_reader.get(self.cookie_name, None)
+        if cookie is not None and cookie.value:
+            cookie = cookie.value
+
+        return cookie
 
     def _revoke_auth(self, error: Optional[AuthException] = None, disabled: bool = False) -> bool:
         """
-        Deletes the auth cookie and revokes the firebase token it contains
+        Deletes the auth cookie and revokes any firebase tokens
 
         :param Optional[AuthException] error: Optional associated error message for the revoke
         :param bool disabled: Optional flag to block execution of this routine. Default is False.
@@ -347,37 +227,78 @@ class Authenticator:
                 log.warning("Couldn't invalidate session. UserNotFoundError")
 
         # Delete cookie and reset vars
-        self.last_user = None
         st.session_state[self.session_name] = None
         st.session_state["authentication_token"] = None
+        self.last_user = None
         self.logged_out = True
-        self.cookie_manager.delete(self.cookie_name)
-        self.cookie_manager.delete(self.cookie_name+"_session")
         self.set_form("login")
+        log.warning(f"Logged out {user_display}")
+        self.cookie_manager.delete(self.cookie_name)
+        # self.cookie_manager.set(self.cookie_name, "", datetime.fromtimestamp(0))
 
         return False
 
-    def _check_cookie(self, attempt: int = 0) -> tuple[bool, AuthException, dict]:
+    @property
+    def auth_status(self) -> bool:
+        """
+        First checks for any valid authentication cookies,
+        then returns the current authentication status,
+        True if a user is Authenticated, or else False.
+
+        :returns bool: The authentication status
+        """
+        error = None
+        status = False
+
+        if self.current_user and st.session_state[self.session_name] and st.session_state["authentication_token"]:
+            return True
+
+        status, error, session_cookie, decoded_claims = self._check_cookie()
+        if error:
+            if "Invalid Session Cookie" in str(error) and not self.logged_out:
+                log.error(error)
+                self._revoke_auth(error)
+
+            return False
+
+        user = None
+        if status:
+            if self.session_name in st.session_state and st.session_state[self.session_name]:
+                user = st.session_state[self.session_name]
+            if not user:
+                user = self._initialize_user_session(session_cookie, decoded_claims)
+                if user:
+                    log.success(f"""loaded session cookie for {user.email}""")
+                    self.set_form(None)
+                else:
+                    error = error
+                    status = None
+        else:
+            if not self.current_form:
+                self.set_form("login")
+        self.logged_out = not status
+        return status
+
+    def _check_cookie(self) -> tuple[bool, AuthException, str, dict]:
         """
         Looks for a cookie named self.cookie_name and checks its validity
-        If it is valid, loads it into the authentication session state
-
-        :param int attempt: used internally to count circular calls of this function
+        If it is valid, it returns the session cookie along with decoded claims
 
         :returns tuple[bool, AuthException, dict]:
-            Returns a 3 element tuple with the authentication status, any exceptions, and the decoded JWT cookie/session token if there was one
-            Authentication status is True if a valid login cookie was found and login successful, else False (from _revoke_auth())
+            (status, error, session_cookie, decoded_claims)
+            status is True if the claims are validated
+            error will have any errors
+            session_cookie and it's decoded_claims will be set if status is True
         """
-        status = None
+        status = False
         error = None
         session_cookie = None
         decoded_claims = None
 
         if self.logged_out is True:
-            self.logged_out = None
             return (status, error, session_cookie, decoded_claims)
 
-        session_cookie = self._get_session_cookie()
+        session_cookie = self.auth_cookie
         if not session_cookie:
             error = AuthException("No session cookie found")
             return (status, error, session_cookie, decoded_claims)
@@ -389,30 +310,133 @@ class Authenticator:
                 error = None
         except service_auth.InvalidSessionCookieError as e:
              error = AuthException("Invalid Session Cookie")
-            #  self._revoke_auth(error)
              return (status, error, session_cookie, decoded_claims)
 
         if error:
-            log.error("Failed _check_cookie()", error)
+            log.error(f"Unexpected failure in when checking cookie {error}")
 
         return (status, error, session_cookie, decoded_claims)
 
-    def _check_credentials(self, email: str, password: str) -> Tuple[Optional[UserInherited], Optional[dict], Optional[LoginError]]:
+    def _initialize_user_session(
+            self,
+            session_cookie: str,
+            decoded_claims: dict,
+            login_data: Optional[dict]=None,
+            set_cookie_expires_in: Optional[timedelta]=None
+        ) -> Optional[UserInherited]:
         """
-        Checks the validity of the entered credentials.
+        Initialize the users session state after login or reading cookie.
+        The cookie and data must be validated before this function.
 
-        :returns: tuple containing the User if one was created, firebase response and any errors
+        :param user: Instance of self.user_class
+        :param str session_cookie: the users session cookie
+        :param dict decoded_claims: the decoded claims from when verifying login idToken or session cookie
+        :param Optional[dict] login_data:
+            Account data with idtoken and refresh token returned from pyrebase login handler.
+        :param Optional[timedelta] set_cookie_expires_in:
+            If you want to write the session to the cookie as well, provide this (it's expiry from now in users tz)
+
+        :returns Optional[UserInherited]:
+            Returns the User created
         """
-        res = None
+        user = None
+        if "user_id" in decoded_claims:
+            user_id = decoded_claims["user_id"]
+        else:
+            user_id = login_data["idToken"]
+
+        user_record = service_auth.get_user(user_id)
+        user_record_cleaned = user_record._data
+        user_record_cleaned["passwordHash"] = ""
+        auth_data = {
+            "session_cookie": session_cookie,
+            "decoded_claims": decoded_claims,
+            "user_record": user_record_cleaned
+        }
+        if not login_data:
+            login_data = {}
+        user = self.user_class(self, auth_data=auth_data, login_data=login_data)
+
+        if user.is_admin:
+            service_auth.set_custom_user_claims(user.localId, {'admin': True})
+        if user.is_developer:
+            service_auth.set_custom_user_claims(user.localId, {'devops': True})
+        self.last_user = user
+
+        st.session_state["authentication_token"] = session_cookie
+        st.session_state[self.session_name] = user
+
+        if set_cookie_expires_in:
+            cookie_expiry_time = datetime.now().astimezone(tz=pytz.timezone(self.user_tz)) + set_cookie_expires_in
+            self.cookie_manager.set(self.cookie_name, session_cookie, expires_at=cookie_expiry_time)
+        log.success(f"Initialized session{' and set cookie' if set_cookie_expires_in else ''} {user}")
+        return user
+
+    def _create_session(
+            self,
+            login_data: dict,
+            expires_in: Optional[timedelta] = None
+        ) -> Tuple[Optional[UserInherited], Optional[LoginError]]:
+        """
+        Creates a User from firebase token data and instantiates a session for them.
+        This is used on login.
+
+        :param dict login_data:
+            The firebase data to construct the User for the session from - used on login
+        :param Optional[timedelta] expires_in:
+            a timedelta for how long until the session cookie expires,
+            defaults to current time (in user tz) plus self.session_expiry_seconds
+
+        :returns tuple: (user, error) - A user if one was created, and any errors in the operation
+        """
         user = None
         error = None
+        if not expires_in:
+            expires_in = timedelta(seconds=self.session_expiry_seconds)
+
+        id_token = login_data["idToken"]
+        try:
+            decoded_claims = service_auth.verify_id_token(id_token)
+            # Only process if the user signed in within the last 5 minutes.
+            if time.time() - decoded_claims['auth_time'] < 5 * 60:
+                session_cookie = service_auth.create_session_cookie(id_token, expires_in=expires_in)
+                user = self._initialize_user_session(session_cookie, decoded_claims, login_data, set_cookie_expires_in=expires_in)
+                if not user:
+                    error = LoginError("Please try again.")
+            else:
+                error = LoginError("Expired credentials")
+        except (service_auth.InvalidIdTokenError,
+                service_auth.ExpiredIdTokenError,
+                service_auth.RevokedIdTokenError,
+                service_auth.CertificateFetchError,
+                service_auth.UserDisabledError):
+            error = LoginError("Expired credentials")
+        except firebase_admin.exceptions.FirebaseError:
+            error = LoginError("Please try again.")
+
+        return (user, error)
+
+    def _check_credentials(self,
+                           email: str,
+                           password: str
+        ) -> Tuple[Optional[dict], Optional[LoginError], Optional[dict], bool]:
+        """
+        Checks the validity of the entered credentials, and if the accounts email is verified.
+
+        :returns tuple: (res, error, login_data, validated)
+            res and error are responses and errors from firebase
+            login_data and boolean validated are set if the credentials pass
+        """
+        res = None
+        error = None
+        login_data = None
+        validated = False
         signin_errors = {
             "INVALID_EMAIL": "Invalid email format",
             "EMAIL_NOT_FOUND": "Email address is not registered",
             "INVALID_PASSWORD": "Invalid password",
         }
         res, error = handle_firebase_action(auth.sign_in_with_email_and_password, LoginError, signin_errors, email, password)
-
         account_info = None
         user_refresh = None
         if not error:
@@ -431,22 +455,14 @@ class Authenticator:
 
         if res and not error:
             if account_info:
+                login_data = res
                 account_info["users"][0]["passwordHash"] = ""
-                res["account_info"] = account_info
-                user, error = self._create_session(res)
-                if user:
-                    log.success(f"""{user.email} logged in with password""")
-                    if user.is_admin:
-                        service_auth.set_custom_user_claims(user.localId, {'admin': True})
-                        log.success(f"""Welcome {user.displayName}""")
-                    if user.is_developer:
-                        service_auth.set_custom_user_claims(user.localId, {'devops': True})
-                else:
-                    error = error
+                login_data["account_info"] = account_info
+                validated = True
             else:
                 error = LoginError("Error retrieving account info")
 
-        return (user, res, error)
+        return (res, error, login_data, validated)
 
     def _resend_verification(self, user_id_token: str) -> Tuple[Optional[dict], Optional[AuthException]]:
         """
@@ -499,11 +515,14 @@ class Authenticator:
 
         return False
 
-    def login(self, form_name: str,
-              form_location: Union[DeltaGenerator, ModuleType] = st,
-              success_callback: Optional[Callable] = None,
-              cb_args: Optional[tuple] = None,
-              cb_kwargs: Optional[dict] = None) -> Tuple[Optional[UserInherited], dict, Optional[LoginError]]:
+    def login(
+            self,
+            form_name: str,
+            form_location: Union[DeltaGenerator, ModuleType] = st,
+            success_callback: Optional[Callable] = None,
+            cb_args: Optional[tuple] = None,
+            cb_kwargs: Optional[dict] = None
+        ) -> Tuple[Optional[UserInherited], dict, Optional[LoginError]]:
         """
         Creates a login widget.
 
@@ -550,7 +569,10 @@ class Authenticator:
                 elif len(password) == 0:
                     error = LoginError("Please enter a password")
                 else:
-                    user, res, error = self._check_credentials(email, password)
+                    res, error, login_data, validated = self._check_credentials(email, password)
+                    if validated and login_data:
+                        user, error = self._create_session(login_data)
+
                     if user and not error and success_callback and callable(success_callback):
                         success_callback(*cb_args, login_return=(user, res, error,), **cb_kwargs)
 
@@ -603,6 +625,14 @@ class Authenticator:
                         "WEAK_PASSWORD": "",
                     }
                     user, error = handle_firebase_action(auth.create_user_with_email_and_password, RegisterError, register_errors, new_email, new_password)
+                    # user = service_auth.create_user(
+                    # email='user@example.com',
+                    # email_verified=False,
+                    # phone_number='+15555550100',
+                    # password='secretPassword',
+                    # display_name='John Doe',
+                    # photo_url='http://www.example.com/12345678/photo.png',
+                    # disabled=False)
 
                     if not error:
                         res1, error = handle_firebase_action(auth.update_profile, RegisterError, False, user["idToken"], display_name=new_name)

@@ -7,54 +7,59 @@ class User:
     """
     This class is used as an interface for Authenticators users
     """
-    def __init__(self, authenticator, **kwargs):
+    def __init__(self, authenticator, auth_data, login_data = {}):
         """
         Initializes a user account with associated firebase tokens and account information
 
         :param Authenticator authenticator: The associated Authenticator class that spawned this user
-        :param dict **kwargs: The data associated with this class, the firebase_data from firebase APIs if Authenticator hasn't been inherited
+        :param dict auth_data:
+            Dict containing session_cookie, decoded_claims and user_record
+        :param dict login_data:
+            The data from the initial login, not always provided (when reading session cookies)
         """
-        firebase_data = kwargs
         self.authenticator = authenticator
-        self.firebase_data = firebase_data
-        # Sign in
-        self.localId = firebase_data["localId"]
-        self.uid = firebase_data.get("userId", self.localId)
-        self.email = firebase_data["email"]
-        self.displayName = firebase_data["displayName"]
+        self.auth_data = auth_data
+        self.login_data = login_data
 
-        self.idToken = firebase_data.get("idToken", None)
-        self.expiresIn = firebase_data.get("expiresIn", None) # idToken
-        self.registered = firebase_data.get("registered", None)
-        self.refreshToken = firebase_data.get("refreshToken")
+        self.idToken = login_data.get("idToken", None)
+        self.expiresIn = login_data.get("expiresIn", None)
+        self.registered = login_data.get("registered", None)
+        self.refreshToken = login_data.get("refreshToken", None)
 
+        self.user_record = auth_data["user_record"]
+        self.session_cookie = auth_data["session_cookie"]
+        self.decoded_claims = auth_data["decoded_claims"]
 
-        self.account_info = firebase_data.get("account_info", None)
-        self.users = self.account_info["users"] if self.account_info else [firebase_data]
-        self.user = self.users[0] # Only supporting single identify provider - password
-        # Already provided: localId, email, displayName, passwordHash
+        self.uid = self.decoded_claims["uid"]
+        self.localId = self.user_record["localId"]
 
-        self.emailVerified = self.user["emailVerified"]
-        self.passwordUpdatedAt = self.user["passwordUpdatedAt"]
-        self.providerUserInfo = self.user["providerUserInfo"]  # Only used if using federated SSO etc
-        self.photoUrl = self.user["photoUrl"] if "photoUrl" in self.user else None
-        self.validSince = self.user["validSince"] # The timestamp, in seconds, which marks a boundary, before which Firebase ID token are considered revoked.
-        self.disabled = self.user["disabled"] if "disabled" in self.user else None
-        self.lastLoginAt = self.user["lastLoginAt"]
-        self.createdAt = self.user["createdAt"]
-        self.lastRefreshAt = self.user["lastRefreshAt"]
-        self.customAuth = self.user["customAuth"] if "customAuth" in self.user else None
+        self.email = self.user_record["email"]
+        self.emailVerified = self.user_record["emailVerified"]
+        self.displayName = self.user_record["displayName"]
+        self.createdAt = self.user_record["createdAt"]
+        self.lastLoginAt = self.user_record["lastLoginAt"]
+        self.lastRefreshAt = self.user_record["lastRefreshAt"]
+        self.passwordUpdatedAt = self.user_record["passwordUpdatedAt"]
+        self.providerUserInfo = self.user_record["providerUserInfo"]
+        self.validSince = self.user_record["validSince"]
+        self.photoUrl = self.user_record.get("photoUrl", None)
+
+        self.account_info = login_data.get("account_info", None)
+        self.users = self.account_info["users"] if self.account_info else None
+        self.user = self.users[0] if self.users else None
+        self.disabled = self.user.get("disabled", None) if self.user else None
+        self.customAuth = self.user.get("customAuth", None) if self.user  else None
 
     def refresh_token(self):
         refreshed = None
         refresh_errors = {"TOKEN_EXPIRED": "Too many recent sessions. Please try again later."}
         user_refresh, refresh_error = handle_firebase_action(self.authenticator.auth.refresh, LoginError, refresh_errors, self.refreshToken)
         if not refresh_error:
-            self.firebase_data = {**self.firebase_data, **user_refresh}
+            self.login_data = {**self.login_data, **user_refresh}
             for key in self.__dict__.keys():
                 if key in user_refresh and hasattr(self, key):
                     setattr(self, key, user_refresh[key])
-            self.authenticator._create_session(self.firebase_data)
+            self.authenticator._create_session(self.login_data)
             refreshed = True
             log.info("Users tokens refreshed.")
         else:
@@ -89,4 +94,4 @@ class User:
         return self.localId in developer_ids
 
     def __repr__(self) -> str:
-        return repr_(self, ["passwordHash", "firebase_data", "refreshToken", "idToken", "authenticator"], only_keys=["localId", "email"])
+        return repr_(self, ["passwordHash", "login_data", "refreshToken", "idToken", "authenticator"], only_keys=["localId", "email"])

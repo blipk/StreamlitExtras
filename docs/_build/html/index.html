@@ -186,6 +186,8 @@ to use a custom authentication provider.</p>
         <span class="n">auth_page</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">auth_page</span><span class="p">():</span>
+    <span class="n">info_box</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">container</span><span class="p">()</span>
+
     <span class="k">if</span> <span class="n">auth</span><span class="o">.</span><span class="n">current_form</span> <span class="o">==</span> <span class="s2">&quot;login&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">auth</span><span class="o">.</span><span class="n">current_form</span><span class="p">:</span>
         <span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s2">&quot;Login&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">auth</span><span class="o">.</span><span class="n">current_form</span> <span class="o">==</span> <span class="s2">&quot;register&quot;</span><span class="p">:</span>
@@ -194,10 +196,10 @@ to use a custom authentication provider.</p>
         <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">reset_password</span><span class="p">(</span><span class="s2">&quot;Request password change email&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">res</span><span class="p">:</span>
-        <span class="n">st</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
+        <span class="n">info_box</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-        <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">info_box</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
