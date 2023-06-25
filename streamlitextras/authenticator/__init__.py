@@ -159,6 +159,7 @@ class Authenticator:
 
         :returns: Returns the auth cookie or None if it doesnt exist
         """
+        cookie = None
         headers = _get_websocket_headers()
         cookie_header = headers.get("Cookie", None) or headers.get("cookie", None)
         cookie_reader = SimpleCookie(cookie_header)
@@ -184,7 +185,7 @@ class Authenticator:
         if self.current_user and st.session_state[self.session_name] and st.session_state["authentication_token"]:
             return True
 
-        status, error, token_decoded = self._check_cookie()
+        status, error, session_cookie, decoded_claims = self._check_cookie()
 
         # log.info(f"Checked cookie for auth_status: {status} {error}")
         if error:
@@ -193,12 +194,24 @@ class Authenticator:
                 self._revoke_auth(error)
             return False
 
+        user = None
         if status:
-            user = st.session_state[self.session_name]
-            expiry_timestamp = datetime.fromtimestamp(float(token_decoded["exp_date"]), tz=pytz.UTC).timestamp()
-            expires_in_seconds = expiry_timestamp - datetime.now(pytz.UTC).timestamp()
-            log.success(f"""{expires_in_seconds / 3600} hours left in session cookie for {user.email}""")
-            self.set_form(None)
+            if self.session_name in st.session_state and st.session_state[self.session_name]:
+                user = st.session_state[self.session_name]
+            if not user:
+                user, error = self._create_partial_session(session_cookie, decoded_claims)
+                if user:
+                    if user.is_admin:
+                        service_auth.set_custom_user_claims(user.localId, {'admin': True})
+                    if user.is_developer:
+                        service_auth.set_custom_user_claims(user.localId, {'devops': True})
+                    st.session_state[self.session_name] = user
+                    st.session_state["authentication_token"] = session_cookie
+                    log.success(f"""loaded session cookie for {user.email}""")
+                    self.set_form(None)
+                else:
+                    error = error
+                    status = None
         else:
             if not self.current_form:
                 self.set_form("login")
@@ -223,74 +236,79 @@ class Authenticator:
         self.last_user = current_user
         return current_user
 
-    def _create_session(self, firebase_data: dict, expiry_date: Optional[Union[datetime, int, str, float]] = None):
+    def _create_partial_session(self, session_cookie: str, decoded_claims: str):
+        """
+        Creates a User and session with partial firebase_data (no idToken)
+
+        :param str session_cookie:
+            The session cookie value
+        :param str decoded_claims:
+            The decoded claims from verifying the session cookie
+        """
+        user = None
+        error = None
+
+        user_record = service_auth.get_user(decoded_claims["user_id"])
+        firebase_data = user_record._data
+        user = self.user_class(self, **firebase_data)
+        self.last_user = user
+        st.session_state["authentication_token"] = session_cookie
+        st.session_state[self.session_name] = user
+        return user, error
+
+    def _create_session(self,
+                        firebase_data: dict,
+                        expires_in: Optional[timedelta] = None):
         """
         Creates a User from firebase token data and instantiates a session for them.
 
-        :param dict firebase_data: The firebase data to construct the User for the session from
-        :param Optional[datetime, int, str, time] expiry_date:
-            an expiry datetime or timestamp (in UTC) for the session, defaults to now + self.session_expiry_seconds
+        :param dict firebase_data:
+            The firebase data to construct the User for the session from - used on login
+        :param Optional[timedelta] expires_in:
+            a timedelte for how long until the session cookie expires
         """
-        if not expiry_date:
-            expiry_date = (datetime.now(pytz.UTC) + timedelta(seconds=self.session_expiry_seconds))
-
-        if type(expiry_date) is not datetime:
-            expiry_date = datetime.fromtimestamp(expiry_date, tz=pytz.UTC)
-
-        user = self.user_class(self, **firebase_data)
-        self.last_user = user
-        token_expiry_time = expiry_date.astimezone(tz=pytz.UTC)
-        cookie_expiry_time = expiry_date.astimezone(tz=pytz.timezone(self.user_tz))
-        # token_expiry_time_delta = cookie_expiry_time.timestamp() - datetime.now(pytz.UTC).timestamp()
-        # session_cookie = service_auth.create_session_cookie(user.idToken, expires_in=token_expiry_time_delta)
-        token = self._token_encode(user, token_expiry_time)
-        st.session_state["authentication_token"] = token
-        st.session_state[self.session_name] = user
-        self.cookie_manager.set(self.cookie_name, token, expires_at=cookie_expiry_time)
-        log.success(f"Created session {user}")
-
-        return user
-
-    def _token_encode(self, user: UserInherited, expiry_date: Optional[datetime] = None) -> str:
-        """
-        Encodes the contents of the reauthentication cookie from the auth session state
-
-        :param UserInherited user_class: inherited User class to create the token from
-        :param Optional[datetime] expiry_date: an expiry date (stored as UTC) metadata to be placed alongside the token contents, defaults to now + self.session_expiry_seconds
-
-        :returns str: The JWT cookie for passwordless reauthentication.
-        """
-        if not expiry_date:
-            expiry_date = (datetime.now(pytz.UTC) + timedelta(seconds=self.session_expiry_seconds))
-        token_expiry_timestamp = expiry_date.timestamp()
-        token = jwt.encode({self.session_name: user.firebase_data, "exp_date": token_expiry_timestamp}, self.cookie_key, algorithm="HS256")
-        if not token:
-            raise Exception("Token incorrectly generated")
-        return token
-
-    def _token_decode(self) -> Optional[str]:
-        """
-        Decodes the contents of the reauthentication cookie.
-
-        :returns Optional[str]:
-            The decoded JWT cookie for passwordless reauthentication.
-            Returns None if there was an error decoding the cookie or it doesn't exist
-        """
-        try:
-            return jwt.decode(st.session_state["authentication_token"], self.cookie_key, algorithms=["HS256"])
-        except Exception as e:
-            pass
-            # log.warning(f"""Session token decode failure {st.session_state["authentication_token"]}""")
+        user = None
+        error = None
+        if not expires_in:
+            expires_in = timedelta(seconds=self.session_expiry_seconds)
 
         try:
+            decoded_claims = service_auth.verify_id_token(firebase_data["idToken"])
+            # Only process if the user signed in within the last 5 minutes.
+            if time.time() - decoded_claims['auth_time'] < 5 * 60:
+                user = self.user_class(self, **firebase_data)
+                self.last_user = user
+                cookie_expiry_time = datetime.now().astimezone(tz=pytz.timezone(self.user_tz)) + expires_in
+                session_cookie = service_auth.create_session_cookie(user.idToken, expires_in=expires_in)
+                #TODO Create a custom token with initial login idToken and refreshToken, as well as the session cookie
+                st.session_state["authentication_token"] = session_cookie
+                st.session_state[self.session_name] = user
+                self.cookie_manager.set(self.cookie_name, session_cookie, expires_at=cookie_expiry_time)
+                log.success(f"Created session {user}")
+            else:
+                error = LoginError("Expired credentials")
+        except (service_auth.InvalidIdTokenError,
+                service_auth.ExpiredIdTokenError,
+                service_auth.RevokedIdTokenError,
+                service_auth.CertificateFetchError,
+                service_auth.UserDisabledError):
+            error = LoginError("Expired credentials")
+        except firebase_admin.exceptions.FirebaseError:
+            error = LoginError("Please try again.")
+
+        return (user, error)
+
+    def _get_session_cookie(self) -> Optional[str]:
+        """
+        Gets the session cookie either from streamlit session state or the users local cookie
+
+        Retruns None if it's not found in either.
+        """
+        if "authentication_token" in st.session_state and st.session_state["authentication_token"]:
+            auth_cookie = st.session_state["authentication_token"]
+        else:
             auth_cookie = self.auth_cookie
-            # log.warning(f"Got auth cookie: {str(auth_cookie)[:50]}")
-            return jwt.decode(auth_cookie, self.cookie_key, algorithms=["HS256"])
-        except Exception as e:
-            pass
-            # log.warning(f"Cookie token decode failure {auth_cookie}")
-
-        return None
+        return auth_cookie
 
     @property
     def service_auth(self) -> Optional[ModuleType]:
@@ -334,6 +352,7 @@ class Authenticator:
         st.session_state["authentication_token"] = None
         self.logged_out = True
         self.cookie_manager.delete(self.cookie_name)
+        self.cookie_manager.delete(self.cookie_name+"_session")
         self.set_form("login")
 
         return False
@@ -351,132 +370,32 @@ class Authenticator:
         """
         status = None
         error = None
+        session_cookie = None
+        decoded_claims = None
 
         if self.logged_out is True:
             self.logged_out = None
-            return (None, None, None)
+            return (status, error, session_cookie, decoded_claims)
 
-        token_decoded = self._token_decode()
-        if not token_decoded:
-            error = AuthException("Error decoding JWT in cookie")
-            return (False, error, token_decoded)
-        if token_decoded["exp_date"] < datetime.now(pytz.UTC).timestamp():
-            error = AuthException("JWT in cookie is expired")
-            return (self._revoke_auth(error), error, token_decoded)
-        if self.session_name not in token_decoded:
-            error = AuthException("Session token not found in decoded JWT cookie")
-            return (self._revoke_auth(error), error, token_decoded)
+        session_cookie = self._get_session_cookie()
+        if not session_cookie:
+            error = AuthException("No session cookie found")
+            return (status, error, session_cookie, decoded_claims)
 
-        firebase_token = token_decoded[self.session_name]
-        if "idToken" not in firebase_token:
-            error = AuthException("No idToken in decoded cookie token")
-            return (self._revoke_auth(error), error, token_decoded)
-        if "account_info" not in firebase_token:
-            error = AuthException("No account_info in decoded cookie token")
-            return (self._revoke_auth(error), error, token_decoded)
-        if firebase_token["registered"] is False:
-            error = AuthException("Account with unverified email shouldn't have cookie")
-            return (self._revoke_auth(error), error, token_decoded)
-
-        # try:
-        #     decoded_claims = service_auth.verify_session_cookie(session_cookie, check_revoked=True)
-        # except service_auth.InvalidSessionCookieError as e:
-        #      error = e
-        #      return (self._revoke_auth(error), error, token_decoded)
-
-        # try:
-        #     decoded_claims = service_auth.verify_id_token(firebase_token["idToken"], check_revoke=True)
-        # except ValueError:
-        #     error = e # Invalid token format
-        #     return (self._revoke_auth(error), error, token_decoded)
-        # except service_auth.InvalidIdTokenError as e:
-        #     error = e
-        #     # Refresh here
-        # except service_auth.ExpiredIdTokenError as e:
-        #     error = e
-        #     return (self._revoke_auth(error), error, token_decoded)
-        # except service_auth.RevokedIdTokenError as e:
-        #     error = e
-        #     return (self._revoke_auth(error), error, token_decoded)
-        # except service_auth.CertificateFetchError as e:
-        #     error = e
-        #     return (self._revoke_auth(error), error, token_decoded)
-        # except service_auth.UserDisabledError as e:
-        #     error = e
-        #     return (self._revoke_auth(error), error, token_decoded)
-        # if datetime.now(pytz.UTC) - decoded_claims['auth_time'] < self.session_expiry_seconds:
-        #     error = AuthException(f"old session id token {decoded_claims}")
-        #     return (self._revoke_auth(error), error, token_decoded)
-
-        cookie_account_info = firebase_token["account_info"]
-        utcnow = datetime.now(pytz.UTC)
-        valid_since_datetime = datetime.fromtimestamp(int(cookie_account_info["users"][0]["validSince"]), tz=pytz.UTC)
-        valid_since_seconds = utcnow.timestamp() - valid_since_datetime.timestamp()
-        last_login_datetime = datetime.fromtimestamp(float(cookie_account_info["users"][0]["lastLoginAt"][:10] + '.' + cookie_account_info["users"][0]["lastLoginAt"][-3]), tz=pytz.UTC)
-        last_login_age_seconds = utcnow.timestamp() - last_login_datetime.timestamp()
-        last_refresh_datetime = dateutil.parser.isoparse(cookie_account_info["users"][0]["lastRefreshAt"])
-        last_refresh_age_seconds = utcnow.timestamp() - last_refresh_datetime.timestamp()
-        # print("\nUTC now              ", utcnow, utcnow.timestamp())
-        # print("Last log in:         ", last_login_datetime, last_login_datetime.timestamp())
-        # print("Token valid since:   ", valid_since_datetime, valid_since_datetime.timestamp())
-        # print("lastRefreshAt        ", cookie_account_info["users"][0]["lastRefreshAt"], last_refresh_datetime.timestamp(), last_refresh_datetime)
-        # print("Token age:       ", valid_since_seconds, valid_since_seconds/3600)
-        # print("Last log in age: ", last_login_age_seconds, last_login_age_seconds/3600)
-        # print("lastRefreshAt    ", last_refresh_age_seconds, last_refresh_age_seconds/3600, "\n")
-
-        if valid_since_seconds > self.session_expiry_seconds:
-            error = AuthException(f"old validSince {valid_since_datetime.astimezone(pytz.timezone(self.user_tz))} {valid_since_seconds}")
-            log.info(error)
-            # return (self._revoke_auth(error), error, token_decoded)
-        if last_login_age_seconds > self.session_expiry_seconds:
-            error = AuthException(f"lastLoginAt is too old ({last_login_age_seconds}) ({last_login_datetime})")
-            log.info(error)
-        if last_refresh_age_seconds > self.session_expiry_seconds:
-            error = AuthException(f"lastRefreshAt is too old ({last_refresh_age_seconds}) ({last_refresh_datetime})")
-            return (self._revoke_auth(error), error, token_decoded)
-
-        # Check account info and refresh the token if its expired (INVALID_ID_TOKEN)
-        account_info, error = handle_firebase_action(auth.get_account_info, AuthException, False, firebase_token['idToken'])
-        if error:
-            error_type = error.firebase_error
-            if not error_type:
-                error = AuthException(f"Unknown reauth error {error}", error_type, error)
-                return (self._revoke_auth(error), error, token_decoded)
-            if "INVALID_ID_TOKEN" in error_type or error_type == "INVALID_ID_TOKEN":
-                if attempt > 2:
-                    error = AuthException("Too many authorisation attempts")
-                    return (False, error, token_decoded)
-                log.info(f"Session cookie token expired - refreshing {attempt}")
-                refresh_errors = {"TOKEN_EXPIRED": "Too many recent sessions. Please try again later."}
-                user_refresh, refresh_error = handle_firebase_action(auth.refresh, LoginError, refresh_errors, firebase_token['refreshToken'])
-                if refresh_error:
-                    if refresh_error.firebase_error in refresh_errors:
-                        return (self._revoke_auth(refresh_error), refresh_error, token_decoded)
-                    else:
-                        error = AuthException(f"error refreshing token: {refresh_error.firebase_error}", refresh_error.firebase_error, refresh_error)
-                        return (self._revoke_auth(error), error, token_decoded)
-                else:
-                    log.info("Updating refresh token")
-                    firebase_token = {**firebase_token, **user_refresh}
-                    self._create_session(firebase_token, token_decoded["exp_date"])
-                    return self._check_cookie(attempt + 1)
-            elif error_type == "TOKEN_EXPIRED":
-                error = AuthException("Auth token is expired", error_type, error)
-                return (self._revoke_auth(error), error, token_decoded)
-            else:
-                error = AuthException("Error getting account info", error_type, error)
-                return (self._revoke_auth(error), error, token_decoded)
-
-        if not error:
-            status = True
-            account_info["users"][0]["passwordHash"] = ""
-            firebase_token["account_info"] = account_info
-            self._create_session(firebase_token, token_decoded["exp_date"])
+        try:
+            decoded_claims = service_auth.verify_session_cookie(session_cookie, check_revoked=True)
+            if decoded_claims and "user_id" in decoded_claims:
+                status = True
+                error = None
+        except service_auth.InvalidSessionCookieError as e:
+             error = AuthException("Invalid Session Cookie")
+            #  self._revoke_auth(error)
+             return (status, error, session_cookie, decoded_claims)
 
         if error:
             log.error("Failed _check_cookie()", error)
 
-        return (status, error, token_decoded)
+        return (status, error, session_cookie, decoded_claims)
 
     def _check_credentials(self, email: str, password: str) -> Tuple[Optional[UserInherited], Optional[dict], Optional[LoginError]]:
         """
@@ -514,13 +433,16 @@ class Authenticator:
             if account_info:
                 account_info["users"][0]["passwordHash"] = ""
                 res["account_info"] = account_info
-                user = self._create_session(res)
-                log.success(f"""{user.email} logged in with password""")
-                if user.is_admin:
-                    service_auth.set_custom_user_claims(user.localId, {'admin': True})
-                    log.success(f"""Welcome {user.displayName}""")
-                if user.is_developer:
-                    service_auth.set_custom_user_claims(user.localId, {'devops': True})
+                user, error = self._create_session(res)
+                if user:
+                    log.success(f"""{user.email} logged in with password""")
+                    if user.is_admin:
+                        service_auth.set_custom_user_claims(user.localId, {'admin': True})
+                        log.success(f"""Welcome {user.displayName}""")
+                    if user.is_developer:
+                        service_auth.set_custom_user_claims(user.localId, {'devops': True})
+                else:
+                    error = error
             else:
                 error = LoginError("Error retrieving account info")
 

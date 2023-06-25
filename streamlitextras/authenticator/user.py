@@ -19,18 +19,21 @@ class User:
         self.firebase_data = firebase_data
         # Sign in
         self.localId = firebase_data["localId"]
-        self.uid = firebase_data["userId"]
+        self.uid = firebase_data.get("userId", self.localId)
         self.email = firebase_data["email"]
-        self.idToken = firebase_data["idToken"]
-        self.expiresIn = firebase_data["expiresIn"] # idToken
-        self.registered = firebase_data["registered"]
-        self.refreshToken = firebase_data["refreshToken"]
         self.displayName = firebase_data["displayName"]
 
-        self.account_info = firebase_data["account_info"]
-        self.users = firebase_data["account_info"]["users"]
+        self.idToken = firebase_data.get("idToken", None)
+        self.expiresIn = firebase_data.get("expiresIn", None) # idToken
+        self.registered = firebase_data.get("registered", None)
+        self.refreshToken = firebase_data.get("refreshToken")
+
+
+        self.account_info = firebase_data.get("account_info", None)
+        self.users = self.account_info["users"] if self.account_info else [firebase_data]
         self.user = self.users[0] # Only supporting single identify provider - password
         # Already provided: localId, email, displayName, passwordHash
+
         self.emailVerified = self.user["emailVerified"]
         self.passwordUpdatedAt = self.user["passwordUpdatedAt"]
         self.providerUserInfo = self.user["providerUserInfo"]  # Only used if using federated SSO etc
