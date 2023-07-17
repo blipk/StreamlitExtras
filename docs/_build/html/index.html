@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="English" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Streamlit Extras &mdash; StreamlitExtras  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -11,9 +10,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/js/copybutton.js"></script>
@@ -28,15 +28,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="#" class="icon icon-home">
-            StreamlitExtras
+            <a href="#" class="icon icon-home"> StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -62,8 +58,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Streamlit Extras</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Streamlit Extras</li>
 
   </ul>
   <hr/>
@@ -72,24 +68,24 @@
 
            <div itemprop="articleBody">
              
-  <section id="streamlit-extras">
+  <div class="section" id="streamlit-extras">
 <h1>Streamlit Extras<a class="headerlink" href="#streamlit-extras" title="Permalink to this heading"></a></h1>
 <p>These are some components and modules designed to make working with
 streamlit easier.</p>
 <p>I had a project that required some of these parts, I tried some other
 community projects that were similar, but none of them had the features
 I required, so I ended up rewriting my own implementations of them.</p>
-<section id="installation-and-requirements">
+<div class="section" id="installation-and-requirements">
 <h2>Installation and Requirements<a class="headerlink" href="#installation-and-requirements" title="Permalink to this heading"></a></h2>
 <p>Install from PyPI with pip:
 <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">streamlit-base-extras</span></code></p>
 <p>Requires Streamlit 1.13.0+ and Python 3.9+, will consider releasing
 versions compatible with older Python3 if people show interest.</p>
 <p>Some helper functions require <code class="docutils literal notranslate"><span class="pre">streamlit-javascript</span></code> too.</p>
-</section>
-<section id="the-modules">
+</div>
+<div class="section" id="the-modules">
 <h2>The modules<a class="headerlink" href="#the-modules" title="Permalink to this heading"></a></h2>
-<section id="router">
+<div class="section" id="router">
 <h3>Router<a class="headerlink" href="#router" title="Permalink to this heading"></a></h3>
 <p>Page router with various features.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -130,8 +126,8 @@ versions compatible with older Python3 if people show interest.</p>
 <p>See the <a class="reference external" href="streamlitextras/router">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html">API
 docs</a>
 for more details.</p>
-</section>
-<section id="cookie-manager">
+</div>
+<div class="section" id="cookie-manager">
 <h3>Cookie Manager<a class="headerlink" href="#cookie-manager" title="Permalink to this heading"></a></h3>
 <p>Component function to manage in-browser cookies from streamlit.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
@@ -162,8 +158,8 @@ for more details.</p>
 <p>See the <a class="reference external" href="streamlitextras/cookiemanager">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html">API
 docs</a>
 for more details.</p>
-</section>
-<section id="authenticator">
+</div>
+<div class="section" id="authenticator">
 <h3>Authenticator<a class="headerlink" href="#authenticator" title="Permalink to this heading"></a></h3>
 <p>Authentication module that creates streamlit register/login forms, and
 uses firebase auth to register and manage users. Can also be inherited
@@ -208,8 +204,8 @@ to use a custom authentication provider.</p>
 <p>See the <a class="reference external" href="streamlitextras/authenticator">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html">API
 docs</a>
 for more details.</p>
-</section>
-<section id="threader">
+</div>
+<div class="section" id="threader">
 <h3>Threader<a class="headerlink" href="#threader" title="Permalink to this heading"></a></h3>
 <p>Makes spawning and working with <code class="docutils literal notranslate"><span class="pre">threading.Threads</span></code> with streamlit
 easy.</p>
@@ -248,8 +244,8 @@ easy.</p>
 <p>See the <a class="reference external" href="streamlitextras/threader">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html">API
 docs</a>
 for more details.</p>
-</section>
-<section id="logger">
+</div>
+<div class="section" id="logger">
 <h3>Logger<a class="headerlink" href="#logger" title="Permalink to this heading"></a></h3>
 <p>Implementation of Loguru set up to work well with this package.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
@@ -266,13 +262,13 @@ for more details.</p>
 <p>See the <a class="reference external" href="streamlitextras/logger">package readme</a> or <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html">API
 docs</a>
 for more details.</p>
-</section>
-<section id="other-helpers">
+</div>
+<div class="section" id="other-helpers">
 <h3>Other helpers<a class="headerlink" href="#other-helpers" title="Permalink to this heading"></a></h3>
 <p>See the <a class="reference external" href="https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html">API
 docs</a>
 for a full list of functions and their usage in these files.</p>
-<section id="streamlitextras-webutils">
+<div class="section" id="streamlitextras-webutils">
 <h4>streamlitextras.webutils<a class="headerlink" href="#streamlitextras-webutils" title="Permalink to this heading"></a></h4>
 <p>Some utility functions to run javascript, wrappers around various
 javascript routines, and some other browser related formatting
@@ -299,14 +295,14 @@ utilities.</p>
 </pre></div>
 </div>
 <p>See the <a class="reference external" href="streamlitextras/webutils.py">source code</a>.</p>
-</section>
-<section id="streamlitextras-helpers">
+</div>
+<div class="section" id="streamlitextras-helpers">
 <h4>streamlitextras.helpers<a class="headerlink" href="#streamlitextras-helpers" title="Permalink to this heading"></a></h4>
 <p>Class implementation that streamlines creating basic HTML elements with
 st.markdown, and some other useful functions.</p>
 <p>See the <a class="reference external" href="streamlitextras/helpers.py">source code</a>.</p>
-</section>
-<section id="streamlitextras-storageservice">
+</div>
+<div class="section" id="streamlitextras-storageservice">
 <h4>streamlitextras.storageservice<a class="headerlink" href="#streamlitextras-storageservice" title="Permalink to this heading"></a></h4>
 <p>Helper to interact with Google Cloud Storage with a service worker
 account.</p>
@@ -354,16 +350,16 @@ firebase project, and add the details from its .json key to
 <span class="n">client_x509_cert_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
 </pre></div>
 </div>
-</section>
-<section id="streamlitextras-utils">
+</div>
+<div class="section" id="streamlitextras-utils">
 <h4>streamlitextras.utils<a class="headerlink" href="#streamlitextras-utils" title="Permalink to this heading"></a></h4>
 <p>Some utility functions for Python development.</p>
 <p>See the <a class="reference external" href="streamlitextras/utils.py">source code</a>.</p>
-</section>
-</section>
-</section>
-</section>
-<section id="table-of-contents">
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="table-of-contents">
 <h1>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
@@ -388,7 +384,7 @@ firebase project, and add the details from its .json key to
 </li>
 </ul>
 </div>
-</section>
+</div>
 
 
            </div>

@@ -10,9 +10,10 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/js/copybutton.js"></script>
@@ -26,15 +27,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            StreamlitExtras
+            <a href="../../index.html" class="icon icon-home"> StreamlitExtras
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -60,9 +57,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">streamlitextras.authenticator</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>streamlitextras.authenticator</li>
 
   </ul>
   <hr/>
@@ -138,6 +135,7 @@
 <span class="sd">    :param list developer_ids:</span>
 <span class="sd">        List of firebase user ids (localId) used for checking User.is_developer</span>
 <span class="sd">        Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file</span>
+<span class="sd">    :param bool require_email_verification: If set to True (the default), users will not be able to log in until they verify their email address</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
@@ -148,7 +146,8 @@
             <span class="n">authenticator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span>
             <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">admin_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">require_email_verification</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="p">):</span>
 
         <span class="k">if</span> <span class="n">authenticator_name</span> <span class="o">==</span> <span class="n">session_name</span><span class="p">:</span>
@@ -164,6 +163,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_key</span> <span class="o">=</span> <span class="n">cookie_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_class</span> <span class="o">=</span> <span class="n">user_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">require_email_verification</span> <span class="o">=</span> <span class="n">require_email_verification</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="n">storage</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">auth</span>
@@ -263,6 +263,9 @@
 
         <span class="n">cookie</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="n">_get_websocket_headers</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">headers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cookie</span>
+
         <span class="n">cookie_header</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cookie&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">cookie_reader</span> <span class="o">=</span> <span class="n">SimpleCookie</span><span class="p">(</span><span class="n">cookie_header</span><span class="p">)</span>
 
@@ -523,7 +526,7 @@
             <span class="n">account_info</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">get_account_info</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;idToken&#39;</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">account_info</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;emailVerified&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">require_email_verification</span> <span class="ow">and</span> <span class="n">account_info</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;emailVerified&quot;</span><span class="p">]:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please verify your email address before logging in&quot;</span><span class="p">)</span>
                 <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Resend verification email&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_resend_verification</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],))</span>
 
@@ -584,7 +587,12 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">button_location</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">button_location</span> <span class="o">!=</span> <span class="n">st</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">button_location</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">button_name</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="n">disabled</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Logout requested&quot;</span><span class="p">),</span> <span class="n">disabled</span><span class="p">,)):</span>
+        <span class="k">if</span> <span class="n">button_location</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+            <span class="n">button_name</span><span class="p">,</span>
+            <span class="n">disabled</span><span class="o">=</span><span class="n">disabled</span><span class="p">,</span>
+            <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Logout requested&quot;</span><span class="p">),</span> <span class="n">disabled</span><span class="p">,),</span>
+            <span class="n">key</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;authenticator_logout_btn_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="kc">False</span></div>
@@ -762,7 +770,7 @@
         <span class="k">return</span> <span class="n">repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;cookie_key&quot;</span><span class="p">,</span> <span class="s2">&quot;service_credentials&quot;</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span> <span class="s2">&quot;storage&quot;</span><span class="p">,</span> <span class="s2">&quot;firebase_service&quot;</span><span class="p">])</span></div>
 
 <span class="c1"># @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs={&quot;_thread.RLock&quot;: lambda _: None, &quot;weakref.ReferenceType&quot;: lambda _: None})</span>
-<div class="viewcode-block" id="get_auth"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.get_auth">[docs]</a><span class="k">def</span> <span class="nf">get_auth</span><span class="p">(</span><span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">authenticator_name</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Authenticator</span><span class="p">:</span>
+<div class="viewcode-block" id="get_auth"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.get_auth">[docs]</a><span class="k">def</span> <span class="nf">get_auth</span><span class="p">(</span><span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">authenticator_name</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Authenticator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    See Authenticator for params.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -772,12 +780,15 @@
     <span class="n">cookie_key</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;authenticator&quot;</span><span class="p">][</span><span class="s2">&quot;cookie_key&quot;</span><span class="p">]</span>
     <span class="n">admin_ids</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;authenticator&quot;</span><span class="p">][</span><span class="s2">&quot;admin_ids&quot;</span><span class="p">]</span>
     <span class="n">developer_ids</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;authenticator&quot;</span><span class="p">][</span><span class="s2">&quot;developer_ids&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">Authenticator</span><span class="p">(</span><span class="n">cookie_name</span><span class="p">,</span>
-                        <span class="n">cookie_key</span><span class="p">,</span>
-                        <span class="n">authenticator_name</span><span class="o">=</span><span class="n">authenticator_name</span><span class="p">,</span>
-                        <span class="n">user_class</span><span class="o">=</span><span class="n">user_class</span><span class="p">,</span>
-                        <span class="n">admin_ids</span><span class="o">=</span><span class="n">admin_ids</span><span class="p">,</span>
-                        <span class="n">developer_ids</span><span class="o">=</span><span class="n">developer_ids</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Authenticator</span><span class="p">(</span>
+        <span class="n">cookie_name</span><span class="p">,</span>
+        <span class="n">cookie_key</span><span class="p">,</span>
+        <span class="n">authenticator_name</span><span class="o">=</span><span class="n">authenticator_name</span><span class="p">,</span>
+        <span class="n">user_class</span><span class="o">=</span><span class="n">user_class</span><span class="p">,</span>
+        <span class="n">admin_ids</span><span class="o">=</span><span class="n">admin_ids</span><span class="p">,</span>
+        <span class="n">developer_ids</span><span class="o">=</span><span class="n">developer_ids</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
 </pre></div>
 
            </div>

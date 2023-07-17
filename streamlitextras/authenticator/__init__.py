@@ -64,6 +64,7 @@ class Authenticator:
     :param list developer_ids:
         List of firebase user ids (localId) used for checking User.is_developer
         Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file
+    :param bool require_email_verification: If set to True (the default), users will not be able to log in until they verify their email address
     """
     def __init__(
             self,
@@ -74,7 +75,8 @@ class Authenticator:
             authenticator_name: str = "authenticator",
             user_class: Optional[Type[UserInherited]] = None,
             admin_ids: Optional[Union[list, str]] = None,
-            developer_ids: Optional[Union[list, str]] = None
+            developer_ids: Optional[Union[list, str]] = None,
+            require_email_verification: bool = True
         ):
 
         if authenticator_name == session_name:
@@ -90,6 +92,7 @@ class Authenticator:
         self.cookie_key = cookie_key
         self.last_user = None
         self.user_class = user_class
+        self.require_email_verification = require_email_verification
 
         self.storage = storage
         self.auth = auth
@@ -189,6 +192,9 @@ class Authenticator:
 
         cookie = None
         headers = _get_websocket_headers()
+        if not headers:
+            return cookie
+
         cookie_header = headers.get("Cookie", None) or headers.get("cookie", None)
         cookie_reader = SimpleCookie(cookie_header)
 
@@ -449,7 +455,7 @@ class Authenticator:
             account_info, error = handle_firebase_action(auth.get_account_info, LoginError, False, res['idToken'])
 
         if not error:
-            if account_info and not account_info["users"][0]["emailVerified"]:
+            if self.require_email_verification and account_info and not account_info["users"][0]["emailVerified"]:
                 error = LoginError("Please verify your email address before logging in")
                 st.button("Resend verification email", on_click=self._resend_verification, args=(res["idToken"],))
 
@@ -510,7 +516,12 @@ class Authenticator:
         if not isinstance(button_location, DeltaGenerator) and button_location != st:
             raise ValueError("Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.")
 
-        if button_location.button(button_name, disabled=disabled, on_click=self._revoke_auth, args=(AuthException("Logout requested"), disabled,)):
+        if button_location.button(
+            button_name,
+            disabled=disabled,
+            on_click=self._revoke_auth, args=(AuthException("Logout requested"), disabled,),
+            key=f"authenticator_logout_btn_{time.time()}"
+        ):
             return True
 
         return False
@@ -688,7 +699,7 @@ class Authenticator:
         return repr_(self, ["cookie_key", "service_credentials", "auth", "storage", "firebase_service"])
 
 # @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs={"_thread.RLock": lambda _: None, "weakref.ReferenceType": lambda _: None})
-def get_auth(cookie_name: str, user_class: Optional[UserInherited] = None, authenticator_name = "authenticator") -> Authenticator:
+def get_auth(cookie_name: str, user_class: Optional[UserInherited] = None, authenticator_name = "authenticator", **kwargs) -> Authenticator:
     """
     See Authenticator for params.
     """
@@ -698,9 +709,12 @@ def get_auth(cookie_name: str, user_class: Optional[UserInherited] = None, authe
     cookie_key = st.secrets["authenticator"]["cookie_key"]
     admin_ids = st.secrets["authenticator"]["admin_ids"]
     developer_ids = st.secrets["authenticator"]["developer_ids"]
-    return Authenticator(cookie_name,
-                        cookie_key,
-                        authenticator_name=authenticator_name,
-                        user_class=user_class,
-                        admin_ids=admin_ids,
-                        developer_ids=developer_ids)
+    return Authenticator(
+        cookie_name,
+        cookie_key,
+        authenticator_name=authenticator_name,
+        user_class=user_class,
+        admin_ids=admin_ids,
+        developer_ids=developer_ids,
+        **kwargs
+    )

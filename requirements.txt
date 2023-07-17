@@ -1,0 +1,22 @@
+streamlit>=1.23.1
+streamlit-javascript==0.1.5
+loguru==0.6.0
+requests
+gcloud
+pyjwt
+firebase
+pyrebase4
+sseclient
+python_jwt
+PyCryptodome
+requests_toolbelt
+firebase-admin
+google-cloud-storage
+streamlit_javascript
+
+twine
+Sphinx==5.2.3 ; python_version>='3.6'
+sphinx-autobuild==2021.3.14 ; python_version>='3.6'
+sphinx-rtd-theme==1.0.0 ; python_version>='3.6'
+docutils==0.16 ; python_version>='3.6'
+sphinxcontrib-apidoc ; python_version>='3.6'
