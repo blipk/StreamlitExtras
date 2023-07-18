@@ -657,7 +657,7 @@ class Authenticator:
 
         register_user_form.form_submit_button("Cancel", on_click=self.set_form, args=(None,))
 
-        if user:
+        if user and self.require_email_verification:
             verify_msg = """<p style="padding: 14px;">Registration successful. Please verify your email address, then you can <a href="/" target="_self">log in.</a></p>"""
             register_user_form.markdown(custom_html.custom_el(verify_msg, classes=custom_html.st_info_classes), unsafe_allow_html=True)
 
