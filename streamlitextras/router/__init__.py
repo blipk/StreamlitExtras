@@ -13,17 +13,23 @@ class Router:
     :param dict[str, Callable] routes:
         Dictionary mapping of routes to their page functions, in the format {page_name: page_function}
     :param Optional[Callable] preroute:
-        Optional callable page function that will be executed before each active page function
+        Optional callable page function that will be executed before each page function
     :param Optional[list] dependencies:
         Optional dict to pass as kwargs to every page_function call
+    :param Optional[Callable] postroute:
+        Optional callable page function that will be executed after each page function
     """
-    def __init__(self,
-                routes: dict[str, Callable],
-                preroute: Optional[Callable] = None,
-                dependencies: Optional[dict] = None):
+    def __init__(
+            self,
+            routes: dict[str, Callable],
+            preroute: Optional[Callable] = None,
+            dependencies: Optional[dict] = None,
+            postroute: Optional[Callable] = None
+        ):
         self.routes = routes
         self.preroute = preroute
         self.dependencies = dependencies
+        self.postroute = postroute
         self.page_names = list(self.routes.keys())
         log.debug(f"Initialized router {hex(id(self))}")
 
@@ -153,6 +159,10 @@ class Router:
             # log.debug(f"Calling page_func {page_func}")
             page_func(*args, **kwargs)
 
+        if self.postroute and callable(self.postroute):
+            # log.debug(f"Running postroute {self.postroute}")
+            self.postroute(*args, **kwargs)
+
         if len(args) == 0:
             stxs_javascript(f"""window.history.pushState({{}}, "", "/?{page_name}=~");""")
 
@@ -208,7 +218,12 @@ router_hash_funcs = {"_thread.RLock": lambda _: None,
                     "streamlit.delta_generator.DeltaGenerator": lambda _: None}
 
 # @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs=router_hash_funcs)
-def get_router(routes: dict[str, Callable], preroute: Optional[Callable] = None, dependencies: Optional[dict] = None) -> Router:
+def get_router(
+        routes: dict[str, Callable],
+        preroute: Optional[Callable] = None,
+        dependencies: Optional[dict] = None,
+        postroute: Optional[Callable] = None
+    ) -> Router:
     """
     See Router for params.
     """
@@ -216,4 +231,4 @@ def get_router(routes: dict[str, Callable], preroute: Optional[Callable] = None,
         st.session_state["router"].routes = routes
         st.session_state["router"].preroute = preroute
         return st.session_state["router"]
-    return Router(routes, preroute, dependencies)
+    return Router(routes, preroute, dependencies, postroute)

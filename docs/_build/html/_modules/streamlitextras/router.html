@@ -84,17 +84,23 @@
 <span class="sd">    :param dict[str, Callable] routes:</span>
 <span class="sd">        Dictionary mapping of routes to their page functions, in the format {page_name: page_function}</span>
 <span class="sd">    :param Optional[Callable] preroute:</span>
-<span class="sd">        Optional callable page function that will be executed before each active page function</span>
+<span class="sd">        Optional callable page function that will be executed before each page function</span>
 <span class="sd">    :param Optional[list] dependencies:</span>
 <span class="sd">        Optional dict to pass as kwargs to every page_function call</span>
+<span class="sd">    :param Optional[Callable] postroute:</span>
+<span class="sd">        Optional callable page function that will be executed after each page function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                <span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
-                <span class="n">preroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
+            <span class="n">preroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">postroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">routes</span> <span class="o">=</span> <span class="n">routes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preroute</span> <span class="o">=</span> <span class="n">preroute</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="n">dependencies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postroute</span> <span class="o">=</span> <span class="n">postroute</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">page_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialized router </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -224,6 +230,10 @@
             <span class="c1"># log.debug(f&quot;Calling page_func {page_func}&quot;)</span>
             <span class="n">page_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">postroute</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">postroute</span><span class="p">):</span>
+            <span class="c1"># log.debug(f&quot;Running postroute {self.postroute}&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">postroute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">stxs_javascript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;window.history.pushState(</span><span class="se">{{}}</span><span class="s2">, &quot;&quot;, &quot;/?</span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s2">=~&quot;);&quot;&quot;&quot;</span><span class="p">)</span></div>
 
@@ -279,7 +289,12 @@
                     <span class="s2">&quot;streamlit.delta_generator.DeltaGenerator&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
 
 <span class="c1"># @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs=router_hash_funcs)</span>
-<div class="viewcode-block" id="get_router"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.get_router">[docs]</a><span class="k">def</span> <span class="nf">get_router</span><span class="p">(</span><span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="n">preroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Router</span><span class="p">:</span>
+<div class="viewcode-block" id="get_router"><a class="viewcode-back" href="../../api/streamlitextras.router.html#streamlitextras.router.get_router">[docs]</a><span class="k">def</span> <span class="nf">get_router</span><span class="p">(</span>
+        <span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
+        <span class="n">preroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">postroute</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Router</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    See Router for params.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -287,7 +302,7 @@
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;router&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">routes</span> <span class="o">=</span> <span class="n">routes</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;router&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">preroute</span> <span class="o">=</span> <span class="n">preroute</span>
         <span class="k">return</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;router&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">Router</span><span class="p">(</span><span class="n">routes</span><span class="p">,</span> <span class="n">preroute</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Router</span><span class="p">(</span><span class="n">routes</span><span class="p">,</span> <span class="n">preroute</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">postroute</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
