@@ -72,29 +72,17 @@
 <span></span><span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
 <span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
 <span class="kn">from</span> <span class="nn">streamlit.runtime.uploaded_file_manager</span> <span class="kn">import</span> <span class="n">UploadedFile</span>
 
-<div class="viewcode-block" id="Icons"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.Icons">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Icons</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    UTF-8 Emojis to be used as icons within the application</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">eagle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🦅&quot;</span>
-    <span class="n">green_check</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;✅&quot;</span>
-    <span class="n">red_cross</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;❌&quot;</span>
-    <span class="n">red_flag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🚩&quot;</span>
-    <span class="n">cog</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;⚙️&quot;</span>
-    <span class="n">new</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;🆕&quot;</span>
-    <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;⚠️&quot;</span></div>
 
 <div class="viewcode-block" id="CustomHTML"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML">[docs]</a><span class="k">class</span> <span class="nc">CustomHTML</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class containing custom HTML/CSS to be injected into the streamlit app</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">st_info_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -122,6 +110,10 @@
 <span class="s2">            div.stButton &gt; button:hover {</span>
 <span class="s2">                background-color: #0E4176;</span>
 <span class="s2">                color: #ff0000;</span>
+<span class="s2">            }</span>
+<span class="s2">            div.stButton &gt; button:disabled, button[disabled] {</span>
+<span class="s2">                background-color: #F0F2F6;</span>
+<span class="s2">                color: grey;</span>
 <span class="s2">            }</span>
 <span class="s2">            p.a {</span>
 <span class="s2">                font: bold 12px Courier;</span>
@@ -162,10 +154,13 @@
 
 <span class="sd">        :param str anchor_id: the string to set the id property to on the div element</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">anchor_id</span><span class="si">}</span><span class="s2">&#39; style=&#39;padding: 0px; margin: 0px;&#39;&gt;&lt;/div&gt;&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">anchor_id</span><span class="si">}</span><span class="s2">&#39; style=&#39;content-visibility: hidden; padding: 0px; margin: 0px;&#39;&gt;</span><span class="si">{</span><span class="n">anchor_id</span><span class="si">}</span><span class="s2">&lt;/div&gt;&quot;</span></div>
 
 <div class="viewcode-block" id="CustomHTML.bytes_to_data_uri"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.bytes_to_data_uri">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">bytes_to_data_uri</span><span class="p">(</span>
+        <span class="n">byteslike_object</span><span class="p">:</span> <span class="n">BytesIO</span> <span class="o">|</span> <span class="n">UploadedFile</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a data URI from a bytesIO object</span>
 
@@ -176,7 +171,7 @@
         <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">byteslike_object</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span><span class="p">:</span>  <span class="c1"># noqa: E722</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">byteslike_object</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">mime_type</span><span class="p">:</span>
             <span class="n">mime_type</span> <span class="o">=</span> <span class="s2">&quot;application/octet-stream&quot;</span>
@@ -184,7 +179,13 @@
         <span class="k">return</span> <span class="n">uri</span></div>
 
 <div class="viewcode-block" id="CustomHTML.download_link"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.download_link">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">download_link</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">byteslike_object</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">UploadedFile</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">download_link</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">byteslike_object</span><span class="p">:</span> <span class="n">BytesIO</span> <span class="o">|</span> <span class="n">UploadedFile</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">link_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a data URI from a bytesIO object</span>
 
@@ -193,19 +194,26 @@
 <span class="sd">        :param str link_text: The text to put inside the link element, defaults to empty string</span>
 <span class="sd">        :param Optional[str] mime_type: The mimetype to set on the data URI. Defaults to &quot;application/octet-stream&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">link_props</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;download&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">)}</span>
-        <span class="n">download_link</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">custom_el</span><span class="p">(</span><span class="n">link_text</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">custom_properties</span><span class="o">=</span><span class="n">link_props</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;auto-download&quot;</span><span class="p">])</span>
+        <span class="n">link_props</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;download&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">bytes_to_data_uri</span><span class="p">(</span><span class="n">byteslike_object</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">download_link</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">custom_el</span><span class="p">(</span>
+            <span class="n">link_text</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">custom_properties</span><span class="o">=</span><span class="n">link_props</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;auto-download&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">download_link</span></div>
 
 <div class="viewcode-block" id="CustomHTML.custom_el"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.custom_el">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">custom_el</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;div&quot;</span><span class="p">,</span>
-                    <span class="n">align</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                    <span class="n">anchor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                    <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-                    <span class="n">extra_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                    <span class="n">custom_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">custom_el</span><span class="p">(</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;div&quot;</span><span class="p">,</span>
+        <span class="n">align</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">anchor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">extra_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">custom_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates HTML string for a custom element based on the function parameters.</span>
 <span class="sd">        There is no validation so ensure calls to this function are correct.</span>
@@ -233,11 +241,13 @@
 
         <span class="n">properties_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">custom_properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">properties_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+            <span class="n">properties_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">=&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
         <span class="n">code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> style=&quot;</span><span class="si">{</span><span class="n">style_string</span><span class="si">}</span><span class="s2">&quot; class=&quot;</span><span class="si">{</span><span class="n">classes_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">properties_string</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&gt;&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">anchor</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="n">code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">&#39; style=&#39;padding: 0px; margin: 0px;&#39;&gt;&lt;/div&gt;&quot;</span> <span class="o">+</span> <span class="n">code</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">&#39; style=&#39;padding: 0px; margin: 0px;&#39;&gt;&lt;/div&gt;&quot;</span> <span class="o">+</span> <span class="n">code</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">code</span></div>
 
 <div class="viewcode-block" id="CustomHTML.display_speaker"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_speaker">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -270,7 +280,7 @@
 <span class="sd">        :param list[list] table_data: The data to fill the table in</span>
 <span class="sd">        :param str style: The CSS style tag to apply to the table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;table style=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">style</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;table style=&quot;</span><span class="si">{</span><span class="n">style</span><span class="si">}</span><span class="s1">&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table_data</span><span class="p">):</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&lt;th&gt;&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&lt;td&gt;&quot;</span>
             <span class="n">table</span> <span class="o">+=</span> <span class="s2">&quot;&lt;tr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -282,7 +292,12 @@
         <span class="k">return</span> <span class="n">table</span></div>
 
 <div class="viewcode-block" id="CustomHTML.display_audio"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.display_audio">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">display_audio</span><span class="p">(</span><span class="n">audio_file_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;audio&quot;</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">display_audio</span><span class="p">(</span>
+        <span class="n">audio_file_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;audio&quot;</span><span class="p">,</span>
+        <span class="n">classes</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a HTML audio element with a specified id and special class,</span>
 <span class="sd">        this enables more advanced handling of the elements than st.audio()</span>
@@ -308,7 +323,9 @@
         <span class="k">return</span> <span class="n">audio</span></div>
 
 <div class="viewcode-block" id="CustomHTML.load_lottieurl"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.load_lottieurl">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load_lottieurl</span><span class="p">(</span><span class="n">lottie_url</span> <span class="o">=</span> <span class="s2">&quot;https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">load_lottieurl</span><span class="p">(</span>
+        <span class="n">lottie_url</span><span class="o">=</span><span class="s2">&quot;https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads and returns JSON from the lottie library</span>
 <span class="sd">        This is used for animations</span>
@@ -322,9 +339,13 @@
     <span class="k">def</span> <span class="nf">lottie_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_lottieurl</span><span class="p">()</span></div>
 
-<span class="n">icons</span> <span class="o">=</span> <span class="n">Icons</span><span class="p">()</span>
+
 <span class="n">custom_html</span> <span class="o">=</span> <span class="n">CustomHTML</span><span class="p">()</span>
 <span class="n">audio_extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PCM&quot;</span><span class="p">,</span> <span class="s2">&quot;WMA&quot;</span><span class="p">,</span> <span class="s2">&quot;MP4&quot;</span><span class="p">,</span> <span class="s2">&quot;M4A&quot;</span><span class="p">,</span> <span class="s2">&quot;WAV&quot;</span><span class="p">,</span> <span class="s2">&quot;AIFF&quot;</span><span class="p">,</span> <span class="s2">&quot;MP3&quot;</span><span class="p">,</span> <span class="s2">&quot;AAC&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="readable_datestr"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.readable_datestr">[docs]</a><span class="k">def</span> <span class="nf">readable_datestr</span><span class="p">(</span><span class="n">target_datetime</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">target_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

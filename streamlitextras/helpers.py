@@ -1,29 +1,17 @@
 import base64
 from io import BytesIO
 from requests import get
-from typing import Union, Optional
-from dataclasses import dataclass
+from datetime import datetime
 
 import streamlit as st
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
-@dataclass(frozen=True)
-class Icons:
-    """
-    UTF-8 Emojis to be used as icons within the application
-    """
-    eagle: str = "🦅"
-    green_check: str = "✅"
-    red_cross: str = "❌"
-    red_flag: str = "🚩"
-    cog: str = "⚙️"
-    new: str = "🆕"
-    warning: str = "⚠️"
 
 class CustomHTML:
     """
     Class containing custom HTML/CSS to be injected into the streamlit app
     """
+
     @property
     def st_info_classes(self) -> list:
         """
@@ -51,6 +39,10 @@ class CustomHTML:
             div.stButton > button:hover {
                 background-color: #0E4176;
                 color: #ff0000;
+            }
+            div.stButton > button:disabled, button[disabled] {
+                background-color: #F0F2F6;
+                color: grey;
             }
             p.a {
                 font: bold 12px Courier;
@@ -91,10 +83,13 @@ class CustomHTML:
 
         :param str anchor_id: the string to set the id property to on the div element
         """
-        return f"<div id='{anchor_id}' style='padding: 0px; margin: 0px;'></div>"
+        return f"<div id='{anchor_id}' style='content-visibility: hidden; padding: 0px; margin: 0px;'>{anchor_id}</div>"
 
     @staticmethod
-    def bytes_to_data_uri(byteslike_object: Union[BytesIO, UploadedFile, bytes], mime_type: Optional[str] = None) -> str:
+    def bytes_to_data_uri(
+        byteslike_object: BytesIO | UploadedFile | bytes,
+        mime_type: str | None = None,
+    ) -> str:
         """
         Creates a data URI from a bytesIO object
 
@@ -105,7 +100,7 @@ class CustomHTML:
         data = None
         try:
             data = byteslike_object.getvalue()
-        except:
+        except:  # noqa: E722
             data = byteslike_object
         if not mime_type:
             mime_type = "application/octet-stream"
@@ -113,7 +108,13 @@ class CustomHTML:
         return uri
 
     @classmethod
-    def download_link(cls, byteslike_object: Union[BytesIO, UploadedFile, bytes], filename: str, link_text: str = "", mime_type: Optional[str] = None) -> str:
+    def download_link(
+        cls,
+        byteslike_object: BytesIO | UploadedFile | bytes,
+        filename: str,
+        link_text: str = "",
+        mime_type: str | None = None,
+    ) -> str:
         """
         Creates a data URI from a bytesIO object
 
@@ -122,19 +123,26 @@ class CustomHTML:
         :param str link_text: The text to put inside the link element, defaults to empty string
         :param Optional[str] mime_type: The mimetype to set on the data URI. Defaults to "application/octet-stream"
         """
-        link_props = {"download": filename, "href": cls.bytes_to_data_uri(byteslike_object)}
-        download_link = cls.custom_el(link_text, "a", custom_properties=link_props, classes=["auto-download"])
+        link_props = {
+            "download": filename,
+            "href": cls.bytes_to_data_uri(byteslike_object),
+        }
+        download_link = cls.custom_el(
+            link_text, "a", custom_properties=link_props, classes=["auto-download"]
+        )
         return download_link
 
     @staticmethod
-    def custom_el(text: str,
-                    tag: str = "div",
-                    align: str = "",
-                    color: str = "",
-                    anchor: str = "",
-                    classes: list = [],
-                    extra_style: str = "",
-                    custom_properties: dict = {}) -> str:
+    def custom_el(
+        text: str,
+        tag: str = "div",
+        align: str = "",
+        color: str = "",
+        anchor: str = "",
+        classes: list = [],
+        extra_style: str = "",
+        custom_properties: dict = {},
+    ) -> str:
         """
         Creates HTML string for a custom element based on the function parameters.
         There is no validation so ensure calls to this function are correct.
@@ -162,11 +170,13 @@ class CustomHTML:
 
         properties_string = ""
         for name, value in custom_properties.items():
-            properties_string += f" {name}=\"{value}\""
+            properties_string += f' {name}="{value}"'
 
         code = f"""<{tag} style="{style_string}" class="{classes_string}"{properties_string}>{text}</{tag}>"""
         if anchor != "":
-            code = f"<div id='{anchor}' style='padding: 0px; margin: 0px;'></div>" + code
+            code = (
+                f"<div id='{anchor}' style='padding: 0px; margin: 0px;'></div>" + code
+            )
         return code
 
     @staticmethod
@@ -199,7 +209,7 @@ class CustomHTML:
         :param list[list] table_data: The data to fill the table in
         :param str style: The CSS style tag to apply to the table
         """
-        table = f"<table style=\"{style}\">\n"
+        table = f'<table style="{style}">\n'
         for i, row in enumerate(table_data):
             tag = "<th>" if i == 0 else "<td>"
             table += "<tr>\n"
@@ -211,7 +221,12 @@ class CustomHTML:
         return table
 
     @staticmethod
-    def display_audio(audio_file_url: str, timestamp: Union[str, int] = "", id: str = "audio", classes: list = []) -> str:
+    def display_audio(
+        audio_file_url: str,
+        timestamp: str | int = "",
+        id: str = "audio",
+        classes: list = [],
+    ) -> str:
         """
         Creates a HTML audio element with a specified id and special class,
         this enables more advanced handling of the elements than st.audio()
@@ -237,7 +252,9 @@ class CustomHTML:
         return audio
 
     @staticmethod
-    def load_lottieurl(lottie_url = "https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json") -> Optional[dict]:
+    def load_lottieurl(
+        lottie_url="https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json",
+    ) -> dict | None:
         """
         Loads and returns JSON from the lottie library
         This is used for animations
@@ -251,6 +268,10 @@ class CustomHTML:
     def lottie_url(self):
         return self.load_lottieurl()
 
-icons = Icons()
+
 custom_html = CustomHTML()
 audio_extensions = ["PCM", "WMA", "MP4", "M4A", "WAV", "AIFF", "MP3", "AAC"]
+
+
+def readable_datestr(target_datetime: datetime, format: str = "%d/%m/%Y"):
+    return target_datetime.strftime(format)
