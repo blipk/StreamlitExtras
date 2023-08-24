@@ -65,8 +65,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.display_text"><code class="docutils literal notranslate"><span class="pre">CustomHTML.display_text()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.display_table"><code class="docutils literal notranslate"><span class="pre">CustomHTML.display_table()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.display_audio"><code class="docutils literal notranslate"><span class="pre">CustomHTML.display_audio()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.load_lottieurl"><code class="docutils literal notranslate"><span class="pre">CustomHTML.load_lottieurl()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.lottie_url"><code class="docutils literal notranslate"><span class="pre">CustomHTML.lottie_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.load_lottieurl"><code class="docutils literal notranslate"><span class="pre">CustomHTML.load_lottieurl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.helpers.CustomHTML.lottie_data"><code class="docutils literal notranslate"><span class="pre">CustomHTML.lottie_data</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#streamlitextras.helpers.readable_datestr"><code class="docutils literal notranslate"><span class="pre">readable_datestr()</span></code></a></li>
@@ -375,16 +376,21 @@ this enables more advanced handling of the elements than st.audio()</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="streamlitextras.helpers.CustomHTML.lottie_url">
+<span class="sig-name descname"><span class="pre">lottie_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json'</span></em><a class="headerlink" href="#streamlitextras.helpers.CustomHTML.lottie_url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="streamlitextras.helpers.CustomHTML.load_lottieurl">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_lottieurl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lottie_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/streamlitextras/helpers.html#CustomHTML.load_lottieurl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.helpers.CustomHTML.load_lottieurl" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_lottieurl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lottie_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/streamlitextras/helpers.html#CustomHTML.load_lottieurl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.helpers.CustomHTML.load_lottieurl" title="Permalink to this definition"></a></dt>
 <dd><p>Loads and returns JSON from the lottie library
 This is used for animations</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="streamlitextras.helpers.CustomHTML.lottie_url">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lottie_url</span></span><a class="headerlink" href="#streamlitextras.helpers.CustomHTML.lottie_url" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="streamlitextras.helpers.CustomHTML.lottie_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lottie_data</span></span><a class="headerlink" href="#streamlitextras.helpers.CustomHTML.lottie_data" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

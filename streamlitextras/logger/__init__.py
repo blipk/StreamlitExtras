@@ -109,7 +109,7 @@ def session_state_str_dict():
     Generate a dict from st.session_state to be stored with every log line
     """
     interface = {"user": None, "session_state": None}
-    extra = {"user": repr(st.session_state["user"])  if "user" in st.session_state else None,
+    extra = {"user": repr(st.session_state.get("user", None)),
             "session_state": {k: f"{v}" for k, v in st.session_state.to_dict().items()}}
     merged = {**interface, **extra}
     return merged

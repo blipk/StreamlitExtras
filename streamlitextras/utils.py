@@ -18,9 +18,12 @@ def repr_(cls, ignore_keys: Optional[list[str]] = None, only_keys: Optional[list
         ignore_keys = []
     classname = cls.__class__.__name__
 
-    args = ", ".join([f"{k}={repr(v)}"
-                        for (k, v) in cls.__dict__.items()
-                        if k not in ignore_keys and (k in only_keys if only_keys else True)])
+    try:
+        args = ", ".join([f"{k}={repr(v)}"
+                            for (k, v) in cls.__dict__.items()
+                            if k not in ignore_keys and (k in only_keys if only_keys else True)])
+    except RecursionError:
+        args = "Too much recursion"
     return f"{classname}({hex(id(cls))}, {args})"
 
 def save_file(st_file_object: UploadedFile, to_path: str) -> str:
