@@ -141,7 +141,7 @@ class CustomHTML:
         anchor: str = "",
         classes: list = [],
         extra_style: str = "",
-        custom_properties: dict = {},
+        props: dict = {},
     ) -> str:
         """
         Creates HTML string for a custom element based on the function parameters.
@@ -154,7 +154,7 @@ class CustomHTML:
         :param str anchor: if provided, will put an empty div element with this value as an id next to the main element. used for creating anchors.
         :param list classes: list of css classes to apply to the class property of the element
         :param str extra_style: string of properly formatted CSS rules to be applied to the element style tag
-        :param dict custom_properties: dictionary of properties and values to apply to the element in format {"property": "value"}
+        :param dict props: dictionary of properties and values to apply to the element in format {"property": "value"}
         """
 
         classes_string = ""
@@ -169,7 +169,7 @@ class CustomHTML:
         style_string += extra_style
 
         properties_string = ""
-        for name, value in custom_properties.items():
+        for name, value in props.items():
             properties_string += f' {name}="{value}"'
 
         code = f"""<{tag} style="{style_string}" class="{classes_string}"{properties_string}>{text}</{tag}>"""

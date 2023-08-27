@@ -24,14 +24,17 @@ class Router:
             routes: dict[str, Callable],
             preroute: Optional[Callable] = None,
             dependencies: Optional[dict] = None,
-            postroute: Optional[Callable] = None
+            postroute: Optional[Callable] = None,
+            debug: bool = False,
         ):
         self.routes = routes
         self.preroute = preroute
         self.dependencies = dependencies
         self.postroute = postroute
         self.page_names = list(self.routes.keys())
-        log.debug(f"Initialized router {hex(id(self))}")
+        self.debug = debug
+        if self.debug:
+            log.debug(f"Initialized router {hex(id(self))}")
 
     def delayed_init(self):
         """
@@ -202,7 +205,8 @@ class Router:
         log.info(f"Setting query params {query_params}")
         st.experimental_set_query_params(**{**query_params, **additional_params})
         if rerun_st is True:
-            log.debug("rerun_st is True")
+            if self.debug:
+                log.debug("rerun_st is True")
             time.sleep(0.1)
             st.experimental_rerun()
 

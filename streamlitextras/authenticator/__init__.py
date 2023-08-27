@@ -76,8 +76,10 @@ class Authenticator:
             user_class: Optional[Type[UserInherited]] = None,
             admin_ids: Optional[Union[list, str]] = None,
             developer_ids: Optional[Union[list, str]] = None,
-            require_email_verification: bool = True
+            require_email_verification: bool = True,
+            debug: bool = False
         ):
+        self.debug = debug
 
         if authenticator_name == session_name:
             raise ValueError("authenticator_name can't be the same as session_name (st.session_state conflict)")
@@ -135,7 +137,8 @@ class Authenticator:
 
         self.user_tz = None
         self.cookie_manager = get_cookie_manager()
-        log.debug(f"Initialized Authenticator {hex(id(self))}")
+        if self.debug:
+            log.debug(f"Initialized Authenticator {hex(id(self))}")
 
     def delayed_init(self):
         """
@@ -274,10 +277,9 @@ class Authenticator:
             if not user:
                 user = self._initialize_user_session(session_cookie, decoded_claims)
                 if user:
-                    log.success(f"""loaded session cookie for {user.email}""")
                     self.set_form(None)
                 else:
-                    error = error
+                    error = AuthException("Unable to initialize user")
                     status = None
         else:
             if not self.current_form:

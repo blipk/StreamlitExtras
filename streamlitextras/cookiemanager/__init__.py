@@ -15,13 +15,15 @@ class CookieManager:
 
     It uses a thin component instance wrapper around the universal-cookie library.
     """
-    def __init__(self):
+    def __init__(self, debug: bool = False):
         if "cookie_manager" in st.session_state and st.session_state["cookie_manager"]:
             self.cookies = st.session_state["cookie_manager"].cookies.copy()
         else:
             self.cookies = {}
         st.session_state["cookie_manager"] = self
-        log.debug(f"Initialized Cookie Manager {hex(id(self))}")
+        self.debug = debug
+        if self.debug:
+            log.debug(f"Initialized Cookie Manager {hex(id(self))}")
 
     def delayed_init(self):
         """
