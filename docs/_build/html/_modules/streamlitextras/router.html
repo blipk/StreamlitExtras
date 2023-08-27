@@ -224,7 +224,9 @@
             <span class="c1"># log.debug(f&quot;Running preroute {self.preroute}&quot;)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">preroute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Routing to </span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">redirect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Routing to </span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">redirect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">redirect</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">st</span><span class="o">.</span><span class="n">experimental_set_query_params</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">page_name</span><span class="p">:</span> <span class="s2">&quot;~&quot;</span><span class="p">})</span>
             <span class="n">st</span><span class="o">.</span><span class="n">experimental_rerun</span><span class="p">()</span>
@@ -273,7 +275,9 @@
             <span class="n">page_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_page</span>
             <span class="n">query_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">page_name</span><span class="p">:</span> <span class="n">page_state</span><span class="p">}</span>
 
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting query params </span><span class="si">{</span><span class="n">query_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting query params </span><span class="si">{</span><span class="n">query_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="n">st</span><span class="o">.</span><span class="n">experimental_set_query_params</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">query_params</span><span class="p">,</span> <span class="o">**</span><span class="n">additional_params</span><span class="p">})</span>
         <span class="k">if</span> <span class="n">rerun_st</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>

@@ -7,7 +7,7 @@ class User:
     """
     This class is used as an interface for Authenticators users
     """
-    def __init__(self, authenticator, auth_data, login_data = {}):
+    def __init__(self, authenticator, auth_data, login_data = {}, debug: bool = False):
         """
         Initializes a user account with associated firebase tokens and account information
 
@@ -17,6 +17,8 @@ class User:
         :param dict login_data:
             The data from the initial login, not always provided (when reading session cookies)
         """
+        self.debug = debug
+
         self.authenticator = authenticator
         self.auth_data = auth_data
         self.login_data = login_data
@@ -61,7 +63,8 @@ class User:
                     setattr(self, key, user_refresh[key])
             self.authenticator._create_session(self.login_data)
             refreshed = True
-            log.info("Users tokens refreshed.")
+            if self.debug:
+                log.info(f"Users tokens refreshed {self.uid}.")
         else:
             log.error(f"Error refreshing users firebase token {refresh_error}")
             refreshed = False
