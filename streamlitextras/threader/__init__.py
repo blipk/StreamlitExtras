@@ -2,7 +2,7 @@ import os
 import time
 import threading
 from . import reruntrigger
-from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx, RerunException
+from streamlit.runtime.scriptrunner import add_script_run_ctx, get_script_run_ctx, RerunException, ScriptRunContext
 from typing import Callable, Optional
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -44,26 +44,32 @@ def trigger_rerun(last_write_margin: int = 1, delay: int = 0) -> None:
     # https://discuss.streamlit.io/t/how-to-run-a-subprocess-programs-using-thread-inside-streamlit/2440/2
     # https://discuss.streamlit.io/t/how-to-monitor-the-filesystem-and-have-streamlit-updated-when-some-files-are-modified/822/3
 
-def thread_wrapper(thread_func,
-                rerun_st = True,
-                last_write_margin: int = 1,
-                delay: int = 0,
-                *args, **kwargs) -> None:
+def thread_wrapper(
+        thread_func,
+        rerun_st = True,
+        last_write_margin: int = 1,
+        delay: int = 0,
+        *args, **kwargs
+    ) -> None:
     """
     Wrapper for running thread functions
     For parameters see streamlit_thread() and trigger_rerun()
     """
     # print("Hashseed in thread:", os.environ.get("PYTHONHASHSEED", False))
     thread_func(*args, **kwargs)
-    if rerun_st == True:
+    if rerun_st is True:
         trigger_rerun(last_write_margin, delay)
 
-def streamlit_thread(thread_func: Callable,
-                    args: tuple = (),
-                    kwargs: dict = {},
-                    rerun_st: bool = True,
-                    last_write_margin: int = 1,
-                    delay: int = 0) -> str:
+def streamlit_thread(
+        thread_func: Callable,
+        args: tuple = (),
+        kwargs: dict = {},
+        rerun_st: bool = True,
+        last_write_margin: int = 1,
+        delay: int = 0,
+        script_run_context: ScriptRunContext | None = None,
+        autostart: bool = True,
+    ) -> str:
     """
     Spawns and starts a threading.Thread that runs thread_func with the passed args and kwargs
 
@@ -77,9 +83,15 @@ def streamlit_thread(thread_func: Callable,
     # print("Thread entry hashseed:", os.environ.get("PYTHONHASHSEED", False))
     args = (thread_func, rerun_st, last_write_margin, delay, *args)
     thread = PropagatingThread(target=thread_wrapper, args=args, kwargs=kwargs)
-    add_script_run_ctx(thread, get_script_run_ctx())
-    time.sleep(0.1)
-    thread.start()
+
+    if not script_run_context:
+        script_run_context = get_script_run_ctx()
+    add_script_run_ctx(thread, script_run_context)
+
+    time.sleep(0.4)
+    if autostart is True:
+        thread.start()
+
     return thread.name
 
 def get_thread(thread_name) -> Optional[threading.Thread]:
