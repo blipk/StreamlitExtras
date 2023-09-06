@@ -37,13 +37,13 @@ class User:
 
         self.email = self.user_record["email"]
         self.emailVerified = self.user_record["emailVerified"]
-        self.displayName = self.user_record["displayName"]
-        self.createdAt = self.user_record["createdAt"]
-        self.lastLoginAt = self.user_record["lastLoginAt"]
-        self.lastRefreshAt = self.user_record["lastRefreshAt"]
-        self.passwordUpdatedAt = self.user_record["passwordUpdatedAt"]
-        self.providerUserInfo = self.user_record["providerUserInfo"]
-        self.validSince = self.user_record["validSince"]
+        self.displayName = self.user_record.get("displayName", None)
+        self.createdAt = self.user_record.get("createdAt", None)
+        self.lastLoginAt = self.user_record.get("lastLoginAt", None)
+        self.lastRefreshAt = self.user_record.get("lastRefreshAt", None)
+        self.passwordUpdatedAt = self.user_record.get("passwordUpdatedAt", None)
+        self.providerUserInfo = self.user_record.get("providerUserInfo", None)
+        self.validSince = self.user_record.get("validSince", None)
         self.photoUrl = self.user_record.get("photoUrl", None)
 
         self.account_info = login_data.get("account_info", None)
