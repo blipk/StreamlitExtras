@@ -235,8 +235,11 @@ def get_router(
     """
     See Router for params.
     """
-    if "router" in st.session_state and st.session_state["router"]:
-        st.session_state["router"].routes = routes
-        st.session_state["router"].preroute = preroute
-        return st.session_state["router"]
+    if "router" in st.session_state and st.session_state.get("router", None):
+        router: Router = st.session_state["router"]
+        router.routes = routes or router.routes
+        router.preroute = preroute or router.preroute
+        router.postroute = postroute or router.postroute
+        router.dependencies = dependencies or router.dependencies
+        return router
     return Router(routes, preroute, dependencies, postroute)
