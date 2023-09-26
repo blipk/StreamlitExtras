@@ -148,6 +148,7 @@
             <span class="n">admin_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">require_email_verification</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">attempt_fallback_cookies</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
             <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
@@ -166,6 +167,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_class</span> <span class="o">=</span> <span class="n">user_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">require_email_verification</span> <span class="o">=</span> <span class="n">require_email_verification</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attempt_fallback_cookies</span> <span class="o">=</span> <span class="n">attempt_fallback_cookies</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="n">storage</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">auth</span>
@@ -275,6 +277,10 @@
         <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie_reader</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cookie</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
             <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">attempt_fallback_cookies</span><span class="p">:</span>
+            <span class="c1"># Try cookie manager component instead of websocket headers</span>
+            <span class="n">cookie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
+            <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span> <span class="ow">or</span> <span class="kc">None</span> <span class="c1"># cookie_manager.get returns None or {}</span>
 
         <span class="k">return</span> <span class="n">cookie</span>
 
