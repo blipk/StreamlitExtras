@@ -95,8 +95,8 @@ class CookieManager:
 
         if name is None or name == "":
             return None
-        result = self.cookies.get(name)
-        time.sleep(1)
+        result = self.cookies.get(name, None)
+        time.sleep(0.4) # Give component time to render
         return result
 
     def get_all(self, key="get_all"):

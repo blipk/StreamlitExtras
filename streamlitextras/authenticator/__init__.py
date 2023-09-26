@@ -77,6 +77,7 @@ class Authenticator:
             admin_ids: Optional[Union[list, str]] = None,
             developer_ids: Optional[Union[list, str]] = None,
             require_email_verification: bool = True,
+            attempt_fallback_cookies: bool = False,
             debug: bool = False
         ):
         self.debug = debug
@@ -95,6 +96,7 @@ class Authenticator:
         self.last_user = None
         self.user_class = user_class
         self.require_email_verification = require_email_verification
+        self.attempt_fallback_cookies = attempt_fallback_cookies
 
         self.storage = storage
         self.auth = auth
@@ -204,6 +206,10 @@ class Authenticator:
         cookie = cookie_reader.get(self.cookie_name, None)
         if cookie is not None and cookie.value:
             cookie = cookie.value
+        elif self.attempt_fallback_cookies:
+            # Try cookie manager component instead of websocket headers
+            cookie = self.cookie_manager.get(self.cookie_name)
+            cookie = cookie or None # cookie_manager.get returns None or {}
 
         return cookie
 
