@@ -1,6 +1,7 @@
 streamlit>=1.23.1
 streamlit-javascript==0.1.5
 loguru==0.6.0
+urllib3==1.26.16 # Newer versions break pyrebase
 requests
 gcloud
 pyjwt
