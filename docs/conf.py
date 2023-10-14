@@ -50,8 +50,8 @@ extensions = [
     "autodoc_stub_file",
 ]
 
-apidoc_module_dir = '../streamlitextras'
-apidoc_output_dir = './api'
+apidoc_module_dir = "../streamlitextras"
+apidoc_output_dir = "./api"
 apidoc_module_first = True
 
 # Add any paths that contain templates here, relative to this directory.
@@ -140,14 +140,24 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, "streamlitextras.tex", "Streamlit Extras Documentation", "BLIPK", "manual")]
+latex_documents = [
+    (
+        master_doc,
+        "streamlitextras.tex",
+        "Streamlit Extras Documentation",
+        "BLIPK",
+        "manual",
+    )
+]
 
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "streamlitextras", "Streamlit Extras Documentation", [author], 1)]
+man_pages = [
+    (master_doc, "streamlitextras", "Streamlit Extras Documentation", [author], 1)
+]
 
 
 # -- Options for Texinfo output ----------------------------------------------

@@ -73,13 +73,21 @@
 <span></span><span class="kn">from</span> <span class="nn">streamlitextras.logger</span> <span class="kn">import</span> <span class="n">log</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.utils</span> <span class="kn">import</span> <span class="n">repr_</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.authenticator.utils</span> <span class="kn">import</span> <span class="n">handle_firebase_action</span>
-<span class="kn">from</span> <span class="nn">streamlitextras.authenticator.exceptions</span> <span class="kn">import</span> <span class="n">AuthException</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="n">ResetError</span><span class="p">,</span> <span class="n">UpdateError</span>
+<span class="kn">from</span> <span class="nn">streamlitextras.authenticator.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AuthException</span><span class="p">,</span>
+    <span class="n">LoginError</span><span class="p">,</span>
+    <span class="n">RegisterError</span><span class="p">,</span>
+    <span class="n">ResetError</span><span class="p">,</span>
+    <span class="n">UpdateError</span><span class="p">,</span>
+<span class="p">)</span>
+
 
 <div class="viewcode-block" id="User"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.user.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is used as an interface for Authenticators users</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authenticator</span><span class="p">,</span> <span class="n">auth_data</span><span class="p">,</span> <span class="n">login_data</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authenticator</span><span class="p">,</span> <span class="n">auth_data</span><span class="p">,</span> <span class="n">login_data</span><span class="o">=</span><span class="p">{},</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes a user account with associated firebase tokens and account information</span>
 
@@ -122,12 +130,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_info</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">users</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">customAuth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;customAuth&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span>  <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">customAuth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;customAuth&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="k">else</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="User.refresh_token"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.user.User.refresh_token">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">refreshed</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">refresh_errors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many recent sessions. Please try again later.&quot;</span><span class="p">}</span>
-        <span class="n">user_refresh</span><span class="p">,</span> <span class="n">refresh_error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">refresh</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">refresh_errors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refreshToken</span><span class="p">)</span>
+        <span class="n">refresh_errors</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many recent sessions. Please try again later.&quot;</span>
+        <span class="p">}</span>
+        <span class="n">user_refresh</span><span class="p">,</span> <span class="n">refresh_error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">refresh</span><span class="p">,</span>
+            <span class="n">LoginError</span><span class="p">,</span>
+            <span class="n">refresh_errors</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refreshToken</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">refresh_error</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">login_data</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">login_data</span><span class="p">,</span> <span class="o">**</span><span class="n">user_refresh</span><span class="p">}</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -169,7 +184,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localId</span> <span class="ow">in</span> <span class="n">developer_ids</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;passwordHash&quot;</span><span class="p">,</span> <span class="s2">&quot;login_data&quot;</span><span class="p">,</span> <span class="s2">&quot;refreshToken&quot;</span><span class="p">,</span> <span class="s2">&quot;idToken&quot;</span><span class="p">,</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">],</span> <span class="n">only_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;localId&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">repr_</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="p">[</span><span class="s2">&quot;passwordHash&quot;</span><span class="p">,</span> <span class="s2">&quot;login_data&quot;</span><span class="p">,</span> <span class="s2">&quot;refreshToken&quot;</span><span class="p">,</span> <span class="s2">&quot;idToken&quot;</span><span class="p">,</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">],</span>
+            <span class="n">only_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;localId&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
 </pre></div>
 
            </div>

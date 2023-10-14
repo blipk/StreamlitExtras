@@ -9,7 +9,6 @@ except ImportError:
     from distutils.core import setup, find_packages
 
 
-
 with open(version_init_file, "r") as file:
     regex_version = r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]'
     version = re.search(regex_version, file.read(), re.MULTILINE).group(1)
@@ -28,13 +27,22 @@ setup(
     url="https://github.com/blipk/streamlitextras",
     packages=find_packages(),
     include_package_data=True,
-
-    download_url="https://github.com/blipk/streamlitextras/archive/{}.tar.gz".format(version),
+    download_url="https://github.com/blipk/streamlitextras/archive/{}.tar.gz".format(
+        version
+    ),
     project_urls={
         "Changelog": "https://github.com/blipk/streamlitextras/commits/",
         "Documentation": "https://streamlitextras.readthedocs.io/en/stable/index.html",
     },
-    keywords=["streamlitextras", "streamlit", "router", "authenticator", "javascript", "cookie", "thread"],
+    keywords=[
+        "streamlitextras",
+        "streamlit",
+        "router",
+        "authenticator",
+        "javascript",
+        "cookie",
+        "thread",
+    ],
     license="MIT license",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -68,7 +76,7 @@ setup(
         "requests_toolbelt",
         "firebase-admin",
         "google-cloud-storage",
-        "streamlit_javascript"
+        "streamlit_javascript",
     ],
     extras_require={
         "dev": [

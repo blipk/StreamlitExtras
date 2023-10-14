@@ -322,10 +322,14 @@
 
         <span class="k">return</span> <span class="n">audio</span></div>
 
-    <span class="n">lottie_url</span> <span class="o">=</span> <span class="s2">&quot;https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json&quot;</span>
+    <span class="n">lottie_url</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json&quot;</span>
+    <span class="p">)</span>
+
 <div class="viewcode-block" id="CustomHTML.load_lottieurl"><a class="viewcode-back" href="../../api/streamlitextras.html#streamlitextras.helpers.CustomHTML.load_lottieurl">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load_lottieurl</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">lottie_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">lottie_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads and returns JSON from the lottie library</span>

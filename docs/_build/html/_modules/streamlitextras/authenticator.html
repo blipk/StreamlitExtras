@@ -84,7 +84,13 @@
 <span class="kn">from</span> <span class="nn">streamlitextras.logger</span> <span class="kn">import</span> <span class="n">log</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.utils</span> <span class="kn">import</span> <span class="n">repr_</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.authenticator.user</span> <span class="kn">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">streamlitextras.authenticator.exceptions</span> <span class="kn">import</span> <span class="n">AuthException</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="n">ResetError</span><span class="p">,</span> <span class="n">UpdateError</span>
+<span class="kn">from</span> <span class="nn">streamlitextras.authenticator.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AuthException</span><span class="p">,</span>
+    <span class="n">LoginError</span><span class="p">,</span>
+    <span class="n">RegisterError</span><span class="p">,</span>
+    <span class="n">ResetError</span><span class="p">,</span>
+    <span class="n">UpdateError</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.authenticator.utils</span> <span class="kn">import</span> <span class="n">handle_firebase_action</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.webutils</span> <span class="kn">import</span> <span class="n">get_user_timezone</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.cookiemanager</span> <span class="kn">import</span> <span class="n">get_cookie_manager</span>
@@ -104,20 +110,38 @@
 
 
 <span class="c1"># PyPI doesn&#39;t contain the latest git commits for pyrebase4</span>
-<div class="viewcode-block" id="update_profile"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.update_profile">[docs]</a><span class="k">def</span> <span class="nf">update_profile</span><span class="p">(</span><span class="n">id_token</span><span class="p">,</span> <span class="n">display_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">photo_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delete_attribute</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="update_profile"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.update_profile">[docs]</a><span class="k">def</span> <span class="nf">update_profile</span><span class="p">(</span>
+    <span class="n">id_token</span><span class="p">,</span> <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">photo_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delete_attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pyrebase on PyPI seems to be missing latest commits - adding this in here.</span>
 <span class="sd">    https://firebase.google.com/docs/reference/rest/auth#section-update-profile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">request_ref</span> <span class="o">=</span> <span class="s2">&quot;https://identitytoolkit.googleapis.com/v1/accounts:update?key=</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+    <span class="n">request_ref</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;https://identitytoolkit.googleapis.com/v1/accounts:update?key=</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">auth</span><span class="o">.</span><span class="n">api_key</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json; charset=UTF-8&quot;</span><span class="p">}</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;idToken&quot;</span><span class="p">:</span> <span class="n">id_token</span><span class="p">,</span> <span class="s2">&quot;displayName&quot;</span><span class="p">:</span> <span class="n">display_name</span><span class="p">,</span> <span class="s2">&quot;photoURL&quot;</span><span class="p">:</span> <span class="n">photo_url</span><span class="p">,</span> <span class="s2">&quot;deleteAttribute&quot;</span><span class="p">:</span> <span class="n">delete_attribute</span><span class="p">,</span> <span class="s2">&quot;returnSecureToken&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;idToken&quot;</span><span class="p">:</span> <span class="n">id_token</span><span class="p">,</span>
+            <span class="s2">&quot;displayName&quot;</span><span class="p">:</span> <span class="n">display_name</span><span class="p">,</span>
+            <span class="s2">&quot;photoURL&quot;</span><span class="p">:</span> <span class="n">photo_url</span><span class="p">,</span>
+            <span class="s2">&quot;deleteAttribute&quot;</span><span class="p">:</span> <span class="n">delete_attribute</span><span class="p">,</span>
+            <span class="s2">&quot;returnSecureToken&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
     <span class="n">request_object</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">request_ref</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
     <span class="n">pyrebase</span><span class="o">.</span><span class="n">pyrebase</span><span class="o">.</span><span class="n">raise_detailed_error</span><span class="p">(</span><span class="n">request_object</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">request_object</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+
 <span class="n">auth</span><span class="o">.</span><span class="n">update_profile</span> <span class="o">=</span> <span class="n">update_profile</span>
 
-<span class="n">UserInherited</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;UserInherited&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;User&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">UserInherited</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;UserInherited&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;User&quot;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator">[docs]</a><span class="k">class</span> <span class="nc">Authenticator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Authenticator is used to handle firebase authentication,</span>
@@ -137,24 +161,27 @@
 <span class="sd">        Can also be | seperated string that will be parsed to a list - useful for parsing from a secrets config file</span>
 <span class="sd">    :param bool require_email_verification: If set to True (the default), users will not be able to log in until they verify their email address</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-            <span class="n">cookie_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-            <span class="n">session_expiry_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span>
-            <span class="n">session_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
-            <span class="n">authenticator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span>
-            <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">admin_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">require_email_verification</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="n">attempt_fallback_cookies</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-            <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="p">):</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cookie_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">session_expiry_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="n">session_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="n">authenticator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span>
+        <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">admin_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">developer_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">require_email_verification</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">attempt_fallback_cookies</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
 
         <span class="k">if</span> <span class="n">authenticator_name</span> <span class="o">==</span> <span class="n">session_name</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;authenticator_name can&#39;t be the same as session_name (st.session_state conflict)&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;authenticator_name can&#39;t be the same as session_name (st.session_state conflict)&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user_class</span><span class="p">:</span>
             <span class="n">user_class</span> <span class="o">=</span> <span class="n">User</span>
@@ -185,18 +212,28 @@
             <span class="n">developer_ids</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">developer_ids</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;developer_ids must be a list or a | seperated string&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">developer_ids</span> <span class="o">=</span> <span class="n">developer_ids</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">developer_ids</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="k">else</span> <span class="n">developer_ids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">developer_ids</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">developer_ids</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">developer_ids</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="k">else</span> <span class="n">developer_ids</span>
+        <span class="p">)</span>
 
         <span class="c1"># Streamlit refreshes a lot recreating this class - keep the same form between refreshes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_form</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span><span class="o">.</span><span class="n">current_form</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span>
+            <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span><span class="o">.</span><span class="n">current_form</span>
+        <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">current_form</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span><span class="o">.</span><span class="n">current_form</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">service_credentials</span> <span class="o">=</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">Certificate</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;gcp_service_account&quot;</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service_credentials</span> <span class="o">=</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">Certificate</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">secrets</span><span class="p">[</span><span class="s2">&quot;gcp_service_account&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">firebase_service</span> <span class="o">=</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">get_app</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">firebase_service</span> <span class="o">=</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_credentials</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">firebase_service</span> <span class="o">=</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">service_credentials</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
             <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -223,7 +260,10 @@
             <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="s2">&quot;login_message&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
             <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;login_message&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">authenticator_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
 
@@ -249,7 +289,10 @@
         <span class="n">current_user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="p">:</span>
             <span class="n">current_user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span>
+            <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="n">current_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">current_user</span>
@@ -262,7 +305,10 @@
 
 <span class="sd">        :returns: Returns the auth cookie or None if it doesnt exist</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;authentication_token&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="s2">&quot;authentication_token&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span>
+            <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="n">auth_cookie</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">auth_cookie</span>
 
@@ -280,11 +326,13 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">attempt_fallback_cookies</span><span class="p">:</span>
             <span class="c1"># Try cookie manager component instead of websocket headers</span>
             <span class="n">cookie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
-            <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span> <span class="ow">or</span> <span class="kc">None</span> <span class="c1"># cookie_manager.get returns None or {}</span>
+            <span class="n">cookie</span> <span class="o">=</span> <span class="n">cookie</span> <span class="ow">or</span> <span class="kc">None</span>  <span class="c1"># cookie_manager.get returns None or {}</span>
 
         <span class="k">return</span> <span class="n">cookie</span>
 
-    <span class="k">def</span> <span class="nf">_revoke_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_revoke_auth</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes the auth cookie and revokes any firebase tokens</span>
 
@@ -305,7 +353,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
 
         <span class="c1"># If the revokation wasn&#39;t from an already expired token, revoke current refresh tokens for user</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">error</span> <span class="ow">or</span> <span class="p">(</span><span class="n">error</span> <span class="ow">and</span> <span class="n">error</span><span class="o">.</span><span class="n">firebase_error</span> <span class="o">!=</span> <span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">error</span> <span class="ow">or</span> <span class="p">(</span><span class="n">error</span> <span class="ow">and</span> <span class="n">error</span><span class="o">.</span><span class="n">firebase_error</span> <span class="o">!=</span> <span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">)</span>
+        <span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">service_auth</span><span class="o">.</span><span class="n">revoke_refresh_tokens</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="o">.</span><span class="n">localId</span><span class="p">)</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Firebase tokens revoked for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="o">.</span><span class="n">localId</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -336,7 +386,11 @@
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">status</span> <span class="o">=</span> <span class="kc">False</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
+            <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cookie</span><span class="p">()</span>
@@ -349,7 +403,10 @@
 
         <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">status</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session_name</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span>
+                <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
+            <span class="p">):</span>
                 <span class="n">user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
                 <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_user_session</span><span class="p">(</span><span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
@@ -389,13 +446,15 @@
             <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">decoded_claims</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">verify_session_cookie</span><span class="p">(</span><span class="n">session_cookie</span><span class="p">,</span> <span class="n">check_revoked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">decoded_claims</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">verify_session_cookie</span><span class="p">(</span>
+                <span class="n">session_cookie</span><span class="p">,</span> <span class="n">check_revoked</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">decoded_claims</span> <span class="ow">and</span> <span class="s2">&quot;user_id&quot;</span> <span class="ow">in</span> <span class="n">decoded_claims</span><span class="p">:</span>
                 <span class="n">status</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">InvalidSessionCookieError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-             <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Invalid Session Cookie&quot;</span><span class="p">)</span>
-             <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Invalid Session Cookie&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected failure in when checking cookie </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -403,12 +462,12 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_initialize_user_session</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">session_cookie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-            <span class="n">decoded_claims</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-            <span class="n">login_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">set_cookie_expires_in</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">session_cookie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">decoded_claims</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">login_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">set_cookie_expires_in</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the users session state after login or reading cookie.</span>
 <span class="sd">        The cookie and data must be validated before this function.</span>
@@ -436,32 +495,37 @@
         <span class="n">auth_data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;session_cookie&quot;</span><span class="p">:</span> <span class="n">session_cookie</span><span class="p">,</span>
             <span class="s2">&quot;decoded_claims&quot;</span><span class="p">:</span> <span class="n">decoded_claims</span><span class="p">,</span>
-            <span class="s2">&quot;user_record&quot;</span><span class="p">:</span> <span class="n">user_record_cleaned</span>
+            <span class="s2">&quot;user_record&quot;</span><span class="p">:</span> <span class="n">user_record_cleaned</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">login_data</span><span class="p">:</span>
             <span class="n">login_data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">=</span><span class="n">auth_data</span><span class="p">,</span> <span class="n">login_data</span><span class="o">=</span><span class="n">login_data</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
-            <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;admin&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
         <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_developer</span><span class="p">:</span>
-            <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;devops&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">set_custom_user_claims</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">localId</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;devops&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">user</span>
 
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;authentication_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">session_cookie</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
 
         <span class="k">if</span> <span class="n">set_cookie_expires_in</span><span class="p">:</span>
-            <span class="n">cookie_expiry_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tz</span><span class="p">))</span> <span class="o">+</span> <span class="n">set_cookie_expires_in</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="n">cookie_expiry_time</span><span class="p">)</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialized session</span><span class="si">{</span><span class="s1">&#39; and set cookie&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">set_cookie_expires_in</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">cookie_expiry_time</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_tz</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">set_cookie_expires_in</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">,</span> <span class="n">session_cookie</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="n">cookie_expiry_time</span>
+            <span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">success</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Initialized session</span><span class="si">{</span><span class="s1">&#39; and set cookie&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">set_cookie_expires_in</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">user</span>
 
     <span class="k">def</span> <span class="nf">_create_session</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">login_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-            <span class="n">expires_in</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">login_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">expires_in</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a User from firebase token data and instantiates a session for them.</span>
 <span class="sd">        This is used on login.</span>
@@ -483,28 +547,36 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">decoded_claims</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">verify_id_token</span><span class="p">(</span><span class="n">id_token</span><span class="p">)</span>
             <span class="c1"># Only process if the user signed in within the last 5 minutes.</span>
-            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">decoded_claims</span><span class="p">[</span><span class="s1">&#39;auth_time&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span><span class="p">:</span>
-                <span class="n">session_cookie</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">create_session_cookie</span><span class="p">(</span><span class="n">id_token</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">expires_in</span><span class="p">)</span>
-                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_user_session</span><span class="p">(</span><span class="n">session_cookie</span><span class="p">,</span> <span class="n">decoded_claims</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">set_cookie_expires_in</span><span class="o">=</span><span class="n">expires_in</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">decoded_claims</span><span class="p">[</span><span class="s2">&quot;auth_time&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">session_cookie</span> <span class="o">=</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">create_session_cookie</span><span class="p">(</span>
+                    <span class="n">id_token</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">expires_in</span>
+                <span class="p">)</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_user_session</span><span class="p">(</span>
+                    <span class="n">session_cookie</span><span class="p">,</span>
+                    <span class="n">decoded_claims</span><span class="p">,</span>
+                    <span class="n">login_data</span><span class="p">,</span>
+                    <span class="n">set_cookie_expires_in</span><span class="o">=</span><span class="n">expires_in</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
                     <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please try again.&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Expired credentials&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">service_auth</span><span class="o">.</span><span class="n">InvalidIdTokenError</span><span class="p">,</span>
-                <span class="n">service_auth</span><span class="o">.</span><span class="n">ExpiredIdTokenError</span><span class="p">,</span>
-                <span class="n">service_auth</span><span class="o">.</span><span class="n">RevokedIdTokenError</span><span class="p">,</span>
-                <span class="n">service_auth</span><span class="o">.</span><span class="n">CertificateFetchError</span><span class="p">,</span>
-                <span class="n">service_auth</span><span class="o">.</span><span class="n">UserDisabledError</span><span class="p">):</span>
+        <span class="k">except</span> <span class="p">(</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">InvalidIdTokenError</span><span class="p">,</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">ExpiredIdTokenError</span><span class="p">,</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">RevokedIdTokenError</span><span class="p">,</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">CertificateFetchError</span><span class="p">,</span>
+            <span class="n">service_auth</span><span class="o">.</span><span class="n">UserDisabledError</span><span class="p">,</span>
+        <span class="p">):</span>
             <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Expired credentials&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">firebase_admin</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">FirebaseError</span><span class="p">:</span>
             <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please try again.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_check_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                           <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                           <span class="n">password</span><span class="p">:</span> <span class="nb">str</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_check_credentials</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks the validity of the entered credentials, and if the accounts email is verified.</span>
 
@@ -521,22 +593,42 @@
             <span class="s2">&quot;EMAIL_NOT_FOUND&quot;</span><span class="p">:</span> <span class="s2">&quot;Email address is not registered&quot;</span><span class="p">,</span>
             <span class="s2">&quot;INVALID_PASSWORD&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid password&quot;</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">sign_in_with_email_and_password</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">signin_errors</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+            <span class="n">auth</span><span class="o">.</span><span class="n">sign_in_with_email_and_password</span><span class="p">,</span>
+            <span class="n">LoginError</span><span class="p">,</span>
+            <span class="n">signin_errors</span><span class="p">,</span>
+            <span class="n">email</span><span class="p">,</span>
+            <span class="n">password</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">account_info</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">user_refresh</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">refresh_errors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many recent sessions. Please try again later.&quot;</span><span class="p">}</span>
-            <span class="n">user_refresh</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">refresh</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">refresh_errors</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;refreshToken&#39;</span><span class="p">])</span>
+            <span class="n">refresh_errors</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;TOKEN_EXPIRED&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many recent sessions. Please try again later.&quot;</span>
+            <span class="p">}</span>
+            <span class="n">user_refresh</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+                <span class="n">auth</span><span class="o">.</span><span class="n">refresh</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="n">refresh_errors</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;refreshToken&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">res</span><span class="p">,</span> <span class="o">**</span><span class="n">user_refresh</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">account_info</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">get_account_info</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;idToken&#39;</span><span class="p">])</span>
+            <span class="n">account_info</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+                <span class="n">auth</span><span class="o">.</span><span class="n">get_account_info</span><span class="p">,</span> <span class="n">LoginError</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">require_email_verification</span> <span class="ow">and</span> <span class="n">account_info</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;emailVerified&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">require_email_verification</span>
+                <span class="ow">and</span> <span class="n">account_info</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">account_info</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;emailVerified&quot;</span><span class="p">]</span>
+            <span class="p">):</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please verify your email address before logging in&quot;</span><span class="p">)</span>
-                <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Resend verification email&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_resend_verification</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],))</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+                    <span class="s2">&quot;Resend verification email&quot;</span><span class="p">,</span>
+                    <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_resend_verification</span><span class="p">,</span>
+                    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],),</span>
+                <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">res</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">account_info</span><span class="p">:</span>
@@ -549,7 +641,9 @@
 
         <span class="k">return</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">validated</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_resend_verification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">_resend_verification</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">user_id_token</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthException</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Resends the firebase auth verification email for a user</span>
 
@@ -559,15 +653,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">resend_errors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;TOO_MANY_ATTEMPTS_TRY_LATER&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many attempts, try again later.&quot;</span><span class="p">}</span>
-        <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">send_email_verification</span><span class="p">,</span> <span class="n">AuthException</span><span class="p">,</span> <span class="n">resend_errors</span><span class="p">,</span> <span class="n">user_id_token</span><span class="p">)</span>
+        <span class="n">resend_errors</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;TOO_MANY_ATTEMPTS_TRY_LATER&quot;</span><span class="p">:</span> <span class="s2">&quot;Too many attempts, try again later.&quot;</span>
+        <span class="p">}</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+            <span class="n">auth</span><span class="o">.</span><span class="n">send_email_verification</span><span class="p">,</span> <span class="n">AuthException</span><span class="p">,</span> <span class="n">resend_errors</span><span class="p">,</span> <span class="n">user_id_token</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
             <span class="c1"># st.error(error)</span>
             <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;login_message&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">error</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># st.info(&quot;Verification email sent&quot;)</span>
-            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;login_message&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Verification email sent, please check your inbox.&quot;</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span>
+                <span class="s2">&quot;login_message&quot;</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Verification email sent, please check your inbox.&quot;</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
 
@@ -581,7 +681,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_form</span> <span class="o">=</span> <span class="n">form_name</span></div>
 
-<div class="viewcode-block" id="Authenticator.logout"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.logout">[docs]</a>    <span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">button_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Authenticator.logout"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.logout">[docs]</a>    <span class="k">def</span> <span class="nf">logout</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">button_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">button_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">,</span>
+        <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a logout button.</span>
 
@@ -593,26 +698,32 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">button_location</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">button_location</span> <span class="o">!=</span> <span class="n">st</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">button_location</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
             <span class="n">button_name</span><span class="p">,</span>
             <span class="n">disabled</span><span class="o">=</span><span class="n">disabled</span><span class="p">,</span>
-            <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Logout requested&quot;</span><span class="p">),</span> <span class="n">disabled</span><span class="p">,),</span>
-            <span class="n">key</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;authenticator_logout_btn_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_revoke_auth</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">AuthException</span><span class="p">(</span><span class="s2">&quot;Logout requested&quot;</span><span class="p">),</span>
+                <span class="n">disabled</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;authenticator_logout_btn_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="Authenticator.login"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-            <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
-            <span class="n">success_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">cb_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">cb_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
+        <span class="n">success_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cb_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cb_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoginError</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a login widget.</span>
 
@@ -627,7 +738,9 @@
 <span class="sd">        :returns: 3 element tuple containing the a User class if one was created, response from the firebase calls, and/or any errors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">form_location</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">form_location</span> <span class="o">!=</span> <span class="n">st</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
@@ -659,24 +772,43 @@
                 <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">error</span> <span class="o">=</span> <span class="n">LoginError</span><span class="p">(</span><span class="s2">&quot;Please enter a password&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">validated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_credentials</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+                    <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">login_data</span><span class="p">,</span> <span class="n">validated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_credentials</span><span class="p">(</span>
+                        <span class="n">email</span><span class="p">,</span> <span class="n">password</span>
+                    <span class="p">)</span>
                     <span class="k">if</span> <span class="n">validated</span> <span class="ow">and</span> <span class="n">login_data</span><span class="p">:</span>
                         <span class="n">user</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_session</span><span class="p">(</span><span class="n">login_data</span><span class="p">)</span>
 
-                    <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">error</span> <span class="ow">and</span> <span class="n">success_callback</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">success_callback</span><span class="p">):</span>
-                        <span class="n">success_callback</span><span class="p">(</span><span class="o">*</span><span class="n">cb_args</span><span class="p">,</span> <span class="n">login_return</span><span class="o">=</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">,),</span> <span class="o">**</span><span class="n">cb_kwargs</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">user</span>
+                        <span class="ow">and</span> <span class="ow">not</span> <span class="n">error</span>
+                        <span class="ow">and</span> <span class="n">success_callback</span>
+                        <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">success_callback</span><span class="p">)</span>
+                    <span class="p">):</span>
+                        <span class="n">success_callback</span><span class="p">(</span>
+                            <span class="o">*</span><span class="n">cb_args</span><span class="p">,</span>
+                            <span class="n">login_return</span><span class="o">=</span><span class="p">(</span>
+                                <span class="n">user</span><span class="p">,</span>
+                                <span class="n">res</span><span class="p">,</span>
+                                <span class="n">error</span><span class="p">,</span>
+                            <span class="p">),</span>
+                            <span class="o">**</span><span class="n">cb_kwargs</span><span class="p">,</span>
+                        <span class="p">)</span>
 
-            <span class="n">login_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Register&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;register&quot;</span><span class="p">,))</span>
-            <span class="n">login_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Forgot password?&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;reset_password&quot;</span><span class="p">,))</span>
+            <span class="n">login_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span>
+                <span class="s2">&quot;Register&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;register&quot;</span><span class="p">,)</span>
+            <span class="p">)</span>
+            <span class="n">login_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span>
+                <span class="s2">&quot;Forgot password?&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;reset_password&quot;</span><span class="p">,)</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Authenticator.register_user"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.register_user">[docs]</a>    <span class="k">def</span> <span class="nf">register_user</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-            <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
-            <span class="n">terms_link</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RegisterError</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">,</span>
+        <span class="n">terms_link</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RegisterError</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a user registration widget</span>
 
@@ -686,14 +818,18 @@
 <span class="sd">        :returns: tuple containing the firebase response and any errors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">form_location</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">form_location</span> <span class="o">!=</span> <span class="n">st</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">register_user_form</span> <span class="o">=</span> <span class="n">form_location</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="s2">&quot;Register user&quot;</span><span class="p">)</span>
         <span class="n">register_user_form</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="n">form_name</span><span class="p">)</span>
         <span class="n">new_email</span> <span class="o">=</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Email&quot;</span><span class="p">)</span>
         <span class="n">new_name</span> <span class="o">=</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">)</span>
         <span class="n">new_password</span> <span class="o">=</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">)</span>
-        <span class="n">new_password_repeat</span> <span class="o">=</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Repeat password&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">)</span>
+        <span class="n">new_password_repeat</span> <span class="o">=</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+            <span class="s2">&quot;Repeat password&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">terms_link</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">terms_agreed</span> <span class="o">=</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">checkbox</span><span class="p">(</span>
@@ -706,7 +842,9 @@
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">register_user_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Register&quot;</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">terms_agreed</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">RegisterError</span><span class="p">(</span><span class="s2">&quot;Please read and agree to the usage terms and conditions.&quot;</span><span class="p">)</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">RegisterError</span><span class="p">(</span>
+                    <span class="s2">&quot;Please read and agree to the usage terms and conditions.&quot;</span>
+                <span class="p">)</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_email</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_password</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">new_password</span> <span class="o">==</span> <span class="n">new_password_repeat</span><span class="p">:</span>
                     <span class="n">register_errors</span> <span class="o">=</span> <span class="p">{</span>
@@ -714,7 +852,13 @@
                         <span class="s2">&quot;EMAIL_EXISTS&quot;</span><span class="p">:</span> <span class="s2">&quot;Email is already registered&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;WEAK_PASSWORD&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                     <span class="p">}</span>
-                    <span class="n">user</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">create_user_with_email_and_password</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="n">register_errors</span><span class="p">,</span> <span class="n">new_email</span><span class="p">,</span> <span class="n">new_password</span><span class="p">)</span>
+                    <span class="n">user</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+                        <span class="n">auth</span><span class="o">.</span><span class="n">create_user_with_email_and_password</span><span class="p">,</span>
+                        <span class="n">RegisterError</span><span class="p">,</span>
+                        <span class="n">register_errors</span><span class="p">,</span>
+                        <span class="n">new_email</span><span class="p">,</span>
+                        <span class="n">new_password</span><span class="p">,</span>
+                    <span class="p">)</span>
                     <span class="c1"># user = service_auth.create_user(</span>
                     <span class="c1"># email=&#39;user@example.com&#39;,</span>
                     <span class="c1"># email_verified=False,</span>
@@ -725,24 +869,44 @@
                     <span class="c1"># disabled=False)</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-                        <span class="n">res1</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">update_profile</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],</span> <span class="n">display_name</span><span class="o">=</span><span class="n">new_name</span><span class="p">)</span>
+                        <span class="n">res1</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+                            <span class="n">auth</span><span class="o">.</span><span class="n">update_profile</span><span class="p">,</span>
+                            <span class="n">RegisterError</span><span class="p">,</span>
+                            <span class="kc">False</span><span class="p">,</span>
+                            <span class="n">user</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],</span>
+                            <span class="n">display_name</span><span class="o">=</span><span class="n">new_name</span><span class="p">,</span>
+                        <span class="p">)</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
-                        <span class="n">res2</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">send_email_verification</span><span class="p">,</span> <span class="n">RegisterError</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">])</span>
+                        <span class="n">res2</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+                            <span class="n">auth</span><span class="o">.</span><span class="n">send_email_verification</span><span class="p">,</span>
+                            <span class="n">RegisterError</span><span class="p">,</span>
+                            <span class="kc">False</span><span class="p">,</span>
+                            <span class="n">user</span><span class="p">[</span><span class="s2">&quot;idToken&quot;</span><span class="p">],</span>
+                        <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">error</span> <span class="o">=</span> <span class="n">RegisterError</span><span class="p">(</span><span class="s2">&quot;Passwords do not match&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">RegisterError</span><span class="p">(</span><span class="s2">&quot;Please enter an email, username, name, and password&quot;</span><span class="p">)</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">RegisterError</span><span class="p">(</span>
+                    <span class="s2">&quot;Please enter an email, username, name, and password&quot;</span>
+                <span class="p">)</span>
 
-        <span class="n">register_user_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,))</span>
+        <span class="n">register_user_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span>
+            <span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">require_email_verification</span><span class="p">:</span>
             <span class="n">verify_msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;p style=&quot;padding: 14px;&quot;&gt;Registration successful. Please verify your email address, then you can &lt;a href=&quot;/&quot; target=&quot;_self&quot;&gt;log in.&lt;/a&gt;&lt;/p&gt;&quot;&quot;&quot;</span>
-            <span class="n">register_user_form</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">custom_html</span><span class="o">.</span><span class="n">custom_el</span><span class="p">(</span><span class="n">verify_msg</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">custom_html</span><span class="o">.</span><span class="n">st_info_classes</span><span class="p">),</span> <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">register_user_form</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span>
+                <span class="n">custom_html</span><span class="o">.</span><span class="n">custom_el</span><span class="p">(</span><span class="n">verify_msg</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">custom_html</span><span class="o">.</span><span class="n">st_info_classes</span><span class="p">),</span>
+                <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Authenticator.reset_password"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.reset_password">[docs]</a>    <span class="k">def</span> <span class="nf">reset_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ResetError</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Authenticator.reset_password"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.Authenticator.reset_password">[docs]</a>    <span class="k">def</span> <span class="nf">reset_password</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">form_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">form_location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ResetError</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a reset password via email widget.</span>
 
@@ -752,7 +916,9 @@
 <span class="sd">        :returns: tuple containing the firebase response and any errors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">form_location</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">form_location</span> <span class="o">!=</span> <span class="n">st</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Location must be a streamlit DeltaGenerator (st container object such as st.sidebar) or the global st module.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">reset_password_form</span> <span class="o">=</span> <span class="n">form_location</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="s2">&quot;Reset password&quot;</span><span class="p">)</span>
         <span class="n">reset_password_form</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="n">form_name</span><span class="p">)</span>
@@ -764,21 +930,40 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">reset_errors</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="s2">&quot;EMAIL_NOT_FOUND&quot;</span><span class="p">:</span> <span class="s2">&quot;Email address is not registered&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;INVALID_EMAIL&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid email format&quot;</span>
+                    <span class="s2">&quot;INVALID_EMAIL&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid email format&quot;</span><span class="p">,</span>
                 <span class="p">}</span>
-                <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">send_password_reset_email</span><span class="p">,</span> <span class="n">ResetError</span><span class="p">,</span> <span class="n">reset_errors</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+                <span class="n">res</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">handle_firebase_action</span><span class="p">(</span>
+                    <span class="n">auth</span><span class="o">.</span><span class="n">send_password_reset_email</span><span class="p">,</span> <span class="n">ResetError</span><span class="p">,</span> <span class="n">reset_errors</span><span class="p">,</span> <span class="n">email</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">ResetError</span><span class="p">(</span><span class="s2">&quot;Please enter an email&quot;</span><span class="p">)</span>
 
-        <span class="n">reset_password_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,))</span>
+        <span class="n">reset_password_form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span>
+            <span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_form</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;cookie_key&quot;</span><span class="p">,</span> <span class="s2">&quot;service_credentials&quot;</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span> <span class="s2">&quot;storage&quot;</span><span class="p">,</span> <span class="s2">&quot;firebase_service&quot;</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">repr_</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;cookie_key&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;service_credentials&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;auth&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;storage&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;firebase_service&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span></div>
+
 
 <span class="c1"># @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs={&quot;_thread.RLock&quot;: lambda _: None, &quot;weakref.ReferenceType&quot;: lambda _: None})</span>
-<div class="viewcode-block" id="get_auth"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.get_auth">[docs]</a><span class="k">def</span> <span class="nf">get_auth</span><span class="p">(</span><span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">authenticator_name</span> <span class="o">=</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Authenticator</span><span class="p">:</span>
+<div class="viewcode-block" id="get_auth"><a class="viewcode-back" href="../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.get_auth">[docs]</a><span class="k">def</span> <span class="nf">get_auth</span><span class="p">(</span>
+    <span class="n">cookie_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">user_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UserInherited</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">authenticator_name</span><span class="o">=</span><span class="s2">&quot;authenticator&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Authenticator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    See Authenticator for params.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -795,7 +980,7 @@
         <span class="n">user_class</span><span class="o">=</span><span class="n">user_class</span><span class="p">,</span>
         <span class="n">admin_ids</span><span class="o">=</span><span class="n">admin_ids</span><span class="p">,</span>
         <span class="n">developer_ids</span><span class="o">=</span><span class="n">developer_ids</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span></div>
 </pre></div>
 

@@ -80,12 +80,14 @@
 <span class="n">build_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">absolute_path</span><span class="p">,</span> <span class="s2">&quot;frontend/build&quot;</span><span class="p">)</span>
 <span class="n">_component_func</span> <span class="o">=</span> <span class="n">components</span><span class="o">.</span><span class="n">declare_component</span><span class="p">(</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">build_path</span><span class="p">)</span>
 
+
 <div class="viewcode-block" id="CookieManager"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager">[docs]</a><span class="k">class</span> <span class="nc">CookieManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a streamlit component class to manage cookies.</span>
 
 <span class="sd">    It uses a thin component instance wrapper around the universal-cookie library.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;cookie_manager&quot;</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">and</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -100,7 +102,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Used to delay initialization of streamlit objects so this class can be cached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;cookie_manager&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="s2">&quot;cookie_manager&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;cookie_manager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span></div>
 
@@ -114,7 +119,16 @@
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># This ensures we get a result before streamlit redraws</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="CookieManager.set"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">same_site</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CookieManager.set"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">value</span><span class="p">,</span>
+        <span class="n">expires_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">secure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">same_site</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set a cookie with name, value and options.</span>
 <span class="sd">        Defaults are set in the JS component and listed below</span>
@@ -142,7 +156,9 @@
             <span class="s2">&quot;expires&quot;</span><span class="p">:</span> <span class="n">expires_at</span><span class="p">,</span>
             <span class="s2">&quot;sameSite&quot;</span><span class="p">:</span> <span class="n">same_site</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
 
@@ -167,7 +183,7 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span> <span class="c1"># Give component time to render</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span>  <span class="c1"># Give component time to render</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="CookieManager.get_all"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.CookieManager.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;get_all&quot;</span><span class="p">):</span>
@@ -193,13 +209,16 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="p">:</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
 
 <span class="c1"># @st.cache(allow_output_mutation=True, show_spinner=False)</span>
 <div class="viewcode-block" id="get_cookie_manager"><a class="viewcode-back" href="../../api/streamlitextras.cookiemanager.html#streamlitextras.cookiemanager.get_cookie_manager">[docs]</a><span class="k">def</span> <span class="nf">get_cookie_manager</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CookieManager</span><span class="p">:</span>

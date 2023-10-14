@@ -161,7 +161,7 @@ easy.
 
    import time
    import streamlit as st
-   import reruntrigger
+   import reruntrigger_default # This is required so the watcher can rerun from this file
    from streamlitextras.threader import lock, trigger_rerun, \
                                         streamlit_thread, get_thread, \
                                         last_trigger_time

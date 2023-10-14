@@ -251,10 +251,14 @@ class CustomHTML:
 
         return audio
 
-    lottie_url = "https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json"
+    lottie_url = (
+        "https://lottie.host/250d8ce6-e7eb-43a7-ab4f-1d78edc49b9d/2TLv74crQZ.json"
+    )
+
     @classmethod
     def load_lottieurl(
-        cls, lottie_url: str | None = None,
+        cls,
+        lottie_url: str | None = None,
     ) -> dict | None:
         """
         Loads and returns JSON from the lottie library

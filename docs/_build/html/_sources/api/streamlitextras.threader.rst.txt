@@ -5,14 +5,3 @@ streamlitextras.threader package
    :members:
    :undoc-members:
    :show-inheritance:
-
-Submodules
-----------
-
-streamlitextras.threader.reruntrigger module
---------------------------------------------
-
-.. automodule:: streamlitextras.threader.reruntrigger
-   :members:
-   :undoc-members:
-   :show-inheritance:

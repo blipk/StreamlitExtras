@@ -73,11 +73,19 @@
 <span></span><span class="c1"># Exceptions for the firebase auth helper in autenticator.py</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">HTTPError</span>
+
+
 <div class="viewcode-block" id="AuthException"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.AuthException">[docs]</a><span class="k">class</span> <span class="nc">AuthException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base exception for Authenticator class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">firebase_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">requests_exception</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">HTTPError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">firebase_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">requests_exception</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">HTTPError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param str message: message to be displayed to the user</span>
 <span class="sd">        :param Optional[str] firebase_error: firebase error message enum e.g INVALID_PASSWORD</span>
@@ -87,14 +95,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">firebase_error</span> <span class="o">=</span> <span class="n">firebase_error</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">requests_exception</span> <span class="o">=</span> <span class="n">requests_exception</span></div>
 
+
 <div class="viewcode-block" id="LoginError"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.LoginError">[docs]</a><span class="k">class</span> <span class="nc">LoginError</span><span class="p">(</span><span class="n">AuthException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exceptions raised for the login user widget.&quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="RegisterError"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.RegisterError">[docs]</a><span class="k">class</span> <span class="nc">RegisterError</span><span class="p">(</span><span class="n">AuthException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exceptions raised for the register user widget.&quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="ResetError"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.ResetError">[docs]</a><span class="k">class</span> <span class="nc">ResetError</span><span class="p">(</span><span class="n">AuthException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exceptions raised for the rest password widget.&quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="UpdateError"><a class="viewcode-back" href="../../../api/streamlitextras.authenticator.html#streamlitextras.authenticator.exceptions.UpdateError">[docs]</a><span class="k">class</span> <span class="nc">UpdateError</span><span class="p">(</span><span class="n">AuthException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exceptions raised for the update user details widget.&quot;&quot;&quot;</span></div>

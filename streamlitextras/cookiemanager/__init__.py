@@ -9,12 +9,14 @@ absolute_path = os.path.dirname(os.path.abspath(__file__))
 build_path = os.path.join(absolute_path, "frontend/build")
 _component_func = components.declare_component("cookie_manager", path=build_path)
 
+
 class CookieManager:
     """
     This is a streamlit component class to manage cookies.
 
     It uses a thin component instance wrapper around the universal-cookie library.
     """
+
     def __init__(self, debug: bool = False):
         if "cookie_manager" in st.session_state and st.session_state["cookie_manager"]:
             self.cookies = st.session_state["cookie_manager"].cookies.copy()
@@ -29,7 +31,10 @@ class CookieManager:
         """
         Used to delay initialization of streamlit objects so this class can be cached
         """
-        if "cookie_manager" not in st.session_state or not st.session_state["cookie_manager"]:
+        if (
+            "cookie_manager" not in st.session_state
+            or not st.session_state["cookie_manager"]
+        ):
             st.session_state["cookie_manager"] = self
         st.session_state["cookie_manager"] = self
 
@@ -43,7 +48,16 @@ class CookieManager:
         time.sleep(0.1)  # This ensures we get a result before streamlit redraws
         return result
 
-    def set(self, name, value, expires_at=None, secure=None, path=None, same_site=None, key="set"):
+    def set(
+        self,
+        name,
+        value,
+        expires_at=None,
+        secure=None,
+        path=None,
+        same_site=None,
+        key="set",
+    ):
         """
         Set a cookie with name, value and options.
         Defaults are set in the JS component and listed below
@@ -71,7 +85,9 @@ class CookieManager:
             "expires": expires_at,
             "sameSite": same_site,
         }
-        result = self.cookie_manager(method="set", options=options, key=key, default=False)
+        result = self.cookie_manager(
+            method="set", options=options, key=key, default=False
+        )
         if result:
             self.cookies[name] = result
 
@@ -96,7 +112,7 @@ class CookieManager:
         if name is None or name == "":
             return None
         result = self.cookies.get(name, None)
-        time.sleep(0.4) # Give component time to render
+        time.sleep(0.4)  # Give component time to render
         return result
 
     def get_all(self, key="get_all"):
@@ -122,13 +138,16 @@ class CookieManager:
         if name is None or name == "":
             return False
 
-        result = self.cookie_manager(method="delete", options={"name": name}, key=key, default=False)
+        result = self.cookie_manager(
+            method="delete", options={"name": name}, key=key, default=False
+        )
         if result and name in self.cookies:
             del self.cookies[name]
         return result
 
     def __repr__(self) -> str:
         return repr_(self)
+
 
 # @st.cache(allow_output_mutation=True, show_spinner=False)
 def get_cookie_manager() -> CookieManager:

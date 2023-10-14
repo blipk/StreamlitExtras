@@ -10,7 +10,7 @@ and you will need to create an empty file named `reruntrigger.py` in the root of
 ```Python
 import time
 import streamlit as st
-import reruntrigger
+import reruntrigger_default # This is required so the watcher can rerun from this file
 from streamlitextras.threader import lock, trigger_rerun, \
                                      streamlit_thread, get_thread, \
                                      last_trigger_time
@@ -43,5 +43,21 @@ if __name__ == "__main__":
 #### Advanced usage
 
 Mostly you may want to use `streamlit_thread(my_threaded_function, rerun_st=False)` if you don't want streamlit to rerun after the thread.
+
+**NOTE** The rerun trigger will rerun all streamlit sessions for all users on your site.
+
+To get around this, generate or use a unique id you have for each user session,
+use it in this modules function arguments and then import the rerun trigger for that session e.g.
+
+```Python
+import importlib
+unique_id = st.session_state.get("session_uid", generate_uniqueid())
+st.session_state["session_uid"] = unique_id
+importlib.import_module(f"reruntrigger_{unique_id}")
+
+
+from streamlitextras.threader import trigger_rerun
+st.button("Rerun for this session only", on_click=trigger_rerun, args=(unique_id,))
+```
 
 See the [API docs](https://streamlitextras.readthedocs.io/en/latest/api/streamlitextras.html) or the source file for function argument reference.

@@ -6,6 +6,7 @@ from streamlitextras.webutils import stxs_javascript
 from streamlitextras.logger import log
 from streamlitextras.utils import repr_
 
+
 class Router:
     """
     Page router for streamlit.
@@ -19,14 +20,15 @@ class Router:
     :param Optional[Callable] postroute:
         Optional callable page function that will be executed after each page function
     """
+
     def __init__(
-            self,
-            routes: dict[str, Callable],
-            preroute: Optional[Callable] = None,
-            dependencies: Optional[dict] = None,
-            postroute: Optional[Callable] = None,
-            debug: bool = False,
-        ):
+        self,
+        routes: dict[str, Callable],
+        preroute: Optional[Callable] = None,
+        dependencies: Optional[dict] = None,
+        postroute: Optional[Callable] = None,
+        debug: bool = False,
+    ):
         self.routes = routes
         self.preroute = preroute
         self.dependencies = dependencies
@@ -104,11 +106,13 @@ class Router:
 
         return (page_name, page_state)
 
-    def show_route_view(self,
-                        force_page_name: Optional[str] = None,
-                        args: Optional[tuple] = None,
-                        kwargs: Optional[dict] = None,
-                        redirect_page_names: Optional[list[str]] = None):
+    def show_route_view(
+        self,
+        force_page_name: Optional[str] = None,
+        args: Optional[tuple] = None,
+        kwargs: Optional[dict] = None,
+        redirect_page_names: Optional[list[str]] = None,
+    ):
         """
         Checks the query params and routes to the requested page,
         or routes to force_page_name directly, not setting any query params
@@ -169,14 +173,17 @@ class Router:
             self.postroute(*args, **kwargs)
 
         if len(args) == 0:
-            stxs_javascript(f"""window.history.pushState({{}}, "", "/?{page_name}=~");""")
+            stxs_javascript(
+                f"""window.history.pushState({{}}, "", "/?{page_name}=~");"""
+            )
 
-    def route(self,
-              page_name: str = None,
-              page_state: Optional[str] = None,
-              additional_params: Optional[dict] = None,
-              rerun_st: bool = False,
-        ):
+    def route(
+        self,
+        page_name: str = None,
+        page_state: Optional[str] = None,
+        additional_params: Optional[dict] = None,
+        rerun_st: bool = False,
+    ):
         """
         Routes to a page.
         First found query string matching a page key in self.routers is routed too.
@@ -217,21 +224,25 @@ class Router:
     def __repr__(self) -> str:
         return repr_(self, ["routes"])
 
-router_hash_funcs = {"_thread.RLock": lambda _: None,
-                    "builtins.method": lambda _: None,
-                    "builtins.property": lambda _: None,
-                    "builtins.function": lambda _: None,
-                    "_cffi_backend.__CDataGCP": lambda _: None,
-                    "google.cloud.storage.client.Client": lambda _: None,
-                    "streamlit.delta_generator.DeltaGenerator": lambda _: None}
+
+router_hash_funcs = {
+    "_thread.RLock": lambda _: None,
+    "builtins.method": lambda _: None,
+    "builtins.property": lambda _: None,
+    "builtins.function": lambda _: None,
+    "_cffi_backend.__CDataGCP": lambda _: None,
+    "google.cloud.storage.client.Client": lambda _: None,
+    "streamlit.delta_generator.DeltaGenerator": lambda _: None,
+}
+
 
 # @st.cache(allow_output_mutation=True, show_spinner=False, hash_funcs=router_hash_funcs)
 def get_router(
-        routes: dict[str, Callable],
-        preroute: Optional[Callable] = None,
-        dependencies: Optional[dict] = None,
-        postroute: Optional[Callable] = None
-    ) -> Router:
+    routes: dict[str, Callable],
+    preroute: Optional[Callable] = None,
+    dependencies: Optional[dict] = None,
+    postroute: Optional[Callable] = None,
+) -> Router:
     """
     See Router for params.
     """

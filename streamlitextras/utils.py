@@ -4,7 +4,9 @@ from typing import Optional
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 
-def repr_(cls, ignore_keys: Optional[list[str]] = None, only_keys: Optional[list[str]] = None) -> str:
+def repr_(
+    cls, ignore_keys: Optional[list[str]] = None, only_keys: Optional[list[str]] = None
+) -> str:
     """
     Returns a string detailing a class attributes from cls.__dict__
     Makes nice printing for __repr__ implementations
@@ -19,12 +21,17 @@ def repr_(cls, ignore_keys: Optional[list[str]] = None, only_keys: Optional[list
     classname = cls.__class__.__name__
 
     try:
-        args = ", ".join([f"{k}={repr(v)}"
-                            for (k, v) in cls.__dict__.items()
-                            if k not in ignore_keys and (k in only_keys if only_keys else True)])
+        args = ", ".join(
+            [
+                f"{k}={repr(v)}"
+                for (k, v) in cls.__dict__.items()
+                if k not in ignore_keys and (k in only_keys if only_keys else True)
+            ]
+        )
     except RecursionError:
         args = "Too much recursion"
     return f"{classname}({hex(id(cls))}, {args})"
+
 
 def save_file(st_file_object: UploadedFile, to_path: str) -> str:
     """
@@ -40,8 +47,10 @@ def save_file(st_file_object: UploadedFile, to_path: str) -> str:
         f.write(st_file_object.getbuffer())
     return "/" + path
 
+
 def where_stack():
     import inspect
+
     stack = inspect.stack()
     the_class = stack[1][0].f_locals["self"].__class__.__name__
     the_method = stack[1][0].f_code.co_name

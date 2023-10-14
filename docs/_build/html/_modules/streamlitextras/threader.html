@@ -72,32 +72,48 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">threading</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">reruntrigger</span>
-<span class="kn">from</span> <span class="nn">streamlit.runtime.scriptrunner</span> <span class="kn">import</span> <span class="n">add_script_run_ctx</span><span class="p">,</span> <span class="n">get_script_run_ctx</span><span class="p">,</span> <span class="n">RerunException</span><span class="p">,</span> <span class="n">ScriptRunContext</span>
+<span class="kn">from</span> <span class="nn">streamlit.runtime.scriptrunner</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_script_run_ctx</span><span class="p">,</span>
+    <span class="n">get_script_run_ctx</span><span class="p">,</span>
+    <span class="n">RerunException</span><span class="p">,</span>
+    <span class="n">ScriptRunContext</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="c1"># script_dir = os.path.dirname(os.path.realpath(__file__))</span>
 <span class="n">script_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="n">trigger_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">script_dir</span><span class="p">,</span> <span class="s2">&quot;reruntrigger.py&quot;</span><span class="p">)</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timestamp = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">default_id</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+
+
+<div class="viewcode-block" id="trigger_file_path"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.trigger_file_path">[docs]</a><span class="k">def</span> <span class="nf">trigger_file_path</span><span class="p">(</span><span class="n">unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">trigger_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">script_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;reruntrigger_</span><span class="si">{</span><span class="n">unique_id</span><span class="si">}</span><span class="s2">.py&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timestamp = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trigger_file_path</span></div>
+
 
 <span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
-<div class="viewcode-block" id="last_trigger_time"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.last_trigger_time">[docs]</a><span class="k">def</span> <span class="nf">last_trigger_time</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="last_trigger_time"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.last_trigger_time">[docs]</a><span class="k">def</span> <span class="nf">last_trigger_time</span><span class="p">(</span><span class="n">unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the seconds since last writing the trigger file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">modified_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">)</span>
+    <span class="n">modified_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">(</span><span class="n">unique_id</span><span class="p">))</span>
     <span class="n">modified_time_seconds</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">modified_time</span>
     <span class="k">return</span> <span class="n">modified_time_seconds</span></div>
 
-<div class="viewcode-block" id="trigger_rerun"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.trigger_rerun">[docs]</a><span class="k">def</span> <span class="nf">trigger_rerun</span><span class="p">(</span><span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="trigger_rerun"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.trigger_rerun">[docs]</a><span class="k">def</span> <span class="nf">trigger_rerun</span><span class="p">(</span>
+    <span class="n">unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_id</span><span class="p">,</span> <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Triggers treamlit to rerun the current page state.</span>
 <span class="sd">    runOnSave must be set to true in config.toml</span>
 
+<span class="sd">    :param str unique_id: Unique ID to be triggered, should be set per session e.g. user id or a hash you create in their session state.</span>
 <span class="sd">    :param int last_write_margin:</span>
 <span class="sd">        If the file was modified less than this many seconds ago, the rerun will not be performed</span>
 <span class="sd">    :param int delay: sleep for this many seconds before writing the rerun trigger</span>
@@ -105,23 +121,27 @@
     <span class="k">if</span> <span class="n">delay</span><span class="p">:</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
-        <span class="n">modified_time_seconds</span> <span class="o">=</span> <span class="n">last_trigger_time</span><span class="p">()</span>
+        <span class="n">modified_time_seconds</span> <span class="o">=</span> <span class="n">last_trigger_time</span><span class="p">(</span><span class="n">unique_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">last_write_margin</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">modified_time_seconds</span> <span class="o">&gt;</span> <span class="n">last_write_margin</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing trigger&quot;</span><span class="p">,</span> <span class="n">trigger_file_path</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">trigger_file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">trigger_file</span> <span class="o">=</span> <span class="n">trigger_file_path</span><span class="p">(</span><span class="n">unique_id</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing trigger&quot;</span><span class="p">,</span> <span class="n">trigger_file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">trigger_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timestamp = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
     <span class="c1"># https://github.com/streamlit/streamlit/issues/1792</span>
     <span class="c1"># https://discuss.streamlit.io/t/using-streamlit-with-multithreading/30990</span>
     <span class="c1"># https://discuss.streamlit.io/t/how-to-run-a-subprocess-programs-using-thread-inside-streamlit/2440/2</span>
     <span class="c1"># https://discuss.streamlit.io/t/how-to-monitor-the-filesystem-and-have-streamlit-updated-when-some-files-are-modified/822/3</span>
 
+
 <div class="viewcode-block" id="thread_wrapper"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.thread_wrapper">[docs]</a><span class="k">def</span> <span class="nf">thread_wrapper</span><span class="p">(</span>
-        <span class="n">thread_func</span><span class="p">,</span>
-        <span class="n">rerun_st</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">thread_func</span><span class="p">,</span>
+    <span class="n">rerun_st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">trigger_unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_id</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper for running thread functions</span>
 <span class="sd">    For parameters see streamlit_thread() and trigger_rerun()</span>
@@ -129,18 +149,20 @@
     <span class="c1"># print(&quot;Hashseed in thread:&quot;, os.environ.get(&quot;PYTHONHASHSEED&quot;, False))</span>
     <span class="n">thread_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rerun_st</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">trigger_rerun</span><span class="p">(</span><span class="n">last_write_margin</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span></div>
+        <span class="n">trigger_rerun</span><span class="p">(</span><span class="n">trigger_unique_id</span><span class="p">,</span> <span class="n">last_write_margin</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="streamlit_thread"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.streamlit_thread">[docs]</a><span class="k">def</span> <span class="nf">streamlit_thread</span><span class="p">(</span>
-        <span class="n">thread_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-        <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(),</span>
-        <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="n">rerun_st</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">script_run_context</span><span class="p">:</span> <span class="n">ScriptRunContext</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">autostart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">thread_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">rerun_st</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">last_write_margin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">script_run_context</span><span class="p">:</span> <span class="n">ScriptRunContext</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">autostart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">trigger_unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_id</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Spawns and starts a threading.Thread that runs thread_func with the passed args and kwargs</span>
 
@@ -152,7 +174,7 @@
 <span class="sd">    :returns: The name of the thread. Can use get_thread to get the threading.Thread instance</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print(&quot;Thread entry hashseed:&quot;, os.environ.get(&quot;PYTHONHASHSEED&quot;, False))</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">thread_func</span><span class="p">,</span> <span class="n">rerun_st</span><span class="p">,</span> <span class="n">last_write_margin</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">thread_func</span><span class="p">,</span> <span class="n">rerun_st</span><span class="p">,</span> <span class="n">last_write_margin</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">trigger_unique_id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="n">thread</span> <span class="o">=</span> <span class="n">PropagatingThread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">thread_wrapper</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">script_run_context</span><span class="p">:</span>
@@ -164,6 +186,7 @@
         <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">thread</span><span class="o">.</span><span class="n">name</span></div>
+
 
 <div class="viewcode-block" id="get_thread"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.get_thread">[docs]</a><span class="k">def</span> <span class="nf">get_thread</span><span class="p">(</span><span class="n">thread_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -180,6 +203,7 @@
             <span class="n">target_thread</span> <span class="o">=</span> <span class="n">thread</span>
             <span class="k">break</span>
     <span class="k">return</span> <span class="n">target_thread</span></div>
+
 
 <div class="viewcode-block" id="PropagatingThread"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.PropagatingThread">[docs]</a><span class="k">class</span> <span class="nc">PropagatingThread</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
 <div class="viewcode-block" id="PropagatingThread.run"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.PropagatingThread.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

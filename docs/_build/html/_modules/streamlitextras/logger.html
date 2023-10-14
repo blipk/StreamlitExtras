@@ -77,6 +77,7 @@
 <span class="kn">from</span> <span class="nn">loguru._logger</span> <span class="kn">import</span> <span class="n">Logger</span>
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.utils</span> <span class="kn">import</span> <span class="n">repr_</span>
+
 <span class="n">dev_emulation</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DEV_EMULATION&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
 <span class="n">_LOGGER</span> <span class="o">=</span> <span class="n">loguru</span><span class="o">.</span><span class="n">logger</span>
@@ -87,53 +88,61 @@
 <span class="n">default_format</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{time}</span><span class="s2"> | </span><span class="si">{level: &lt;8}</span><span class="s2"> | </span><span class="si">{name}</span><span class="s2">:</span><span class="si">{module}</span><span class="s2">:</span><span class="si">{function}</span><span class="s2">:</span><span class="si">{file}</span><span class="s2">:</span><span class="si">{line}</span><span class="s2"> | </span><span class="si">{message}</span><span class="s2"> | </span><span class="si">{extra}</span><span class="s2">&quot;</span>
 <span class="n">detailed_format</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{time}</span><span class="s2"> | </span><span class="si">{level: &lt;8}</span><span class="s2"> | </span><span class="si">{name}</span><span class="s2">:</span><span class="si">{module}</span><span class="s2">:</span><span class="si">{function}</span><span class="s2">:</span><span class="si">{file.path}</span><span class="s2">:</span><span class="si">{line}</span><span class="s2"> | </span><span class="si">{message}</span><span class="s2"> | </span><span class="si">{extra}</span><span class="s2"> | </span><span class="si">{exception}</span><span class="s2"> | </span><span class="si">{process.name}</span><span class="s2">:</span><span class="si">{process}</span><span class="s2"> </span><span class="si">{thread.name}</span><span class="s2">:</span><span class="si">{thread}</span><span class="s2">&quot;</span>
 
-<span class="n">colour_format</span> <span class="o">=</span> <span class="s2">&quot;&lt;green&gt;{time:YYYY-MM-DD HH:mm:ss.SSS}&lt;/green&gt; | &quot;</span> \
-                <span class="s2">&quot;&lt;level&gt;</span><span class="si">{level: &lt;8}</span><span class="s2">&lt;/level&gt; | &quot;</span> \
-                <span class="s2">&quot;&lt;cyan&gt;</span><span class="si">{name}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{module}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{function}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{file}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{line}</span><span class="s2">&lt;/cyan&gt; | {{extra[user]}} | &quot;</span> \
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;level&gt;</span><span class="si">{message}</span><span class="s2">&lt;/level&gt;&quot;</span>
+<span class="n">colour_format</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;&lt;green&gt;{time:YYYY-MM-DD HH:mm:ss.SSS}&lt;/green&gt; | &quot;</span>
+    <span class="s2">&quot;&lt;level&gt;</span><span class="si">{level: &lt;8}</span><span class="s2">&lt;/level&gt; | &quot;</span>
+    <span class="s2">&quot;&lt;cyan&gt;</span><span class="si">{name}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{module}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{function}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{file}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{line}</span><span class="s2">&lt;/cyan&gt; | {{extra[user]}} | &quot;</span>
+    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;level&gt;</span><span class="si">{message}</span><span class="s2">&lt;/level&gt;&quot;</span>
+<span class="p">)</span>
 
-<span class="n">colour_detailed_format</span> <span class="o">=</span> <span class="s2">&quot;&lt;red&gt;{time:YYYY-MM-DD HH:mm:ss.SSS}&lt;/red&gt; | &quot;</span> \
-                <span class="s2">&quot;&lt;level&gt;</span><span class="si">{level: &lt;8}</span><span class="s2">&lt;/level&gt; | &quot;</span> \
-                <span class="s2">&quot;&lt;cyan&gt;</span><span class="si">{name}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{module}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{function}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{file.path}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{line}</span><span class="s2">&lt;/cyan&gt; | &quot;</span> \
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;level&gt;</span><span class="si">{message}</span><span class="s2"> | </span><span class="si">{extra[user]}</span><span class="s2">&lt;/level&gt; | &quot;</span> \
-                <span class="s2">&quot;&lt;level&gt;</span><span class="si">{exception}</span><span class="s2">&lt;/level&gt; | &quot;</span> \
-                <span class="s2">&quot;&lt;level&gt;</span><span class="si">{process.name}</span><span class="s2">:</span><span class="si">{process}</span><span class="s2"> @ </span><span class="si">{thread.name}</span><span class="s2">:</span><span class="si">{thread}</span><span class="s2">&lt;/level&gt;&quot;</span>
+<span class="n">colour_detailed_format</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;&lt;red&gt;{time:YYYY-MM-DD HH:mm:ss.SSS}&lt;/red&gt; | &quot;</span>
+    <span class="s2">&quot;&lt;level&gt;</span><span class="si">{level: &lt;8}</span><span class="s2">&lt;/level&gt; | &quot;</span>
+    <span class="s2">&quot;&lt;cyan&gt;</span><span class="si">{name}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{module}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{function}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{file.path}</span><span class="s2">&lt;/cyan&gt;:&lt;cyan&gt;</span><span class="si">{line}</span><span class="s2">&lt;/cyan&gt; | &quot;</span>
+    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;level&gt;</span><span class="si">{message}</span><span class="s2"> | </span><span class="si">{extra[user]}</span><span class="s2">&lt;/level&gt; | &quot;</span>
+    <span class="s2">&quot;&lt;level&gt;</span><span class="si">{exception}</span><span class="s2">&lt;/level&gt; | &quot;</span>
+    <span class="s2">&quot;&lt;level&gt;</span><span class="si">{process.name}</span><span class="s2">:</span><span class="si">{process}</span><span class="s2"> @ </span><span class="si">{thread.name}</span><span class="s2">:</span><span class="si">{thread}</span><span class="s2">&lt;/level&gt;&quot;</span>
+<span class="p">)</span>
 <span class="k">if</span> <span class="n">dev_emulation</span><span class="p">:</span>
     <span class="n">colour_format</span> <span class="o">=</span> <span class="n">colour_format</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="s2">&quot;file.path&quot;</span><span class="p">)</span>
 
 <span class="n">handlers</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s2">&quot;sink&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_folder</span><span class="p">,</span> <span class="n">log_filename</span><span class="p">),</span>
-            <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="s2">&quot;250 MB&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;enqueue&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">default_format</span><span class="p">,</span>
-            <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">module_filter</span><span class="p">,</span>
-            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;catch&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-
-            <span class="p">{</span><span class="s2">&quot;sink&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_folder</span><span class="p">,</span> <span class="s2">&quot;debug_&quot;</span> <span class="o">+</span> <span class="n">log_filename</span><span class="p">),</span>
-            <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="s2">&quot;250 MB&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;enqueue&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">detailed_format</span><span class="p">,</span>
-            <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">module_filter</span><span class="p">,</span>
-            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;TRACE&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;backtrace&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;diagnose&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;catch&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-
-            <span class="c1"># Errors will be logged to sys.stdout</span>
-            <span class="c1"># {&quot;sink&quot;: sys.stderr,</span>
-            <span class="c1"># &quot;format&quot;: colour_detailed_format,</span>
-            <span class="c1"># &quot;filter&quot;: module_filter,</span>
-            <span class="c1"># &quot;level&quot;: &quot;ERROR&quot;,</span>
-            <span class="c1"># &quot;backtrace&quot;: True,</span>
-            <span class="c1"># &quot;colorize&quot;: True},</span>
-
-            <span class="p">{</span><span class="s2">&quot;sink&quot;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
-            <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">colour_format</span><span class="p">,</span>
-            <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">module_filter</span><span class="p">,</span>
-            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;colorize&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;sink&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_folder</span><span class="p">,</span> <span class="n">log_filename</span><span class="p">),</span>
+        <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="s2">&quot;250 MB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;enqueue&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">default_format</span><span class="p">,</span>
+        <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">module_filter</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;catch&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;sink&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_folder</span><span class="p">,</span> <span class="s2">&quot;debug_&quot;</span> <span class="o">+</span> <span class="n">log_filename</span><span class="p">),</span>
+        <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="s2">&quot;250 MB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;enqueue&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">detailed_format</span><span class="p">,</span>
+        <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">module_filter</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;TRACE&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;backtrace&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;diagnose&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;catch&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># Errors will be logged to sys.stdout</span>
+    <span class="c1"># {&quot;sink&quot;: sys.stderr,</span>
+    <span class="c1"># &quot;format&quot;: colour_detailed_format,</span>
+    <span class="c1"># &quot;filter&quot;: module_filter,</span>
+    <span class="c1"># &quot;level&quot;: &quot;ERROR&quot;,</span>
+    <span class="c1"># &quot;backtrace&quot;: True,</span>
+    <span class="c1"># &quot;colorize&quot;: True},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;sink&quot;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
+        <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">colour_format</span><span class="p">,</span>
+        <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">module_filter</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;colorize&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">]</span>
+
 
 <div class="viewcode-block" id="process_log_line"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.process_log_line">[docs]</a><span class="k">def</span> <span class="nf">process_log_line</span><span class="p">(</span><span class="n">log_line</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -171,21 +180,25 @@
         <span class="s2">&quot;process_name&quot;</span><span class="p">:</span> <span class="n">process_name</span><span class="p">,</span>
         <span class="s2">&quot;process_id&quot;</span><span class="p">:</span> <span class="n">process_id</span><span class="p">,</span>
         <span class="s2">&quot;thread_name&quot;</span><span class="p">:</span> <span class="n">thread_name</span><span class="p">,</span>
-        <span class="s2">&quot;thread_id&quot;</span><span class="p">:</span> <span class="n">thread_id</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">:</span> <span class="n">thread_id</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">log_obj</span></div>
+
 
 <div class="viewcode-block" id="session_state_str_dict"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.session_state_str_dict">[docs]</a><span class="k">def</span> <span class="nf">session_state_str_dict</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a dict from st.session_state to be stored with every log line</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">interface</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;session_state&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
-    <span class="n">extra</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span>
-            <span class="s2">&quot;session_state&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}}</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span>
+        <span class="s2">&quot;session_state&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+    <span class="p">}</span>
     <span class="n">merged</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">interface</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">merged</span></div>
 
-<div class="viewcode-block" id="bind_log"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.bind_log">[docs]</a><span class="k">def</span> <span class="nf">bind_log</span><span class="p">(</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">Logger</span><span class="p">:</span>
+
+<div class="viewcode-block" id="bind_log"><a class="viewcode-back" href="../../api/streamlitextras.logger.html#streamlitextras.logger.bind_log">[docs]</a><span class="k">def</span> <span class="nf">bind_log</span><span class="p">(</span><span class="n">extras</span><span class="o">=</span><span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">Logger</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Bind the logger to the session state dictionary</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -193,12 +206,16 @@
     <span class="n">log</span> <span class="o">=</span> <span class="n">_LOGGER</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">**</span><span class="n">merged</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">log</span></div>
 
+
 <span class="n">log</span><span class="p">:</span> <span class="n">Logger</span>
+
+
 <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span><span class="p">:</span>
         <span class="n">log</span> <span class="o">=</span> <span class="n">bind_log</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">log</span>
     <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;module &#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
 
 <span class="n">sinks</span> <span class="o">=</span> <span class="n">_LOGGER</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">handlers</span><span class="o">=</span><span class="n">handlers</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)])</span>
 </pre></div>

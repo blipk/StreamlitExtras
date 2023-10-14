@@ -1,13 +1,21 @@
 from streamlitextras.logger import log
 from streamlitextras.utils import repr_
 from streamlitextras.authenticator.utils import handle_firebase_action
-from streamlitextras.authenticator.exceptions import AuthException, LoginError, RegisterError, ResetError, UpdateError
+from streamlitextras.authenticator.exceptions import (
+    AuthException,
+    LoginError,
+    RegisterError,
+    ResetError,
+    UpdateError,
+)
+
 
 class User:
     """
     This class is used as an interface for Authenticators users
     """
-    def __init__(self, authenticator, auth_data, login_data = {}, debug: bool = False):
+
+    def __init__(self, authenticator, auth_data, login_data={}, debug: bool = False):
         """
         Initializes a user account with associated firebase tokens and account information
 
@@ -50,12 +58,19 @@ class User:
         self.users = self.account_info["users"] if self.account_info else None
         self.user = self.users[0] if self.users else None
         self.disabled = self.user.get("disabled", None) if self.user else None
-        self.customAuth = self.user.get("customAuth", None) if self.user  else None
+        self.customAuth = self.user.get("customAuth", None) if self.user else None
 
     def refresh_token(self):
         refreshed = None
-        refresh_errors = {"TOKEN_EXPIRED": "Too many recent sessions. Please try again later."}
-        user_refresh, refresh_error = handle_firebase_action(self.authenticator.auth.refresh, LoginError, refresh_errors, self.refreshToken)
+        refresh_errors = {
+            "TOKEN_EXPIRED": "Too many recent sessions. Please try again later."
+        }
+        user_refresh, refresh_error = handle_firebase_action(
+            self.authenticator.auth.refresh,
+            LoginError,
+            refresh_errors,
+            self.refreshToken,
+        )
         if not refresh_error:
             self.login_data = {**self.login_data, **user_refresh}
             for key in self.__dict__.keys():
@@ -97,4 +112,8 @@ class User:
         return self.localId in developer_ids
 
     def __repr__(self) -> str:
-        return repr_(self, ["passwordHash", "login_data", "refreshToken", "idToken", "authenticator"], only_keys=["localId", "email"])
+        return repr_(
+            self,
+            ["passwordHash", "login_data", "refreshToken", "idToken", "authenticator"],
+            only_keys=["localId", "email"],
+        )

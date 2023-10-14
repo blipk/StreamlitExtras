@@ -8,6 +8,7 @@ from typing import Union, Optional
 from streamlit_javascript import st_javascript
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
+
 def stxs_javascript(source: str) -> None:
     """
     Runs javascript on the top level context of the page.
@@ -18,7 +19,8 @@ def stxs_javascript(source: str) -> None:
     """
     div_id = uuid.uuid4()
 
-    st.markdown(f"""
+    st.markdown(
+        f"""
     <div style="display:none" id="{div_id}">
         <iframe src="javascript: \
             var script = document.createElement('script'); \
@@ -30,9 +32,12 @@ def stxs_javascript(source: str) -> None:
             thisDiv.parentElement.parentElement.parentElement.style.display = 'none'; \
         "/>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
     time.sleep(0.1)
     return True
+
 
 def get_user_timezone(default_tz: Optional[str] = None) -> Optional[str]:
     """
@@ -47,14 +52,17 @@ def get_user_timezone(default_tz: Optional[str] = None) -> Optional[str]:
     if not default_tz:
         default_tz = "Etc/UTC"
 
-    timezone = st_javascript("""await (async () => {
+    timezone = st_javascript(
+        """await (async () => {
             const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
             console.log(userTimezone)
             return userTimezone
-        })().then(returnValue => returnValue)""")
+        })().then(returnValue => returnValue)"""
+    )
     if timezone == 0:  # st_javascript returns 0 for null/undefined
         timezone = default_tz
     return timezone
+
 
 def scroll_page(x: int = 0, y: int = 0):
     """
@@ -64,9 +72,15 @@ def scroll_page(x: int = 0, y: int = 0):
     :param int x: the x coordinate to scroll to
     :param int y: the y coordinate to scroll to
     """
-    stxs_javascript(f"""parent.document.querySelector(`section[class*="main"`).scroll({x}, {y})""")
+    stxs_javascript(
+        f"""parent.document.querySelector(`section[class*="main"`).scroll({x}, {y})"""
+    )
 
-def bytes_to_data_uri(byteslike_object: Union[BytesIO, UploadedFile, bytes], mime_type: Optional[str] = None) -> str:
+
+def bytes_to_data_uri(
+    byteslike_object: Union[BytesIO, UploadedFile, bytes],
+    mime_type: Optional[str] = None,
+) -> str:
     """
     Creates a data URI from a bytesIO object
 
@@ -84,6 +98,7 @@ def bytes_to_data_uri(byteslike_object: Union[BytesIO, UploadedFile, bytes], mim
     uri = f"data:{mime_type};base64,{base64.b64encode(data).decode()}"
     return uri
 
+
 def trigger_download(download_uri: str, filename: str):
     """
     Uses javascript and a data URI on a link element to trigger a download for the user
@@ -91,7 +106,8 @@ def trigger_download(download_uri: str, filename: str):
     :param str download_uri: properly formatted data uri to place on link elements href
     :param str filename: filename to be placed on the link elements download attribute
     """
-    auto_downloaded = stxs_javascript(f"""(async () => {{
+    auto_downloaded = stxs_javascript(
+        f"""(async () => {{
             console.log("Creating download link..")
             var link = document.createElement('a');
             link.innerText = ""
@@ -101,9 +117,13 @@ def trigger_download(download_uri: str, filename: str):
             link.click();
             await new Promise(r => setTimeout(r, 2000));
             //window.open(link.href, "_blank")
-        }})();""")
-    time.sleep(1)  # Give the page some time to render the element before the page rerenders
+        }})();"""
+    )
+    time.sleep(
+        1
+    )  # Give the page some time to render the element before the page rerenders
     return auto_downloaded
+
 
 def convert_millis(milliseconds: int, always_include_hours: bool = False) -> str:
     """
