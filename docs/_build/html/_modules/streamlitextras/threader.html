@@ -69,7 +69,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for streamlitextras.threader</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">from</span> <span class="nn">streamlit.runtime.scriptrunner</span> <span class="kn">import</span> <span class="p">(</span>
@@ -78,7 +79,7 @@
     <span class="n">RerunException</span><span class="p">,</span>
     <span class="n">ScriptRunContext</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="c1"># script_dir = os.path.dirname(os.path.realpath(__file__))</span>
 <span class="n">script_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
@@ -162,6 +163,7 @@
     <span class="n">script_run_context</span><span class="p">:</span> <span class="n">ScriptRunContext</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">autostart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">trigger_unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_id</span><span class="p">,</span>
+    <span class="n">error_handler</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Spawns and starts a threading.Thread that runs thread_func with the passed args and kwargs</span>
@@ -171,11 +173,15 @@
 <span class="sd">    :param dict kwargs: The kwargs to pass to the function in the thread</span>
 <span class="sd">    :param bool rerun_st: Whether to rerun streamlit after the thread function finishes</span>
 
+<span class="sd">    :param Callable error_handler: Error handler function that takes the thread exception as an argument</span>
+
 <span class="sd">    :returns: The name of the thread. Can use get_thread to get the threading.Thread instance</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print(&quot;Thread entry hashseed:&quot;, os.environ.get(&quot;PYTHONHASHSEED&quot;, False))</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">thread_func</span><span class="p">,</span> <span class="n">rerun_st</span><span class="p">,</span> <span class="n">last_write_margin</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">trigger_unique_id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-    <span class="n">thread</span> <span class="o">=</span> <span class="n">PropagatingThread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">thread_wrapper</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">thread</span> <span class="o">=</span> <span class="n">PropagatingThread</span><span class="p">(</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">thread_wrapper</span><span class="p">,</span> <span class="n">error_handler</span><span class="o">=</span><span class="n">error_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">script_run_context</span><span class="p">:</span>
         <span class="n">script_run_context</span> <span class="o">=</span> <span class="n">get_script_run_ctx</span><span class="p">()</span>
@@ -206,6 +212,11 @@
 
 
 <div class="viewcode-block" id="PropagatingThread"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.PropagatingThread">[docs]</a><span class="k">class</span> <span class="nc">PropagatingThread</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error_handler&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;error_handler&quot;</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
 <div class="viewcode-block" id="PropagatingThread.run"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.PropagatingThread.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exc</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
@@ -214,7 +225,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">exc</span> <span class="o">=</span> <span class="n">e</span>
         <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">exc</span> <span class="o">=</span> <span class="n">e</span>
-            <span class="k">raise</span></div>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span></div>
 
 <div class="viewcode-block" id="PropagatingThread.join"><a class="viewcode-back" href="../../api/streamlitextras.threader.html#streamlitextras.threader.PropagatingThread.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PropagatingThread</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>

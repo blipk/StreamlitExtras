@@ -31,11 +31,6 @@ class CookieManager:
         """
         Used to delay initialization of streamlit objects so this class can be cached
         """
-        if (
-            "cookie_manager" not in st.session_state
-            or not st.session_state["cookie_manager"]
-        ):
-            st.session_state["cookie_manager"] = self
         st.session_state["cookie_manager"] = self
 
     def cookie_manager(self, *args, **kwargs):

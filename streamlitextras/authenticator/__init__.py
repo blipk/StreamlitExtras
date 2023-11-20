@@ -185,15 +185,13 @@ class Authenticator:
         """
         if self.session_name not in st.session_state:
             st.session_state[self.session_name] = None
+
         if "authentication_token" not in st.session_state:
             st.session_state["authentication_token"] = None
+
         if "login_message" not in st.session_state:
             st.session_state["login_message"] = None
-        if (
-            self.authenticator_name not in st.session_state
-            or not st.session_state[self.authenticator_name]
-        ):
-            st.session_state[self.authenticator_name] = self
+
         st.session_state[self.authenticator_name] = self
 
         if not self.user_tz:

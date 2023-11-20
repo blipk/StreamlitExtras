@@ -1,3 +1,4 @@
+from collections.abc import Callable, Iterable, Mapping
 import os
 import time
 import threading
@@ -7,7 +8,7 @@ from streamlit.runtime.scriptrunner import (
     RerunException,
     ScriptRunContext,
 )
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
 script_dir = os.getcwd()
@@ -91,6 +92,7 @@ def streamlit_thread(
     script_run_context: ScriptRunContext | None = None,
     autostart: bool = True,
     trigger_unique_id: str = default_id,
+    error_handler: Callable | None = None,
 ) -> str:
     """
     Spawns and starts a threading.Thread that runs thread_func with the passed args and kwargs
@@ -100,11 +102,15 @@ def streamlit_thread(
     :param dict kwargs: The kwargs to pass to the function in the thread
     :param bool rerun_st: Whether to rerun streamlit after the thread function finishes
 
+    :param Callable error_handler: Error handler function that takes the thread exception as an argument
+
     :returns: The name of the thread. Can use get_thread to get the threading.Thread instance
     """
     # print("Thread entry hashseed:", os.environ.get("PYTHONHASHSEED", False))
     args = (thread_func, rerun_st, last_write_margin, delay, trigger_unique_id, *args)
-    thread = PropagatingThread(target=thread_wrapper, args=args, kwargs=kwargs)
+    thread = PropagatingThread(
+        target=thread_wrapper, error_handler=error_handler, args=args, kwargs=kwargs
+    )
 
     if not script_run_context:
         script_run_context = get_script_run_ctx()
@@ -135,6 +141,11 @@ def get_thread(thread_name) -> Optional[threading.Thread]:
 
 
 class PropagatingThread(threading.Thread):
+    def __init__(self, *args, **kwargs) -> None:
+        self.error_handler = kwargs.get("error_handler", None)
+        del kwargs["error_handler"]
+        super().__init__(*args, **kwargs)
+
     def run(self):
         self.exc = None
         try:
@@ -143,7 +154,10 @@ class PropagatingThread(threading.Thread):
             self.exc = e
         except BaseException as e:
             self.exc = e
-            raise
+            if self.error_handler and callable(self.error_handler):
+                self.error_handler(e)
+            else:
+                raise
 
     def join(self, timeout=None):
         super(PropagatingThread, self).join(timeout)

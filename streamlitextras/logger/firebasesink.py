@@ -1,4 +1,3 @@
-import pyrebase
 from streamlitextras.authenticator.utils import handle_firebase_action
 
 

@@ -42,8 +42,6 @@ class Router:
         """
         Used to delay initialization of streamlit objects so this class can be cached
         """
-        if "router" not in st.session_state or not st.session_state["router"]:
-            st.session_state["router"] = self
         st.session_state["router"] = self
 
     @property
@@ -246,8 +244,10 @@ def get_router(
     """
     See Router for params.
     """
-    if "router" in st.session_state and st.session_state.get("router", None):
-        router: Router = st.session_state["router"]
+    if "router" in st.session_state and (
+        router := st.session_state.get("router", None)
+    ):
+        router: Router
         router.routes = routes or router.routes
         router.preroute = preroute or router.preroute
         router.postroute = postroute or router.postroute
