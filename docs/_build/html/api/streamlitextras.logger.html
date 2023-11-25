@@ -48,9 +48,8 @@
 <li class="toctree-l3"><a class="reference internal" href="streamlitextras.cookiemanager.html">streamlitextras.cookiemanager package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">streamlitextras.logger package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.logger.process_log_line"><code class="docutils literal notranslate"><span class="pre">process_log_line()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.logger.session_state_str_dict"><code class="docutils literal notranslate"><span class="pre">session_state_str_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.logger.default_bind"><code class="docutils literal notranslate"><span class="pre">default_bind()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamlitextras.logger.bind_log"><code class="docutils literal notranslate"><span class="pre">bind_log()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#streamlitextras.logger.log"><code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-streamlitextras.logger.firebasesink">streamlitextras.logger.firebasesink module</a></li>
 </ul>
@@ -107,35 +106,15 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="streamlitextras.logger.session_state_str_dict">
-<span class="sig-name descname"><span class="pre">session_state_str_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/logger.html#session_state_str_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.logger.session_state_str_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="streamlitextras.logger.default_bind">
+<span class="sig-name descname"><span class="pre">default_bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_session_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamlitextras/logger.html#default_bind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.logger.default_bind" title="Permalink to this definition"></a></dt>
 <dd><p>Generate a dict from st.session_state to be stored with every log line</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="streamlitextras.logger.bind_log">
-<span class="sig-name descname"><span class="pre">bind_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extras</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Logger</span></span></span><a class="reference internal" href="../_modules/streamlitextras/logger.html#bind_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.logger.bind_log" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">bind_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extras</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Logger</span></span></span><a class="reference internal" href="../_modules/streamlitextras/logger.html#bind_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamlitextras.logger.bind_log" title="Permalink to this definition"></a></dt>
 <dd><p>Bind the logger to the session state dictionary</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="streamlitextras.logger.log">
-<span class="sig-name descname"><span class="pre">log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Logger</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;loguru.logger</span> <span class="pre">handlers=[(id=1,</span> <span class="pre">level=20,</span> <span class="pre">sink='logs/streamlit.log'),</span> <span class="pre">(id=2,</span> <span class="pre">level=5,</span> <span class="pre">sink='logs/debug_streamlit.log'),</span> <span class="pre">(id=3,</span> <span class="pre">level=10,</span> <span class="pre">sink=&lt;stdout&gt;)]&gt;</span></em><a class="headerlink" href="#streamlitextras.logger.log" title="Permalink to this definition"></a></dt>
-<dd><p>An object to dispatch logging messages to configured handlers.</p>
-<p>The <a href="#id1"><span class="problematic" id="id2">|Logger|</span></a> is the core object of <code class="docutils literal notranslate"><span class="pre">loguru</span></code>, every logging configuration and usage pass
-through a call to one of its methods. There is only one logger, so there is no need to retrieve
-one before usage.</p>
-<p>Once the <code class="docutils literal notranslate"><span class="pre">logger</span></code> is imported, it can be used to write messages about events happening in your
-code. By reading the output logs of your application, you gain a better understanding of the
-flow of your program and you more easily track and debug unexpected behaviors.</p>
-<p>Handlers to which the logger sends log messages are added using the <a href="#id3"><span class="problematic" id="id4">|add|</span></a> method. Note that you
-can use the <a href="#id5"><span class="problematic" id="id6">|Logger|</span></a> right after import as it comes pre-configured (logs are emitted to
-<a href="#id7"><span class="problematic" id="id8">|sys.stderr|</span></a> by default). Messages can be logged with different severity levels and they can be
-formatted using curly braces (it uses <a href="#id9"><span class="problematic" id="id10">|str.format|</span></a> under the hood).</p>
-<p>When a message is logged, a &quot;record&quot; is associated with it. This record is a dict which contains
-information about the logging context: time, function, file, line, thread, level... It also
-contains the <code class="docutils literal notranslate"><span class="pre">__name__</span></code> of the module, this is why you don't need named loggers.</p>
-<p>You should not instantiate a <a href="#id11"><span class="problematic" id="id12">|Logger|</span></a> by yourself, use <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">loguru</span> <span class="pre">import</span> <span class="pre">logger</span></code> instead.</p>
 </dd></dl>
 
 <div class="section" id="submodules">

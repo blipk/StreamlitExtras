@@ -115,5 +115,5 @@ class User:
         return repr_(
             self,
             ["passwordHash", "login_data", "refreshToken", "idToken", "authenticator"],
-            only_keys=["localId", "email"],
+            only_keys=["uid", "email"],
         )

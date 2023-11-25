@@ -81,7 +81,7 @@
 <span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
 <span class="kn">from</span> <span class="nn">streamlit.web.server.websocket_headers</span> <span class="kn">import</span> <span class="n">_get_websocket_headers</span>
 <span class="kn">from</span> <span class="nn">streamlit.delta_generator</span> <span class="kn">import</span> <span class="n">DeltaGenerator</span>
-<span class="kn">from</span> <span class="nn">streamlitextras.logger</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">streamlitextras.logger</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">bind_log</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.utils</span> <span class="kn">import</span> <span class="n">repr_</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.authenticator.user</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">streamlitextras.authenticator.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
@@ -294,6 +294,7 @@
             <span class="n">current_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">last_user</span> <span class="o">=</span> <span class="n">current_user</span>
+        <span class="n">bind_log</span><span class="p">({</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">current_user</span><span class="p">})</span>
         <span class="k">return</span> <span class="n">current_user</span>
 
     <span class="nd">@property</span>

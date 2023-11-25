@@ -10,7 +10,7 @@ from http.cookies import SimpleCookie
 import streamlit as st
 from streamlit.web.server.websocket_headers import _get_websocket_headers
 from streamlit.delta_generator import DeltaGenerator
-from streamlitextras.logger import log
+from streamlitextras.logger import log, bind_log
 from streamlitextras.utils import repr_
 from streamlitextras.authenticator.user import User
 from streamlitextras.authenticator.exceptions import (
@@ -223,6 +223,7 @@ class Authenticator:
             current_user = st.session_state[self.session_name]
 
         self.last_user = current_user
+        bind_log({"user": current_user})
         return current_user
 
     @property

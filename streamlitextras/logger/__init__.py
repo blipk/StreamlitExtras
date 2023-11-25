@@ -20,7 +20,7 @@ detailed_format = "{time} | {level: <8} | {name}:{module}:{function}:{file.path}
 colour_format = (
     "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
     "<level>{level: <8}</level> | "
-    "<cyan>{name}</cyan>:<cyan>{module}</cyan>:<cyan>{function}</cyan>:<cyan>{file}</cyan>:<cyan>{line}</cyan> | {{extra[user]}} | "
+    "<cyan>{name}</cyan>:<cyan>{module}</cyan>:<cyan>{function}</cyan>:<cyan>{file}</cyan>:<cyan>{line}</cyan> | <green>{extra}</green> | "
     "\n<level>{message}</level>"
 )
 
@@ -28,7 +28,7 @@ colour_detailed_format = (
     "<red>{time:YYYY-MM-DD HH:mm:ss.SSS}</red> | "
     "<level>{level: <8}</level> | "
     "<cyan>{name}</cyan>:<cyan>{module}</cyan>:<cyan>{function}</cyan>:<cyan>{file.path}</cyan>:<cyan>{line}</cyan> | "
-    "\n<level>{message} | {extra[user]}</level> | "
+    "\n<green>{extra}</green><level>{message}</level> | "
     "<level>{exception}</level> | "
     "<level>{process.name}:{process} @ {thread.name}:{thread}</level>"
 )
@@ -114,24 +114,32 @@ def process_log_line(log_line: str):
     return log_obj
 
 
-def session_state_str_dict():
+def default_bind(include_session_state: bool = False):
     """
     Generate a dict from st.session_state to be stored with every log line
     """
-    interface = {"user": None, "session_state": None}
     extra = {
-        "user": repr(st.session_state.get("user", None)),
-        "session_state": {k: f"{v}" for k, v in st.session_state.to_dict().items()},
+        "user": str(repr(st.session_state.get("user", None))),
     }
-    merged = {**interface, **extra}
-    return merged
+
+    if include_session_state:
+        extra["session_state"] = (
+            {k: f"{v}" for k, v in st.session_state.to_dict().items()},
+        )
+
+    for k in list(extra.keys()):
+        if not extra[k]:
+            del extra[k]
+
+    return extra
 
 
-def bind_log(extras={}) -> Logger:
+def bind_log(extras: dict | None = None) -> Logger:
     """
     Bind the logger to the session state dictionary
     """
-    merged = {**session_state_str_dict(), **extras}
+    global log
+    merged = {**default_bind(), **(extras if extras else {})}
     log = _LOGGER.bind(**merged)
     return log
 
@@ -140,6 +148,7 @@ log: Logger
 
 
 def __getattr__(name):
+    global log
     if name == "log":
         log = bind_log()
         return log
