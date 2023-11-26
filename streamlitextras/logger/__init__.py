@@ -119,7 +119,7 @@ def default_bind(include_session_state: bool = False):
     Generate a dict from st.session_state to be stored with every log line
     """
     extra = {
-        "user": str(repr(st.session_state.get("user", None))),
+        "user": repr(st.session_state.get("user", None)),
     }
 
     if include_session_state:
@@ -140,6 +140,10 @@ def bind_log(extras: dict | None = None) -> Logger:
     """
     global log
     merged = {**default_bind(), **(extras if extras else {})}
+
+    for k in list(merged):
+        merged[k] = str(merged[k])
+
     log = _LOGGER.bind(**merged)
     return log
 

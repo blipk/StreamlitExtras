@@ -201,6 +201,10 @@ class Authenticator:
         self.cookie_manager.delayed_init()
 
     @property
+    def logbind(self) -> dict:
+        return {"user": str(repr(self.last_user))}
+
+    @property
     def service_auth(self) -> Optional[ModuleType]:
         user = self.current_user
         if not user or not user.is_admin:
@@ -276,7 +280,7 @@ class Authenticator:
         msg = error.message if error else ""
         error_type = error.firebase_error if error else ""
         user = self.current_user
-        user_display = user.localId if user else "no current_user"
+        user_display = user.uid if user else "no current_user"
         log.info(f"Revoking cookie for {user_display}: {msg} {error_type}")
         self.cookie_manager.delete(self.cookie_name)
 
@@ -286,9 +290,11 @@ class Authenticator:
         ):
             try:
                 service_auth.revoke_refresh_tokens(self.last_user.localId)
-                log.info(f"Firebase tokens revoked for {self.last_user.localId}")
+                log.info(f"Firebase tokens revoked for {self.last_user.uid}")
             except service_auth.UserNotFoundError:
-                log.warning("Couldn't invalidate session. UserNotFoundError")
+                log.warning(
+                    f"Couldn't invalidate session. UserNotFoundError {self.last_user.uid}"
+                )
 
         # Delete cookie and reset vars
         st.session_state[self.session_name] = None

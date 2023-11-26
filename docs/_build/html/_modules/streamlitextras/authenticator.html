@@ -272,6 +272,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delayed_init</span><span class="p">()</span></div>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">logbind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="p">))}</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">service_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModuleType</span><span class="p">]:</span>
         <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">:</span>
@@ -347,7 +351,7 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">message</span> <span class="k">if</span> <span class="n">error</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
         <span class="n">error_type</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">firebase_error</span> <span class="k">if</span> <span class="n">error</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
         <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
-        <span class="n">user_display</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">localId</span> <span class="k">if</span> <span class="n">user</span> <span class="k">else</span> <span class="s2">&quot;no current_user&quot;</span>
+        <span class="n">user_display</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">uid</span> <span class="k">if</span> <span class="n">user</span> <span class="k">else</span> <span class="s2">&quot;no current_user&quot;</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Revoking cookie for </span><span class="si">{</span><span class="n">user_display</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cookie_manager</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cookie_name</span><span class="p">)</span>
 
@@ -357,9 +361,11 @@
         <span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">service_auth</span><span class="o">.</span><span class="n">revoke_refresh_tokens</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="o">.</span><span class="n">localId</span><span class="p">)</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Firebase tokens revoked for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="o">.</span><span class="n">localId</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Firebase tokens revoked for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">service_auth</span><span class="o">.</span><span class="n">UserNotFoundError</span><span class="p">:</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t invalidate session. UserNotFoundError&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Couldn&#39;t invalidate session. UserNotFoundError </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_user</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
 
         <span class="c1"># Delete cookie and reset vars</span>
         <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">session_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
