@@ -134,7 +134,7 @@ def default_bind(include_session_state: bool = False):
     return extra
 
 
-def bind_log(extras: dict | None = None) -> Logger:
+def bind_log(extras = None) -> Logger:
     """
     Bind the logger to the session state dictionary
     """
