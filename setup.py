@@ -55,7 +55,6 @@ setup(
         "Topic :: Software Development :: Libraries",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: Implementation :: PyPy",
@@ -88,5 +87,5 @@ setup(
             "sphinxcontrib-apidoc ; python_version>='3.6'",
         ]
     },
-    python_requires=">=3.5",
+    python_requires=">=3.10",
 )
