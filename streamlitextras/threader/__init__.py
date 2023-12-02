@@ -1,7 +1,9 @@
-from collections.abc import Callable, Iterable, Mapping
 import os
 import time
+import inspect
 import threading
+from collections.abc import Callable, Iterable, Mapping
+
 from streamlit.runtime.scriptrunner import (
     add_script_run_ctx,
     get_script_run_ctx,
@@ -31,7 +33,10 @@ def last_trigger_time(unique_id: str = default_id) -> int:
     """
     Returns the seconds since last writing the trigger file
     """
-    modified_time = os.path.getmtime(trigger_file_path(unique_id))
+    this_trigger_file_path = trigger_file_path(unique_id)
+    if not os.path.exists(this_trigger_file_path):
+        return 9999
+    modified_time = os.path.getmtime(this_trigger_file_path)
     modified_time_seconds = time.time() - modified_time
     return modified_time_seconds
 
@@ -50,11 +55,20 @@ def trigger_rerun(
     """
     if delay:
         time.sleep(delay)
+
     with lock:
         modified_time_seconds = last_trigger_time(unique_id)
         if last_write_margin == 0 or modified_time_seconds > last_write_margin:
+            frame = inspect.currentframe()
+            caller = frame.f_back.f_code.co_name
+            caller_caller = frame.f_back.f_back.f_code.co_name
             trigger_file = trigger_file_path(unique_id)
-            print("Writing trigger", trigger_file, flush=True)
+            print(
+                "Writing trigger",
+                trigger_file,
+                f"from `{caller_caller}.{caller}`",
+                flush=True,
+            )
             with open(trigger_file, "w") as f:
                 f.write(f"timestamp = {time.time()}")
     # https://github.com/streamlit/streamlit/issues/1792
