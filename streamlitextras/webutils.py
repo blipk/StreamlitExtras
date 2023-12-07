@@ -5,7 +5,9 @@ import base64
 import streamlit as st
 from io import BytesIO
 from typing import Union, Optional
+
 from streamlit_javascript import st_javascript
+
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 
@@ -19,13 +21,15 @@ def stxs_javascript(source: str) -> None:
     """
     div_id = uuid.uuid4()
 
+    wrapped_source = f"(async () => {{{source}}})()"
+
     st.markdown(
         f"""
     <div style="display:none" id="{div_id}">
         <iframe src="javascript: \
             var script = document.createElement('script'); \
             script.type = 'text/javascript'; \
-            script.text = {html.escape(repr(source))}; \
+            script.text = {html.escape(repr(wrapped_source))}; \
             var thisDiv = window.parent.document.getElementById('{div_id}'); \
             var rootDiv = window.parent.parent.parent.parent.document.getElementById('root'); \
             rootDiv.appendChild(script); \

@@ -17,8 +17,6 @@ Install from PyPI with pip:
 Requires Streamlit 1.13.0+ and Python 3.9+, will consider releasing
 versions compatible with older Python3 if people show interest.
 
-Some helper functions require ``streamlit-javascript`` too.
-
 The modules
 -----------
 

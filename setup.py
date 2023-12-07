@@ -27,9 +27,7 @@ setup(
     url="https://github.com/blipk/streamlitextras",
     packages=find_packages(),
     include_package_data=True,
-    download_url="https://github.com/blipk/streamlitextras/archive/{}.tar.gz".format(
-        version
-    ),
+    download_url=f"https://github.com/blipk/streamlitextras/archive/{version}.tar.gz",
     project_urls={
         "Changelog": "https://github.com/blipk/streamlitextras/commits/",
         "Documentation": "https://streamlitextras.readthedocs.io/en/stable/index.html",
@@ -62,29 +60,27 @@ setup(
     ],
     install_requires=[
         "streamlit >= 1.23.1",
-        "streamlit-javascript == 0.1.5",
-        "loguru == 0.6.0",
+        "streamlit-javascript",
+        "loguru",
         "requests",
         "gcloud",
         "pyjwt",
         "firebase",
         "pyrebase4",
         "sseclient",
-        "python_jwt",
         "PyCryptodome",
         "requests_toolbelt",
         "firebase-admin",
         "google-cloud-storage",
-        "streamlit_javascript",
     ],
     extras_require={
         "dev": [
             # Docs
-            "Sphinx==5.2.3 ; python_version>='3.6'",
-            "sphinx-autobuild==2021.3.14 ; python_version>='3.6'",
-            "sphinx-rtd-theme==1.0.0 ; python_version>='3.6'",
-            "docutils==0.16 ; python_version>='3.6'",
-            "sphinxcontrib-apidoc ; python_version>='3.6'",
+            "Sphinx==5.2.3 ; python_version>='3.10'",
+            "sphinx-autobuild==2021.3.14 ; python_version>='3.10'",
+            "sphinx-rtd-theme==1.0.0 ; python_version>='3.10'",
+            "docutils==0.16 ; python_version>='3.10'",
+            "sphinxcontrib-apidoc ; python_version>='3.10'",
         ]
     },
     python_requires=">=3.10",
