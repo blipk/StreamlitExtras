@@ -10,8 +10,7 @@ but none of them had the features I required, so I ended up rewriting my own imp
 Install from PyPI with pip:
 `python3 -m pip install streamlit-base-extras`
 
-Requires Streamlit 1.13.0+ and Python 3.9+,
-will consider releasing versions compatible with older Python3 if people show interest.
+Requires Streamlit 1.23.1+ and Python 3.10+,
 
 ## The modules
 
