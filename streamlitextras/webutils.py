@@ -40,6 +40,7 @@ def stxs_javascript(source: str) -> None:
         unsafe_allow_html=True,
     )
     time.sleep(0.1)
+
     return True
 
 
@@ -123,9 +124,8 @@ def trigger_download(download_uri: str, filename: str):
             //window.open(link.href, "_blank")
         }})();"""
     )
-    time.sleep(
-        1
-    )  # Give the page some time to render the element before the page rerenders
+    # Give the page some time to render the element before the page rerenders
+    time.sleep(1)
     return auto_downloaded
 
 
