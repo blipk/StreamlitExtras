@@ -160,7 +160,7 @@ class Router:
 
         if redirect is True:
             st.experimental_set_query_params(**{page_name: "~"})
-            st.experimental_rerun()
+            st.rerun()
 
         if callable(page_func):
             # log.debug(f"Calling page_func {page_func}")
@@ -196,7 +196,7 @@ class Router:
             Optional dict to be set as query parameters using st.experimental_set_query_params
             If you use the page name as one of the keys, behaviour is overriding and may be experimental
         :param bool rerun_st:
-            Whether to call st.experimental_rerun() - not needed if calling this from a st callback
+            Whether to call st.rerun() - not needed if calling this from a st callback
         """
         if additional_params is None:
             additional_params = {}
@@ -217,7 +217,7 @@ class Router:
             if self.debug:
                 log.debug("rerun_st is True")
             time.sleep(0.1)
-            st.experimental_rerun()
+            st.rerun()
 
     def __repr__(self) -> str:
         return repr_(self, ["routes"])
